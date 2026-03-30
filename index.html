@@ -3,47 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Invitación Total - Cecilia & Ruben</title>
+    <title>Creador Profesional - Mi Gran Día</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #b8860b; --dark: #111; --glass: rgba(255, 255, 255, 0.98); }
         body, html { margin: 0; padding: 0; height: 100%; background: #000; font-family: 'Montserrat', sans-serif; overflow: hidden; }
         
-        /* ESCENARIO DE TRABAJO (Mármol Negro/Gris Oxford) */
+        /* ESCENARIO MÁRMOL NEGRO */
         #editor-frame { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; background: radial-gradient(#333 1px, #111 1px); background-size: 30px 30px; }
         
-        /* EL CELULAR */
         #phone-container { width: 100%; max-width: 414px; height: 92vh; background: #fff; position: relative; border-radius: 50px; overflow: hidden; border: 10px solid #222; box-shadow: 0 0 100px rgba(0,0,0,0.8); }
         
-        /* CAPA FIJA DE FONDO */
-        #fixed-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; background-size: cover; background-position: center; }
+        #fixed-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; transition: 0.3s; }
         
         #scroll-content { position: relative; z-index: 2; height: 100%; overflow-y: auto; scroll-behavior: smooth; }
-        .sec { padding: 80px 25px; min-height: 200px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        .sec { padding: 60px 20px; min-height: 150px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
         
-        /* ELEMENTOS MOVIBLES */
-        .editable { cursor: move; position: absolute; z-index: 10; touch-action: none; user-select: none; transition: outline 0.2s; }
+        /* MOTOR DE POSICIÓN LIBRE */
+        .editable { cursor: move; position: absolute; z-index: 10; touch-action: none; user-select: none; transition: outline 0.2s; max-width: 90%; }
         .editable:hover { outline: 2px dashed var(--gold); outline-offset: 5px; }
-        .v-img { width: 100%; border-radius: 10px; pointer-events: none; }
-        .v-btn { padding: 15px 25px; text-decoration: none; font-weight: bold; display: block; border: none; font-size: 13px; text-align: center; pointer-events: none; }
-        .sticker { font-size: 50px; z-index: 5; }
+        
+        .v-img { width: 100%; border-radius: 0; transition: 0.3s; }
+        .v-btn { padding: 15px 25px; text-decoration: none; font-weight: bold; display: block; border: none; transition: 0.3s; text-align: center; pointer-events: none; }
 
         /* CONTADOR */
-        #timer-display { font-family: 'Playfair Display'; font-size: 2.2rem; font-weight: bold; color: var(--gold); margin: 20px 0; }
+        #timer-box { display: flex; gap: 10px; margin-top: 20px; }
+        .time-unit { background: #f4f4f4; padding: 10px; border-radius: 5px; min-width: 50px; }
+        .time-val { font-size: 1.5rem; font-weight: bold; display: block; }
+        .time-lbl { font-size: 10px; text-transform: uppercase; }
 
-        /* INTERFAZ */
-        #bottom-editor { position: fixed; bottom: -100%; left: 0; width: 100%; background: var(--glass); z-index: 5000; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); transition: 0.4s; }
+        /* INTERFAZ DE EDICIÓN */
+        #bottom-editor { position: fixed; bottom: -100%; left: 0; width: 100%; background: var(--glass); z-index: 5000; border-radius: 30px 30px 0 0; padding: 20px; box-sizing: border-box; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); transition: 0.4s; overflow-y: auto; max-height: 80vh; }
         #bottom-editor.open { bottom: 0; }
-        .floating-add { position: fixed; bottom: 30px; left: 30px; background: var(--gold); color: white; width: 55px; height: 55px; border-radius: 50%; font-size: 30px; border: none; cursor: pointer; z-index: 4000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        
+        .floating-add { position: fixed; bottom: 30px; left: 30px; background: var(--gold); color: white; width: 55px; height: 55px; border-radius: 50%; font-size: 30px; border: none; cursor: pointer; z-index: 4000; }
         .floating-save { position: fixed; top: 20px; right: 20px; background: #000; color: white; padding: 10px 20px; border-radius: 30px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; z-index: 4000; }
     </style>
 </head>
-<body onclick="tryPlay()">
+<body>
 
-    <div id="music-player" onclick="toggleMusic(event)" style="position:fixed; top:20px; right:200px; z-index:4500; cursor:pointer; font-size:25px;">🔇</div>
-    <audio id="main-audio" loop></audio>
     <button class="floating-add" onclick="spawnSticker('🌸')">+</button>
-    <div class="floating-save" onclick="processExport()">DESCARGAR</div>
+    <div class="floating-save" onclick="processExport()">DESCARGAR HTML</div>
 
     <div id="editor-frame">
         <div id="phone-container">
@@ -51,23 +52,35 @@
             <div id="scroll-content">
                 <div id="full-inventory">
                     
-                    <section class="sec" style="height: 70vh;">
-                        <div class="editable" id="s1-t1" style="font-family:'Great Vibes'; font-size:3.5rem; top: 80px; width:100%;">Cecilia & Ruben</div>
-                        <div class="editable" id="s1-img" style="top: 180px; width: 85%;"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" class="v-img"></div>
+                    <section class="sec" style="height: 60vh;">
+                        <div class="editable" id="s1-t1" style="font-family:'Great Vibes'; font-size:3.5rem; top: 50px; width:100%; color:#b8860b;">Cecilia & Ruben</div>
+                        <div class="editable" id="s1-t2" style="top: 130px; letter-spacing:4px; font-weight:bold; font-size:12px;">¡NUESTRA BODA!</div>
+                        <div class="editable img-wrap" id="s1-img" style="top: 180px; width: 80%; left: 10%;"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" class="v-img"></div>
                     </section>
 
-                    <section class="sec">
-                        <div class="editable" id="s2-t1" style="position:relative;">FALTAN:</div>
-                        <div id="timer-display">00d 00h 00m 00s</div>
-                        <input type="datetime-local" id="target-date" value="2026-12-31T20:00" style="padding:10px; border-radius:10px; border:1px solid #ccc;">
+                    <section class="sec" style="height: 250px;">
+                        <div class="editable" id="s2-t1" style="top:20px;">FALTAN:</div>
+                        <div id="timer-box">
+                            <div class="time-unit"><span class="time-val" id="d">00</span><span class="time-lbl">Días</span></div>
+                            <div class="time-unit"><span class="time-val" id="h">00</span><span class="time-lbl">Hrs</span></div>
+                            <div class="time-unit"><span class="time-val" id="m">00</span><span class="time-lbl">Min</span></div>
+                            <div class="time-unit"><span class="time-val" id="s">00</span><span class="time-lbl">Seg</span></div>
+                        </div>
+                        <input type="datetime-local" id="target-date" value="2026-12-31T20:00" style="margin-top:15px;">
                     </section>
 
-                    <section class="sec">
-                        <div class="editable" id="s3-t1" style="position:relative; font-style:italic;">"Lo que Dios une, que no lo separe el hombre."</div>
+                    <section class="sec" style="height: 500px;">
+                        <div class="editable" id="iti-title" style="top:10px; font-weight:bold; color:var(--gold);">ITINERARIO</div>
+                        <div class="editable" id="iti-1" style="top:60px; width:100%;">⛪ 17:00 - Ceremonia Religiosa</div>
+                        <div class="editable" id="iti-2" style="top:110px; width:100%;">🖋️ 18:30 - Boda Civil</div>
+                        <div class="editable" id="iti-3" style="top:160px; width:100%;">🥂 19:30 - Recepción</div>
+                        <div class="editable" id="iti-4" style="top:210px; width:100%;">🍽️ 21:00 - Cena de Gala</div>
+                        <div class="editable" id="iti-5" style="top:260px; width:100%;">💃 22:30 - Baile y Fiesta</div>
                     </section>
 
-                    <section class="sec"><div class="editable" id="g1" style="position:relative; width:90%;"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="v-img"></div></section>
-
+                    <section class="sec"><div class="editable img-wrap" id="g1" style="position:relative; width:85%;"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="v-img"></div></section>
+                    <section class="sec"><div class="editable img-wrap" id="g2" style="position:relative; width:85%;"><img src="https://images.unsplash.com/photo-1465495910483-34a171a43923?w=500" class="v-img"></div></section>
+                    
                     <section class="sec">
                         <div class="editable" id="s5-t1" style="position:relative; width:90%;">
                             <b style="color:var(--gold);">NUESTROS PADRES</b><br><br>
@@ -76,51 +89,9 @@
                     </section>
 
                     <section class="sec">
-                        <div class="editable" id="s6-t1" style="position:relative; width:90%;">
-                            <b style="color:var(--gold);">NUESTROS PADRINOS</b><br><br>
-                            Nombres de los Padrinos
+                        <div class="editable" id="s17-b1" style="position:relative; width:90%;">
+                            <a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:white; border-radius:10px;">CONFIRMAR ASISTENCIA</a>
                         </div>
-                    </section>
-
-                    <section class="sec">
-                        <div class="editable" id="s7-t1" style="position:relative; width:90%;">
-                            <b style="font-size:1.2rem;">ITINERARIO</b><br><br>
-                            ⛪ 17:00 - Misa<br>🥂 19:00 - Recepción
-                        </div>
-                    </section>
-
-                    <section class="sec"><div class="editable" id="g2" style="position:relative; width:90%;"><img src="https://images.unsplash.com/photo-1465495910483-34a171a43923?w=500" class="v-img"></div></section>
-                    <section class="sec"><div class="editable" id="g3" style="position:relative; width:90%;"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=500" class="v-img"></div></section>
-                    <section class="sec"><div class="editable" id="g4" style="position:relative; width:90%;"><img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=500" class="v-img"></div></section>
-
-                    <section class="sec">
-                        <div class="editable" id="s11-t1" style="position:relative; width:90%;">
-                            <b style="color:var(--gold);">DRESS CODE</b><br>
-                            FORMAL / GUAYABERA
-                        </div>
-                    </section>
-
-                    <section class="sec">
-                        <div class="editable" id="s12-b1" style="position:relative; width:90%;"><a href="#" class="v-btn" style="background:var(--gold); color:white; border-radius:50px;">UBICACIÓN MISA</a></div>
-                    </section>
-                    <section class="sec">
-                        <div class="editable" id="s13-b1" style="position:relative; width:90%;"><a href="#" class="v-btn" style="background:#333; color:white; border-radius:50px;">UBICACIÓN FIESTA</a></div>
-                    </section>
-
-                    <section class="sec">
-                        <div class="editable" id="s14-t1" style="position:relative; width:90%;"><b>MESA DE REGALOS</b><br>Liverpool / Amazon</div>
-                    </section>
-
-                    <section class="sec">
-                        <div class="editable" id="s15-t1" style="position:relative; width:90%;"><b>LLUVIA DE SOBRES</b><br>Su presencia es nuestro mayor regalo.</div>
-                    </section>
-
-                    <section class="sec">
-                        <div class="editable" id="s16-t1" style="position:relative; width:90%;"><b>HOSPEDAJE RECOMENDADO</b><br>Hotel Central Tunkás</div>
-                    </section>
-
-                    <section class="sec">
-                        <div class="editable" id="s17-b1" style="position:relative; width:90%;"><a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:white; border-radius:50px;">CONFIRMAR POR WHATSAPP</a></div>
                     </section>
 
                 </div>
@@ -130,21 +101,19 @@
 
     <div id="bottom-editor">
         <div id="editor-ui"></div>
-        <button onclick="closeEditor()" style="width:100%; padding:15px; background:black; color:white; border:none; border-radius:15px; margin-top:10px; font-weight:bold;">APLICAR CAMBIOS</button>
-        <button onclick="deleteElement()" id="del-btn" style="display:none; color:red; background:none; border:none; margin-top:10px; width:100%; cursor:pointer;">🗑️ Eliminar</button>
+        <div class="edit-grid" style="margin-top:15px;">
+            <button onclick="closeEditor()" style="background:black; color:white; padding:15px; border-radius:10px; border:none; font-weight:bold;">GUARDAR</button>
+            <button onclick="deleteElement()" id="del-btn" style="background:none; border:1px solid red; color:red; border-radius:10px;">Eliminar</button>
+        </div>
     </div>
 
     <script>
         let activeId = null;
         let isDragging = false;
-        let activeEl = null;
 
-        // INICIAR DRAG
         function initDrag() {
-            const editables = document.querySelectorAll('.editable');
-            editables.forEach(el => {
+            document.querySelectorAll('.editable').forEach(el => {
                 el.onmousedown = el.ontouchstart = function(e) {
-                    activeEl = el;
                     isDragging = false;
                     let startX = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
                     let startY = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
@@ -164,10 +133,7 @@
                         document.onmousemove = document.ontouchmove = null;
                     };
                 };
-
-                el.onclick = function(e) {
-                    if (!isDragging) { e.stopPropagation(); openEditor(el.id); }
-                };
+                el.onclick = function(e) { if (!isDragging) { e.stopPropagation(); openEditor(el.id); } };
             });
         }
 
@@ -175,19 +141,38 @@
             activeId = id;
             const el = document.getElementById(id);
             const ui = document.getElementById('editor-ui');
-            document.getElementById('del-btn').style.display = id.includes('sticker') ? 'block' : 'none';
-
-            let html = `<h3>Editando</h3>`;
+            const style = window.getComputedStyle(el);
+            
+            let html = `<h3>Panel de Diseño</h3>`;
+            
+            // Editor de Contenido
             if(el.querySelector('img')) {
                 html += `<label>URL Imagen</label><input type="text" id="inp-val" value="${el.querySelector('img').src}">`;
-            } else if(el.querySelector('a')) {
-                html += `<label>Texto Botón</label><input type="text" id="inp-val" value="${el.querySelector('a').innerText}">`;
-                html += `<label>Link</label><input type="text" id="inp-link" value="${el.querySelector('a').href}">`;
+                html += `<label>Borde</label><select id="inp-border" onchange="applyImgStyle(this.value)">
+                    <option value="none">Sin Borde</option>
+                    <option value="2px solid gold">Dorado Simple</option>
+                    <option value="10px double gold">Dorado Real</option>
+                </select>`;
             } else {
-                html += `<label>Texto</label><textarea id="inp-val" rows="4" style="width:100%">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>`;
+                html += `<label>Texto</label><textarea id="inp-val" rows="3">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>`;
             }
-            html += `<br><label>Tamaño Fuente</label><input type="number" id="inp-size" value="${parseInt(window.getComputedStyle(el).fontSize)}">`;
-            
+
+            // Editor de Estilo (Colores y Fuentes)
+            html += `<div class="edit-grid">
+                <div><label>Color</label><input type="color" id="inp-color" value="${rgbToHex(style.color)}"></div>
+                <div><label>Tamaño</label><input type="number" id="inp-size" value="${parseInt(style.fontSize)}"></div>
+                <div><label>Fuente</label><select id="inp-font">
+                    <option value="'Montserrat'">Montserrat</option>
+                    <option value="'Great Vibes'">Elegante</option>
+                    <option value="'Cinzel'">Clásica</option>
+                </select></div>
+                <div><label>Grosor</label><select id="inp-weight"><option value="300">Fino</option><option value="700">Negrita</option></select></div>
+            </div>`;
+
+            if(el.querySelector('a')) {
+                html += `<label>Redondeo Botón</label><input type="range" id="inp-radius" min="0" max="50" value="10">`;
+            }
+
             ui.innerHTML = html;
             document.getElementById('bottom-editor').classList.add('open');
         }
@@ -195,44 +180,53 @@
         function closeEditor() {
             const el = document.getElementById(activeId);
             const val = document.getElementById('inp-val').value;
+            
             if(el.querySelector('img')) el.querySelector('img').src = val;
-            else if(el.querySelector('a')) {
-                el.querySelector('a').innerText = val;
-                el.querySelector('a').href = document.getElementById('inp-link').value;
-            }
             else el.innerHTML = val.replace(/\n/g, '<br>');
+
+            el.style.color = document.getElementById('inp-color').value;
             el.style.fontSize = document.getElementById('inp-size').value + 'px';
+            el.style.fontFamily = document.getElementById('inp-font').value;
+            el.style.fontWeight = document.getElementById('inp-weight').value;
+            
+            if(el.querySelector('a')) {
+                el.querySelector('a').style.borderRadius = document.getElementById('inp-radius').value + 'px';
+            }
+
             document.getElementById('bottom-editor').classList.remove('open');
         }
 
+        function applyImgStyle(b) { document.getElementById(activeId).querySelector('img').style.border = b; }
+
+        function rgbToHex(rgb) {
+            if(!rgb) return '#000000';
+            const res = rgb.match(/\d+/g);
+            return res ? "#" + res.slice(0,3).map(x => parseInt(x).toString(16).padStart(2, '0')).join('') : '#000000';
+        }
+
+        // CONTADOR TIEMPO REAL CON SEGUNDOS
+        setInterval(() => {
+            const diff = new Date(document.getElementById('target-date').value) - new Date();
+            if(diff > 0) {
+                document.getElementById('d').innerText = Math.floor(diff/864e5).toString().padStart(2,'0');
+                document.getElementById('h').innerText = Math.floor((diff%864e5)/36e5).toString().padStart(2,'0');
+                document.getElementById('m').innerText = Math.floor((diff%36e5)/6e4).toString().padStart(2,'0');
+                document.getElementById('s').innerText = Math.floor((diff%6e4)/1000).toString().padStart(2,'0');
+            }
+        }, 1000);
+
         function spawnSticker(emoji) {
-            const id = 'sticker-' + Date.now();
             const s = document.createElement('div');
-            s.className = 'editable sticker';
-            s.id = id;
-            s.innerHTML = emoji;
-            s.style.top = '100px'; s.style.left = '100px';
+            s.className = 'editable'; s.style.fontSize = '50px'; s.style.top = '100px'; s.style.left = '100px';
+            s.innerHTML = emoji; s.id = 'stk-' + Date.now();
             document.getElementById('scroll-content').appendChild(s);
             initDrag();
         }
 
-        function deleteElement() { document.getElementById(activeId).remove(); closeEditor(); }
-
-        // CONTADOR TIEMPO REAL
-        setInterval(() => {
-            const diff = new Date(document.getElementById('target-date').value) - new Date();
-            if(diff > 0) {
-                const d = Math.floor(diff/864e5), h = Math.floor((diff%864e5)/36e5), m = Math.floor((diff%36e5)/6e4), s = Math.floor((diff%6e4)/1000);
-                document.getElementById('timer-display').innerText = `${d}d ${h}h ${m}m ${s}s`;
-            } else { document.getElementById('timer-display').innerText = "¡LLEGÓ EL DÍA!"; }
-        }, 1000);
-
         function processExport() {
-            const blob = new Blob([document.getElementById('full-inventory').innerHTML], {type: 'text/html'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'mi-gran-dia-final.html';
-            a.click();
+            const html = document.getElementById('full-inventory').innerHTML;
+            const blob = new Blob([html], {type: 'text/html'});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'invitacion-final.html'; a.click();
         }
 
         window.onload = initDrag;
