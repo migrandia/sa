@@ -23,26 +23,30 @@
         #phone-container { position: relative; width: 375px; height: 750px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; }
         #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
 
-        /* SECCIONES */
+        /* SECCIONES Y SOMBRAS */
         .sec { padding: 60px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; background-size: cover; background-position: center; width: 100%; box-sizing: border-box; }
         .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 99; }
         
-        /* TÍTULOS MOVIBLES (DRAGGABLE) */
+        /* SOMBRA PARA TODOS LOS TEXTOS */
+        .e-text, .movable-text { 
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.8); /* Esto hace que resalten en cualquier fondo */
+        }
+
+        /* TÍTULOS MOVIBLES */
         .movable-text { 
             position: absolute; 
             cursor: move; 
             z-index: 100; 
             touch-action: none; 
             user-select: none;
-            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
             white-space: nowrap;
         }
 
         /* CONTADOR CON SEGUNDOS */
         .countdown { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
         .c-unit { text-align: center; min-width: 55px; background: rgba(255,255,255,0.8); padding: 5px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .c-num { font-size: 22px; font-family: 'Oswald'; color: var(--gold); display: block; }
-        .c-label { font-size: 9px; text-transform: uppercase; font-weight: bold; }
+        .c-num { font-size: 22px; font-family: 'Oswald'; color: var(--gold); display: block; text-shadow: none; }
+        .c-label { font-size: 9px; text-transform: uppercase; font-weight: bold; text-shadow: none; }
 
         .v-card { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; width: 100%; box-sizing: border-box; margin-top: 10px; border: 1px solid #eee; }
         .v-img { width: 100%; border-radius: 12px; margin: 10px 0; object-fit: cover; height: 200px; }
@@ -56,13 +60,8 @@
     <div class="editor-card">
         <label>📅 Fecha del Evento</label>
         <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData()">
-        <label>🎨 Color de Fondo</label>
-        <input type="color" id="bg-col" value="#ffffff" oninput="updateStyle()">
     </div>
-    <div id="editor-dynamic">
-        <p style="text-align:center; color:#999; font-size:11px;">Toca un texto o imagen para editar.</p>
-    </div>
-    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="alert('Invitación Guardada')">GUARDAR CAMBIOS</button>
+    <div id="editor-dynamic"></div>
 </aside>
 
 <main id="preview">
@@ -78,7 +77,7 @@
 
                 <section class="sec" id="s2">
                     <div class="drag-handle">⠿</div>
-                    <span style="font-family:'Cinzel'; font-size:14px;">FALTAN:</span>
+                    <span class="e-text" style="font-family:'Cinzel';">FALTAN:</span>
                     <div class="countdown">
                         <div class="c-unit"><b class="c-num" id="days">00</b><span class="c-label">Días</span></div>
                         <div class="c-unit"><b class="c-num" id="hours">00</b><span class="c-label">Hrs</span></div>
@@ -90,22 +89,21 @@
                 <section class="sec" id="s8">
                     <div class="drag-handle">⠿</div>
                     <div class="v-card">
-                        <b>Código de Vestimenta</b>
-                        <p>FORMAL / GUAYABERA</p>
+                        <b class="e-text">Código de Vestimenta</b>
+                        <p class="e-text">FORMAL / GUAYABERA</p>
                     </div>
                 </section>
 
                 <section class="sec" id="s_extra">
                     <div class="drag-handle">⠿</div>
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600" class="v-img" id="i_extra" onclick="openImgEditor('i_extra')">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600" class="v-img" id="i_extra">
                 </section>
 
                 <section class="sec" id="s9">
                     <div class="drag-handle">⠿</div>
                     <div class="v-card">
-                        <b>Ubicación Misa</b>
-                        <p>Parroquia de Tunkás</p>
-                        <a href="#" class="v-btn" style="background:var(--gold); color:#fff;">VER MAPA</a>
+                        <b class="e-text">Ubicación Misa</b>
+                        <p class="e-text">Parroquia de Tunkás</p>
                     </div>
                 </section>
 
@@ -115,16 +113,13 @@
 </main>
 
 <script>
-    // 1. FUNCION DE ARRASTRE DE TEXTOS (DRAG & DROP)
+    // ARRASTRE DE TITULOS (REFORZADO)
     function makeDraggable(el) {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-        
         el.onmousedown = dragMouseDown;
         el.ontouchstart = dragMouseDown;
-
         function dragMouseDown(e) {
             e = e || window.event;
-            if (e.type !== 'touchstart') e.preventDefault();
             pos3 = e.clientX || e.touches[0].clientX;
             pos4 = e.clientY || e.touches[0].clientY;
             document.onmouseup = closeDragElement;
@@ -132,7 +127,6 @@
             document.onmousemove = elementDrag;
             document.ontouchmove = elementDrag;
         }
-
         function elementDrag(e) {
             e = e || window.event;
             let clientX = e.clientX || e.touches[0].clientX;
@@ -144,27 +138,22 @@
             el.style.top = (el.offsetTop - pos2) + "px";
             el.style.left = (el.offsetLeft - pos1) + "px";
         }
-
         function closeDragElement() {
-            document.onmouseup = null;
-            document.onmousemove = null;
-            document.ontouchend = null;
-            document.ontouchmove = null;
+            document.onmouseup = null; document.onmousemove = null;
+            document.ontouchend = null; document.ontouchmove = null;
             saveData();
         }
     }
 
-    // Inicializar arrastre en los títulos
     makeDraggable(document.getElementById("t1"));
     makeDraggable(document.getElementById("t2"));
 
-    // 2. CONTADOR FUNCIONAL (CON SEGUNDOS)
+    // CONTADOR REAL
     function startTimer() {
         setInterval(() => {
             const target = new Date(document.getElementById('event-date').value).getTime();
             const now = new Date().getTime();
             const diff = target - now;
-
             if (diff > 0) {
                 document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
                 document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -174,40 +163,8 @@
         }, 1000);
     }
 
-    // 3. SORTABLE (PARA LAS SECCIONES)
-    new Sortable(document.getElementById('sortable-area'), { 
-        handle: '.drag-handle', 
-        animation: 150,
-        onEnd: saveData 
-    });
-
-    // 4. PERSISTENCIA Y EDICIÓN
-    function saveData() {
-        localStorage.setItem('cecilia_content', document.getElementById('sortable-area').innerHTML);
-        localStorage.setItem('cecilia_date', document.getElementById('event-date').value);
-    }
-
-    window.onload = () => {
-        const saved = localStorage.getItem('cecilia_content');
-        if(saved) {
-            document.getElementById('sortable-area').innerHTML = saved;
-            makeDraggable(document.getElementById("t1"));
-            makeDraggable(document.getElementById("t2"));
-        }
-        startTimer();
-    };
-
-    function openTextEditor(id) {
-        const el = document.getElementById(id);
-        document.getElementById('editor-dynamic').innerHTML = `
-            <div class="editor-card">
-                <label>Editar Texto</label>
-                <input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value; saveData()">
-                <label>Tamaño Fuente</label>
-                <input type="number" value="40" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'; saveData()">
-            </div>`;
-    }
+    new Sortable(document.getElementById('sortable-area'), { handle: '.drag-handle', animation: 150 });
+    window.onload = startTimer;
 </script>
-
 </body>
 </html>
