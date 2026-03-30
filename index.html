@@ -3,188 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Grandía Studio - Live Editor Pro</title>
+    <title>Mi Grandía Studio - Editor Maestro V12.0</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;1,500&display=swap" rel="stylesheet">
     
     <style>
-        :root { 
-            --accent: #d4a373; --bg-inv: #ffffff; --text-inv: #444; 
-            --f-names: 'Great Vibes'; --f-body: 'Montserrat';
-        }
-        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #e2e8f0; height: 100vh; overflow: hidden; }
+        :root { --panel-w: 420px; --accent: #d4a373; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #eaeff2; height: 100vh; overflow: hidden; }
 
-        /* --- PANEL DE CONTROL ESTILO APP --- */
-        #editor-panel { width: 400px; background: white; display: flex; flex-direction: column; box-shadow: 5px 0 25px rgba(0,0,0,0.1); z-index: 100; }
+        /* --- PANEL DE CONTROL (IZQUIERDA) --- */
+        #editor-sidebar { width: var(--panel-w); background: white; box-shadow: 5px 0 20px rgba(0,0,0,0.1); z-index: 100; overflow-y: auto; padding: 25px; box-sizing: border-box; }
+        .control-group { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 15px; margin-bottom: 15px; }
+        h2 { font-size: 13px; color: #64748b; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 15px; border-bottom: 1px solid #e2e8f0; padding-bottom: 5px; }
+        label { display: block; font-size: 10px; font-weight: 800; color: #475569; margin: 12px 0 5px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; background: white; }
         
-        /* Barra de Pestañas Lateral */
-        .sidebar-tabs { display: flex; background: #1a1a1a; padding: 10px; justify-content: space-around; }
-        .tab-btn { background: none; border: none; color: #666; cursor: pointer; padding: 10px; font-size: 18px; transition: 0.3s; }
-        .tab-btn.active { color: var(--accent); transform: scale(1.2); }
-
-        .content-area { padding: 25px; overflow-y: auto; flex-grow: 1; display: none; }
-        .content-area.active { display: block; }
-
-        h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #333; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
-        label { display: block; font-size: 10px; font-weight: 700; color: #888; margin-bottom: 8px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 15px; font-size: 13px; }
-
-        /* --- VISTA PREVIA (EL CELULAR) --- */
-        #preview-zone { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        #phone-container { 
-            width: 360px; height: 740px; border: 12px solid #111; border-radius: 40px; 
-            background: var(--bg-inv); overflow-y: auto; position: relative; 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.2); scroll-behavior: smooth;
+        /* --- VISTA PREVIA (DERECHA) --- */
+        #preview-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; position: relative; }
+        #phone-shell { 
+            width: 375px; height: 812px; border: 14px solid #1e293b; border-radius: 50px; 
+            background: white; overflow-y: auto; position: relative; 
+            box-shadow: 0 50px 100px rgba(0,0,0,0.2); scroll-behavior: smooth;
         }
 
-        /* Efecto Click-to-Edit */
-        .editable { cursor: pointer; transition: 0.3s; position: relative; border: 2px solid transparent; }
-        .editable:hover { border: 2px dashed var(--accent); background: rgba(212, 163, 115, 0.05); }
-        .editable::after { content: '✎ Editar'; position: absolute; top: -10px; right: 10px; background: var(--accent); color: white; font-size: 9px; padding: 2px 6px; border-radius: 4px; opacity: 0; transition: 0.3s; }
-        .editable:hover::after { opacity: 1; }
-
-        /* Estilos de la Invitación */
-        .hero { height: 400px; background-size: cover; background-position: center; display: flex; align-items: center; justify-content: center; text-align: center; color: white; }
-        .v-names { font-family: var(--f-names); font-size: 3.5rem; text-shadow: 2px 2px 8px rgba(0,0,0,0.4); }
-        .v-sec { padding: 40px 20px; text-align: center; color: var(--text-inv); }
+        /* Secciones de la Invitación */
+        .section-box { 
+            padding: 45px 25px; text-align: center; position: relative; 
+            cursor: grab; transition: background 0.3s;
+        }
+        .section-box:active { cursor: grabbing; }
+        .section-box:hover { background: rgba(212, 163, 115, 0.03); outline: 2px dashed var(--accent); }
         
-        .timer { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
-        .t-box { background: rgba(0,0,0,0.03); padding: 10px; border-radius: 8px; min-width: 50px; }
-        .t-box b { display: block; font-size: 20px; color: var(--accent); }
-
-        .btn-inv { display: block; width: 80%; margin: 10px auto; padding: 15px; background: var(--accent); color: white; border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 12px; text-transform: uppercase; }
+        .hero { height: 450px; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .v-names { font-size: 3.5rem; margin: 10px 0; }
+        .v-title { font-size: 1.8rem; margin-bottom: 10px; }
+        .v-text { font-size: 14px; line-height: 1.6; }
+        .v-btn { display: block; width: 85%; margin: 15px auto; padding: 16px; text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; text-align: center; transition: 0.3s; }
         
-        /* Bloque de Borrar */
-        .trash-btn { position: absolute; top: 5px; right: 5px; background: #ff4d4d; color: white; border: none; border-radius: 50%; cursor: pointer; display: none; }
-        .v-sec:hover .trash-btn { display: block; }
+        /* Itinerario */
+        .it-item { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 15px; }
+        .it-icon { font-size: 28px; }
+
+        /* Estilos de Arrastre de SortableJS */
+        .sortable-ghost { opacity: 0.3; background: #d4a373 !important; }
+
+        /* Música Invisible */
+        #music-container { display: none; }
     </style>
 </head>
 <body>
 
-<aside id="editor-panel">
-    <div class="sidebar-tabs">
-        <button class="tab-btn active" onclick="openTab('tab-diseno', this)" title="Diseño">🎨</button>
-        <button class="tab-btn" onclick="openTab('tab-texto', this)" title="Textos">✍️</button>
-        <button class="tab-btn" onclick="openTab('tab-musica', this)" title="Música">🎵</button>
-        <button class="tab-btn" onclick="openTab('tab-bloques', this)" title="Agregar">➕</button>
-    </div>
+<aside id="editor-sidebar">
+    <h1 style="font-family:'Dancing Script'; font-size:28px; color:var(--accent); margin:0;">Mi Grandía Studio</h1>
+    <p style="font-size:11px; color:#64748b; margin-bottom:25px;">Editor Profesional Maquetado</p>
 
-    <div id="tab-diseno" class="content-area active">
-        <h2>Apariencia Global</h2>
-        <label>Color de Acento</label>
-        <input type="color" id="cp-accent" value="#d4a373" oninput="updateStyles()">
-        <label>Fondo de Invitación</label>
-        <input type="color" id="cp-bg" value="#ffffff" oninput="updateStyles()">
-        <label>Fuente de Nombres</label>
-        <select id="fs-names" onchange="updateStyles()">
-            <option value="'Great Vibes'">Great Vibes</option>
-            <option value="'Parisienne'">Parisienne</option>
-            <option value="'Alex Brush'">Alex Brush</option>
-        </select>
-    </div>
+    <div id="dynamic-editor">
+        <div class="control-group">
+            <h2>🎨 Diseño Global</h2>
+            <label>Color de Fondo General</label>
+            <input type="color" id="g-bg" value="#ffffff" oninput="syncGlobal()">
+            <label>Color de Acento (Títulos)</label>
+            <input type="color" id="g-accent" value="#d4a373" oninput="syncGlobal()">
+        </div>
 
-    <div id="tab-texto" class="content-area">
-        <h2>Contenido Principal</h2>
-        <label>Nombres de Festejados</label>
-        <input type="text" id="in-names" value="Sofía & Ale" oninput="syncText()">
-        <label>Fecha del Evento</label>
-        <input type="datetime-local" id="in-date" value="2026-12-31T20:00" oninput="startTimer()">
-    </div>
+        <div class="control-group">
+            <h2>🎵 Música</h2>
+            <label>Link MP3 o ID YouTube</label>
+            <input type="text" id="g-music" value="PwJ8HIDghLg" placeholder="Pega el ID o URL" oninput="updateMusic()">
+        }</div>
 
-    <div id="tab-bloques" class="content-area">
-        <h2>Añadir Bloques</h2>
-        <button class="btn-inv" style="background:#333;" onclick="addDynamic('itinerario')">+ Itinerario</button>
-        <button class="btn-inv" style="background:#333;" onclick="addDynamic('foto')">+ Galería de Fotos</button>
-        <button class="btn-inv" style="background:#333;" onclick="addDynamic('ubicacion')">+ Mapa de Lugar</button>
-        <div id="block-settings" style="margin-top:20px; border-top:1px solid #eee; padding-top:10px;"></div>
+        <div id="section-controls">
+            <p style="font-size:12px; color:#94a3b8; font-style:italic;">Selecciona una sección en la invitación para editar sus detalles (fuente, texto, color).</p>
+        </div>
     </div>
 </aside>
 
-<main id="preview-zone">
-    <div id="phone-container">
-        <section class="hero editable" id="v-hero" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80');" onclick="openTab('tab-diseno')">
-            <div data-aos="fade-up">
-                <h1 class="v-names" id="vw-names">Sofía & Ale</h1>
-            </div>
-        </section>
+<main id="preview-area">
+    <div id="phone-shell">
+        <div id="invitation-container">
+            
+            <section class="section-box hero" id="sec-portada" onclick="editSec('portada')" style="background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=500');">
+                <p id="p-occ" style="font-size:12px; letter-spacing:4px;">NUESTRA BODA</p>
+                <h1 id="p-names" class="v-names" style="font-family:'Great Vibes';">Sofía & Ale</h1>
+                <p id="p-date" style="font-size:16px;">31 de Diciembre, 2026</p>
+            </section>
 
-        <section class="v-sec editable" onclick="openTab('tab-texto')">
-            <p style="font-size:10px; letter-spacing:2px;">NUESTRA HISTORIA COMIENZA EN</p>
-            <div class="timer">
-                <div class="t-box"><b id="d">00</b><span>Días</span></div>
-                <div class="t-box"><b id="h">00</b><span>Hs</span></div>
-                <div class="t-box"><b id="m">00</b><span>Min</span></div>
-            </div>
-        </section>
+            <section class="section-box" id="sec-msg1" onclick="editSec('msg1')">
+                <h2 class="v-title" id="m1-title" style="font-family:'Playfair Display'; color:var(--accent);">Nuestra Historia</h2>
+                <p class="v-text" id="m1-text">Hoy comenzamos el viaje más importante de nuestras vidas y queremos que seas parte de él.</p>
+            </section>
 
-        <div id="dynamic-area"></div>
+            <section class="section-box" id="sec-familia" onclick="editSec('familia')">
+                <h3 class="v-title" style="font-size:1.2rem;">Con la bendición de nuestros padres</h3>
+                <p class="v-text" id="f-parents" style="font-style:italic;">Nombres de los Padres...</p>
+                <h3 class="v-title" style="font-size:1.2rem; margin-top:20px;">Y nuestros padrinos</h3>
+                <p class="v-text" id="f-padrinos">Nombres de los Padrinos...</p>
+            </section>
 
-        <section class="v-sec">
-            <a href="#" class="btn-inv">📍 Cómo llegar</a>
-            <a href="#" class="btn-inv" style="background:#25d366;">Confirmar Asistencia</a>
-        </section>
+            <section class="section-box" id="sec-itinerario" onclick="editSec('itinerario')">
+                <h2 class="v-title">Itinerario</h2>
+                <div class="it-item"><span class="it-icon">⛪</span><div><b>Ceremonia</b><br><small>6:00 PM</small></div></div>
+                <div class="it-item"><span class="it-icon">🥂</span><div><b>Recepción</b><br><small>8:00 PM</small></div></div>
+            </section>
+
+            <section class="section-box" id="sec-ubicacion" onclick="editSec('ubicacion')">
+                <h2 class="v-title">Lugar del Evento</h2>
+                <p class="v-text">Quinta las Flores, Mérida Yuc.</p>
+                <a href="#" class="v-btn" id="btn-map" style="background:var(--accent); color:white; border-radius:30px;">Ver en Google Maps</a>
+            </section>
+
+            <section class="section-box" id="sec-regalos" onclick="editSec('regalos')">
+                <h2 class="v-title">Mesa de Regalos</h2>
+                <div style="border:1px dashed var(--accent); padding:20px; border-radius:15px;">
+                    <p class="v-text">Tu presencia es nuestro mejor regalo, pero si deseas obsequiarnos algo:</p>
+                    <b id="r-clabe">CLABE: 0123 4567 8901 2345</b>
+                </div>
+            </section>
+
+        </div>
     </div>
 </main>
+
+<div id="music-container"></div>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();
-    let blockId = 0;
 
-    function openTab(tabId, btn) {
-        document.querySelectorAll('.content-area').forEach(c => c.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById(tabId).classList.add('active');
-        if(btn) btn.classList.add('active');
-    }
+    // HACER LAS SECCIONES ARRASTRABLES
+    const dragArea = document.getElementById('invitation-container');
+    new Sortable(dragArea, {
+        animation: 150,
+        ghostClass: 'sortable-ghost'
+    });
 
-    function updateStyles() {
-        const root = document.documentElement.style;
-        root.setProperty('--accent', document.getElementById('cp-accent').value);
-        root.setProperty('--bg-inv', document.getElementById('cp-bg').value);
-        root.setProperty('--f-names', document.getElementById('fs-names').value);
-    }
+    // SISTEMA DE EDICIÓN AL TOCAR
+    function editSec(secId) {
+        const controls = document.getElementById('section-controls');
+        let html = `<h2>Editando: ${secId.toUpperCase()}</h2>`;
 
-    function syncText() {
-        document.getElementById('vw-names').innerText = document.getElementById('in-names').value;
-    }
-
-    function addDynamic(type) {
-        blockId++;
-        const id = `block-${blockId}`;
-        const area = document.getElementById('dynamic-area');
-        const sec = document.createElement('section');
-        sec.className = 'v-sec editable';
-        sec.id = id;
-        sec.setAttribute('data-aos', 'fade-up');
-        
-        // Botón de borrar
-        sec.innerHTML = `<button class="trash-btn" onclick="document.getElementById('${id}').remove()">✕</button>`;
-
-        if(type === 'itinerario') {
-            sec.innerHTML += `<h3>📅 Itinerario</h3><p>6:00 PM - Ceremonia<br>8:00 PM - Cena</p>`;
-        } else if(type === 'foto') {
-            sec.innerHTML += `<img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400" style="width:100%; border-radius:15px;">`;
+        if(secId === 'portada') {
+            html += `
+                <label>Foto Portada (URL)</label><input type="text" oninput="updStyle('sec-portada','backgroundImage','url('+this.value+')')">
+                <label>Nombres</label><input type="text" value="${document.getElementById('p-names').innerText}" oninput="updTxt('p-names',this.value)">
+                <label>Fuente Nombres</label>
+                <select onchange="updStyle('p-names','fontFamily',this.value)">
+                    <option value="'Great Vibes'">Great Vibes</option>
+                    <option value="'Parisienne'">Parisienne</option>
+                    <option value="'Cinzel'">Cinzel</option>
+                </select>
+                <label>Color Letra</label><input type="color" oninput="updStyle('p-names','color',this.value)">
+            `;
+        } else if(secId === 'ubicacion' || secId === 'regalos') {
+            html += `
+                <label>Color del Botón</label><input type="color" oninput="updStyle('btn-map','backgroundColor',this.value)">
+                <label>Forma del Botón</label>
+                <select onchange="updStyle('btn-map','borderRadius',this.value)">
+                    <option value="30px">Redondo</option>
+                    <option value="0px">Cuadrado</option>
+                </select>
+            `;
+        } else {
+            html += `<label>Texto de la sección</label><textarea oninput="console.log('Update text')">Editar contenido...</textarea>`;
         }
-        
-        area.appendChild(sec);
-        AOS.refresh();
+
+        controls.innerHTML = html;
     }
 
-    function startTimer() {
-        const target = new Date(document.getElementById('in-date').value).getTime();
-        setInterval(() => {
-            const now = new Date().getTime();
-            const diff = target - now;
-            if(diff > 0) {
-                document.getElementById('d').innerText = Math.floor(diff / 86400000);
-                document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000);
-                document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
-            }
-        }, 1000);
+    // FUNCIONES DE SINCRONIZACIÓN
+    function updTxt(id, val) { document.getElementById(id).innerText = val; }
+    function updStyle(id, prop, val) { document.getElementById(id).style[prop] = val; }
+    
+    function syncGlobal() {
+        const bg = document.getElementById('g-bg').value;
+        const acc = document.getElementById('g-accent').value;
+        document.getElementById('phone-shell').style.backgroundColor = bg;
+        document.querySelectorAll('.v-title').forEach(t => t.style.color = acc);
     }
 
-    startTimer();
+    function updateMusic() {
+        const val = document.getElementById('g-music').value;
+        const container = document.getElementById('music-container');
+        if(val.includes('http')) {
+            container.innerHTML = `<audio autoplay loop src="${val}"></audio>`;
+        } else {
+            container.innerHTML = `<iframe src="https://www.youtube.com/embed/${val}?autoplay=1" allow="autoplay"></iframe>`;
+        }
+    }
+
+    syncGlobal();
 </script>
 </body>
 </html>
