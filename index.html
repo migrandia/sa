@@ -3,144 +3,150 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Maestro - Mi Gran Día</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&family=Cormorant+Garamond:wght@600&display=swap" rel="stylesheet">
+    <title>Mi Gran Día - Constructor Profesional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&family=Cormorant+Garamond:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #b8860b; --dark: #1a1a1a; }
-        body { margin: 0; display: flex; height: 100vh; background: #0f0f0f; font-family: 'Montserrat', sans-serif; overflow: hidden; }
+        :root { --gold: #b8860b; --oxford: #343a40; --editor-bg: #1a1a1a; }
         
-        /* PANEL DE CONTROL (IZQUIERDA) */
-        #editor-panel { width: 450px; background: #ffffff; height: 100%; overflow-y: auto; border-right: 8px solid var(--gold); padding: 30px; box-sizing: border-box; z-index: 100; box-shadow: 15px 0 35px rgba(0,0,0,0.5); }
-        .section-box { background: #f9f9f9; padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 1px solid #eee; border-left: 6px solid var(--gold); }
-        h2 { font-family: 'Cinzel'; font-size: 14px; margin: 0 0 15px; color: #111; letter-spacing: 1px; }
-        label { font-size: 10px; font-weight: 800; display: block; margin: 12px 0 5px; text-transform: uppercase; color: #555; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 13px; background: #fff; }
+        /* 1. ENTORNO DEL EDITOR (Escenario Elegante) */
+        body { margin: 0; display: flex; height: 100vh; background-color: var(--editor-bg); background-image: url('https://www.transparenttextures.com/patterns/black-linen.png'); font-family: 'Montserrat', sans-serif; overflow: hidden; color: #fff; }
         
-        /* ESCENARIO DEL CELULAR */
-        #preview-viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: radial-gradient(circle, #333, #000); position: relative; }
-        #phone-shell { width: 375px; height: 780px; border: 16px solid #111; border-radius: 60px; position: relative; overflow: hidden; background: #fff; box-shadow: 0 0 80px rgba(0,0,0,1); }
-        
-        /* CAPA FIJA DE FONDO (NO SE MUEVE) */
-        #bg-fixed-layer { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; opacity: 0.6; background-size: cover; background-position: center; }
-        
-        /* CONTENIDO DESLIZABLE */
-        #scroll-wrapper { width: 100%; height: 100%; overflow-y: auto; position: relative; z-index: 2; scroll-behavior: smooth; }
+        /* PANEL DE CONTROL IZQUIERDO */
+        #controls { width: 450px; background: #fff; color: #333; height: 100%; overflow-y: auto; padding: 25px; box-sizing: border-box; border-right: 6px solid var(--gold); z-index: 100; box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+        .control-group { background: #f4f4f4; padding: 15px; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid var(--gold); }
+        h2 { font-family: 'Cinzel'; font-size: 14px; margin: 0 0 10px; border-bottom: 1px solid #ddd; padding-bottom: 5px; }
+        label { font-size: 10px; font-weight: 800; display: block; margin: 10px 0 4px; text-transform: uppercase; color: #666; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 13px; }
 
-        /* SECCIONES DEL INVENTARIO */
-        .invitation-sec { padding: 100px 30px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 200px; }
-        .editable { cursor: move; transition: 0.2s; position: relative; z-index: 10; width: fit-content; }
-        .editable:hover { outline: 2px dashed var(--gold); outline-offset: 8px; background: rgba(184, 134, 11, 0.05); }
+        /* 2. EL CELULAR Y CAPA FIJA */
+        #preview-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; position: relative; }
+        #phone-frame { width: 375px; height: 780px; border: 15px solid #111; border-radius: 55px; position: relative; overflow: hidden; background: #fff; box-shadow: 0 0 60px rgba(0,0,0,0.8); }
         
-        .v-img { width: 100%; border-radius: 10px; margin: 20px 0; display: block; }
-        .v-btn { padding: 18px 40px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 20px; transition: 0.3s; text-align: center; }
+        /* FONDO DE LA INVITACIÓN (CAPA FIJA) */
+        #fixed-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; opacity: 0.7; background-size: cover; background-repeat: repeat; }
+        
+        #scroll-content { width: 100%; height: 100%; overflow-y: auto; position: relative; z-index: 2; scroll-behavior: smooth; }
 
-        /* CONTADOR DE CUADROS */
-        .timer-display { display: flex; gap: 10px; margin-top: 30px; }
-        .t-unit { background: #fff; border: 2px solid var(--gold); padding: 12px; border-radius: 12px; min-width: 60px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .t-val { font-size: 26px; font-weight: 700; color: var(--gold); display: block; font-family: 'Playfair Display'; }
-        .t-label { font-size: 9px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+        /* SECCIONES */
+        .sec { padding: 80px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; min-height: 150px; }
+        .editable { cursor: move; transition: 0.2s; position: relative; z-index: 10; }
+        .editable:hover { outline: 2px dashed var(--gold); outline-offset: 5px; }
+        
+        /* COMPONENTES */
+        .v-img { width: 100%; border-radius: 10px; margin: 15px 0; object-fit: cover; }
+        .v-btn { padding: 18px 30px; text-decoration: none; font-weight: bold; display: inline-block; transition: 0.3s; margin-top: 15px; text-align: center; }
+        
+        /* CONTADOR */
+        .timer-grid { display: flex; gap: 8px; margin-top: 25px; }
+        .t-box { background: #fff; border: 1.5px solid var(--gold); padding: 10px; border-radius: 10px; min-width: 60px; }
+        .t-num { font-size: 24px; font-weight: 700; color: var(--gold); display: block; font-family: 'Playfair Display'; }
+        .t-lab { font-size: 9px; text-transform: uppercase; color: #888; }
 
-        /* ADORNOS */
-        .sticker { position: absolute; z-index: 5; cursor: move; font-size: 60px; pointer-events: auto; }
+        /* ADORNOS (STICKERS) */
+        .sticker { position: absolute; z-index: 5; cursor: move; font-size: 60px; user-select: none; }
         
         /* BOTÓN GUARDAR */
-        .btn-save { width: 100%; padding: 20px; background: #000; color: #fff; border: 2px solid var(--gold); border-radius: 15px; font-weight: bold; cursor: pointer; margin-top: 10px; font-family: 'Cinzel'; }
-        .btn-save:hover { background: var(--gold); }
+        .save-btn { width: 100%; padding: 20px; background: #111; color: #fff; border: 2px solid var(--gold); border-radius: 12px; font-weight: bold; cursor: pointer; font-family: 'Cinzel'; margin-top: 10px; }
     </style>
 </head>
 <body>
 
-<aside id="editor-panel">
-    <h1 style="font-family: 'Dancing Script'; color: var(--gold); text-align: center; font-size: 32px; margin: 0;">Mi Gran Día</h1>
-    <p style="text-align:center; font-size:9px; letter-spacing:2px; color:#aaa; margin-bottom:30px;">PLATAFORMA DE EDICIÓN TOTAL</p>
+<aside id="controls">
+    <h1 style="font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0;">Mi Gran Día</h1>
+    <p style="text-align:center; font-size:9px; color:#999; margin-bottom:20px;">INVENTARIO DE 17 SECCIONES</p>
 
-    <div class="section-box">
-        <h2>1. Fondo de la Invitación (Capa Fija)</h2>
-        <label>Color de Fondo</label>
-        <input type="color" id="input-bg-color" value="#ffffff" oninput="applyGlobal()">
+    <div class="control-group">
+        <h2>Fondo Invitación (Capa Fija)</h2>
+        <label>Color / Degradado</label>
+        <input type="color" id="bg-color" value="#ffffff" oninput="updateGlobalBg()">
         <label>Textura Premium</label>
-        <select id="input-bg-texture" onchange="applyGlobal()">
-            <option value="">Liso / Sin Textura</option>
+        <select id="bg-texture" onchange="updateGlobalBg()">
+            <option value="">Liso</option>
             <option value="url('https://www.transparenttextures.com/patterns/white-marble.png')">Mármol Blanco</option>
             <option value="url('https://www.transparenttextures.com/patterns/handmade-paper.png')">Papel Artesanal</option>
             <option value="url('https://www.transparenttextures.com/patterns/floral-paper.png')">Acuarela Floral</option>
         </select>
     </div>
 
-    <div class="section-box">
-        <h2>2. Biblioteca de Adornos</h2>
-        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
-            <button onclick="spawnSticker('🌸')" style="cursor:pointer; padding:10px;">Añadir Flor</button>
-            <button onclick="spawnSticker('💍')" style="cursor:pointer; padding:10px;">Añadir Anillos</button>
-            <button onclick="spawnSticker('✨')" style="cursor:pointer; padding:10px;">Añadir Brillos</button>
-            <button onclick="spawnSticker('🌿')" style="cursor:pointer; padding:10px;">Añadir Hoja</button>
+    <div class="control-group">
+        <h2>Biblioteca de Adornos</h2>
+        <div style="display:grid; grid-template-columns: repeat(2, 1fr); gap:8px;">
+            <button onclick="createSticker('🌸')">Flor Rosa</button>
+            <button onclick="createSticker('🌿')">Hoja Verde</button>
+            <button onclick="createSticker('💍')">Anillos</button>
+            <button onclick="createSticker('✨')">Brillos</button>
         </div>
     </div>
 
-    <div id="dynamic-controls" class="section-box" style="background:#fff; border:2px solid #000;">
-        <h2 style="color:var(--gold); border-bottom: 2px solid var(--gold);">3. Panel de Control de Elemento</h2>
-        <p id="no-selection" style="font-size:11px; color:#999; text-align:center; padding:20px;">Toca cualquier texto, imagen o botón en el celular para activar los controles totales.</p>
+    <div id="editor-dinamico" class="control-group" style="background:#fff; border:2px solid #222;">
+        <h2 style="color:var(--gold)">Editor de Selección</h2>
+        <p id="msg-help" style="font-size:11px; color:#888;">Toca cualquier elemento en el celular para editarlo.</p>
     </div>
 
-    <button class="btn-save" onclick="processSave()">💾 GUARDAR DISEÑO MAESTRO</button>
+    <button class="save-btn" onclick="saveProgress()">💾 GUARDAR CAMBIOS (NO PÉRDIDA)</button>
 </aside>
 
-<main id="preview-viewport">
-    <div id="phone-shell">
-        <div id="bg-fixed-layer"></div>
-        <div id="scroll-wrapper">
-            <div id="main-content-stack">
+<main id="preview-area">
+    <div id="phone-frame">
+        <div id="fixed-bg"></div>
+        <div id="scroll-content">
+            <div id="master-container">
                 
-                <section class="invitation-sec" style="min-height: 750px; justify-content: center;">
-                    <div class="editable" id="el-1" onclick="loadEd('el-1','text')" style="font-family:'Great Vibes'; font-size:4.5rem;">Sofía & Ale</div>
-                    <div class="editable" id="el-2" onclick="loadEd('el-2','text')" style="letter-spacing:6px; font-weight:bold; font-size:14px; margin-top:10px;">¡NOS CASAMOS!</div>
-                    <img id="img-main" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="v-img editable" onclick="loadEd('img-main','img')" style="height:380px;">
+                <section class="sec" style="min-height: 700px; justify-content: center;">
+                    <div class="editable" id="t-portada" onclick="openEd('t-portada','text')" style="font-family:'Great Vibes'; font-size:4.5rem;">Sofía & Ale</div>
+                    <div class="editable" id="t-sub" onclick="openEd('t-sub','text')" style="letter-spacing:5px; font-weight:bold; font-size:14px;">NOS CASAMOS</div>
+                    <img id="img-portada" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=600" class="v-img editable" onclick="openEd('img-portada','img')" style="height:350px;">
                 </section>
 
-                <section class="invitation-sec">
-                    <div class="editable" id="el-count" onclick="loadEd('el-count','text')">ESTAMOS A TAN SOLO:</div>
-                    <div class="timer-display">
-                        <div class="t-unit"><span class="t-val" id="d">00</span><span class="t-label">Días</span></div>
-                        <div class="t-unit"><span class="t-val" id="h">00</span><span class="t-label">Hrs</span></div>
-                        <div class="t-unit"><span class="t-val" id="m">00</span><span class="t-label">Min</span></div>
-                        <div class="t-unit" style="border-color:red;"><span class="t-val" id="s">00</span><span class="t-label">Seg</span></div>
+                <section class="sec">
+                    <div class="editable" id="t-count" onclick="openEd('t-count','text')">FALTAN SOLO:</div>
+                    <div class="timer-grid">
+                        <div class="t-box"><span class="t-num" id="d">00</span><span class="t-label">Días</span></div>
+                        <div class="t-box"><span class="t-num" id="h">00</span><span class="t-label">Hrs</span></div>
+                        <div class="t-box"><span class="t-num" id="m">00</span><span class="t-label">Min</span></div>
+                        <div class="t-box" style="border-color:red"><span class="t-num" id="s">00</span><span class="t-label">Seg</span></div>
                     </div>
-                    <label style="margin-top:20px;">Fecha del Gran Día:</label>
-                    <input type="datetime-local" id="wedding-date" value="2026-12-31T20:00" style="width:auto;">
+                    <label style="margin-top:15px;">Fecha del Evento:</label>
+                    <input type="datetime-local" id="event-date" value="2026-12-31T20:00" style="width:auto">
                 </section>
 
-                <section class="invitation-sec">
-                    <div class="editable" id="el-parents" onclick="loadEd('el-parents','text')">
-                        <span style="color:var(--gold); font-family:'Cinzel'; letter-spacing:2px;">Nuestros Padres</span><br><br>
-                        Emperatriz Landa & Rubén Pérez<br>
-                        ---<br>
-                        Padres del Novio
+                <section class="sec">
+                    <div class="editable" id="t-frase" onclick="openEd('t-frase','text')" style="font-style:italic; font-family:'Playfair Display'; font-size:1.2rem;">"Dos almas, un solo camino."</div>
+                </section>
+
+                <section class="sec">
+                    <div class="editable" id="t-padres" onclick="openEd('t-padres','text')">
+                        <b style="color:var(--gold); font-family:'Cinzel';">Nuestros Padres</b><br><br>
+                        Emperatriz Landa & Rubén Pérez<br>---<br>Padres del Novio
                     </div>
                 </section>
 
-                <section class="invitation-sec">
-                    <div class="editable" id="el-itinerary" onclick="loadEd('el-itinerary','text')">
+                <section class="sec">
+                    <div class="editable" id="t-itinerario" onclick="openEd('t-itinerario','text')">
                         <b>ITINERARIO</b><br><br>
-                        ⛪ 18:00 - Ceremonia Religiosa<br>
-                        🥂 20:00 - Cóctel de Bienvenida<br>
-                        🍽️ 21:00 - Cena y Baile
+                        ⛪ 18:00 - Ceremonia<br>
+                        🥂 20:00 - Recepción<br>
+                        🍽️ 21:00 - Cena
                     </div>
                 </section>
 
-                <section class="invitation-sec">
-                    <div class="editable" id="el-music-t" onclick="loadEd('el-music-t','text')">🎵 DALE PLAY A NUESTRA HISTORIA</div>
-                    <audio id="audio-inv" controls style="width:100%; margin-top:20px;"></audio>
-                    <label>Enlace MP3 de la canción:</label>
-                    <input type="text" placeholder="Pega el link aquí" onchange="document.getElementById('audio-inv').src=this.value">
+                <section class="sec">
+                    <div class="editable" id="t-musica" onclick="openEd('t-musica','text')">🎵 NUESTRA CANCIÓN</div>
+                    <audio id="audio-player" controls style="width:100%; margin-top:15px;"></audio>
+                    <label>URL MP3:</label>
+                    <input type="text" placeholder="Pega el link del audio" onchange="document.getElementById('audio-player').src=this.value">
                 </section>
 
-                <section class="invitation-sec">
-                    <a href="#" class="v-btn editable" id="btn-misa" style="background:var(--gold); color:#fff; border-radius:40px;" onclick="loadEd('btn-misa','btn')">VER MAPA DE LA MISA</a>
+                <section class="sec">
+                    <a href="#" class="v-btn editable" id="btn-misa" style="background:var(--gold); color:#fff; border-radius:40px;" onclick="openEd('btn-misa','btn')">VER MAPA MISA</a>
                 </section>
 
-                <section class="invitation-sec">
-                    <a href="https://wa.me/9911105456" class="v-btn editable" id="btn-wa" style="background:#25D366; color:#fff; border-radius:40px;" onclick="loadEd('btn-wa','btn')">CONFIRMAR POR WHATSAPP</a>
+                <section class="sec">
+                    <a href="https://wa.me/9911105456" class="v-btn editable" id="btn-wa" style="background:#25D366; color:#fff; border-radius:40px;" onclick="openEd('btn-wa','btn')">CONFIRMAR ASISTENCIA</a>
                 </section>
+
+                <section class="sec"><img id="gal-1" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500" class="v-img editable" onclick="openEd('gal-1','img')"></section>
+                <section class="sec"><img id="gal-2" src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=500" class="v-img editable" onclick="openEd('gal-2','img')"></section>
 
             </div>
         </div>
@@ -148,87 +154,85 @@
 </main>
 
 <script>
-    let activeItem = null;
+    let activeEl = null;
 
-    function loadEd(id, type) {
-        activeItem = document.getElementById(id);
-        const panel = document.getElementById('dynamic-controls');
-        let ui = `<h2>Editando: ${id}</h2>`;
+    // EDITOR DINÁMICO SEGÚN TIPO
+    function openEd(id, type) {
+        activeEl = document.getElementById(id);
+        const panel = document.getElementById('editor-dinamico');
+        let html = `<h3>Editando: ${id}</h3>`;
         
         if(type === 'text' || type === 'btn') {
-            ui += `<label>Contenido / Texto</label><textarea rows="3" oninput="activeItem.innerHTML=this.value.replace(/\\n/g,'<br>')">${activeItem.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
-            ui += `<label>Fuente (Estilo)</label><select onchange="activeItem.style.fontFamily=this.value">
-                <option value="'Montserrat'">Montserrat (Moderna)</option>
-                <option value="'Great Vibes'">Great Vibes (Cursiva)</option>
-                <option value="'Dancing Script'">Dancing Script (Elegante)</option>
-                <option value="'Playfair Display'">Playfair (Clásica)</option>
-                <option value="'Cinzel'">Cinzel (Imperial)</option>
+            html += `<label>Contenido</label><textarea oninput="activeEl.innerHTML=this.value.replace(/\\n/g,'<br>')">${activeEl.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
+            html += `<label>Fuente</label><select onchange="activeEl.style.fontFamily=this.value">
+                <option value="'Montserrat'">Montserrat</option>
+                <option value="'Great Vibes'">Elegante Cursiva</option>
+                <option value="'Cinzel'">Cinzel Imperial</option>
+                <option value="'Playfair Display'">Playfair Clásica</option>
             </select>`;
-            ui += `<label>Tamaño de Letra</label><input type="number" value="${parseInt(window.getComputedStyle(activeItem).fontSize)}" oninput="activeItem.style.fontSize=this.value+'px'">`;
-            ui += `<label>Color de Letra</label><input type="color" value="#000000" oninput="activeItem.style.color=this.value">`;
-            ui += `<label>Grosor (Bold)</label><select onchange="activeItem.style.fontWeight=this.value"><option value="300">Fino</option><option value="400">Normal</option><option value="700">Negrita</option></select>`;
+            html += `<label>Tamaño (px)</label><input type="number" value="${parseInt(window.getComputedStyle(activeEl).fontSize)}" oninput="activeEl.style.fontSize=this.value+'px'">`;
+            html += `<label>Color</label><input type="color" oninput="activeEl.style.color=this.value">`;
             
             if(type === 'btn') {
-                ui += `<hr><label>Link del Botón (URL)</label><input type="text" value="${activeItem.href}" onchange="activeItem.href=this.value">`;
-                ui += `<label>Color del Botón</label><input type="color" oninput="activeItem.style.backgroundColor=this.value">`;
-                ui += `<label>Redondeo de Esquinas</label><input type="range" min="0" max="50" value="40" oninput="activeItem.style.borderRadius=this.value+'px'">`;
+                html += `<hr><label>Link del Botón (URL)</label><input type="text" value="${activeEl.href}" onchange="activeEl.href=this.value">`;
+                html += `<label>Color Fondo</label><input type="color" oninput="activeItem.style.backgroundColor=this.value">`;
+                html += `<label>Redondeo</label><input type="range" min="0" max="50" oninput="activeEl.style.borderRadius=this.value+'px'">`;
             }
         }
         
         if(type === 'img') {
-            ui += `<label>URL de la Fotografía</label><input type="text" value="${activeItem.src}" onchange="activeItem.src=this.value">`;
-            ui += `<label>Altura de la Imagen</label><input type="range" min="100" max="600" value="${activeItem.offsetHeight}" oninput="activeItem.style.height=this.value+'px'">`;
-            ui += `<label>Borde</label><select onchange="activeItem.style.border=this.value">
-                <option value="none">Sin Borde</option>
-                <option value="6px solid #b8860b">Dorado Cecilia</option>
-                <option value="2px solid #333">Negro Fino</option>
-            </select>`;
+            html += `<label>URL de la Foto</label><input type="text" value="${activeEl.src}" onchange="activeEl.src=this.value">`;
+            html += `<label>Altura de Foto</label><input type="range" min="100" max="700" value="${activeEl.offsetHeight}" oninput="activeEl.style.height=this.value+'px'">`;
+            html += `<label>Borde Dorado</label><input type="checkbox" onchange="activeEl.style.border=this.checked?'6px solid #b8860b':'none'">`;
         }
         
-        panel.innerHTML = ui;
+        panel.innerHTML = html;
     }
 
-    function spawnSticker(emoji) {
-        const d = document.createElement('div');
-        d.className = 'sticker'; d.innerHTML = emoji;
-        d.style.top = '150px'; d.style.left = '50px';
-        document.getElementById('scroll-wrapper').appendChild(d);
-        bindDrag(d);
+    // SISTEMA DE ADORNOS Y DRAG & DROP
+    function createSticker(emoji) {
+        const div = document.createElement('div');
+        div.className = 'sticker'; div.innerHTML = emoji;
+        div.style.top = '100px'; div.style.left = '100px';
+        document.getElementById('scroll-content').appendChild(div);
+        makeDraggable(div);
     }
 
-    function bindDrag(el) {
-        let x1=0, y1=0, x2=0, y2=0;
+    function makeDraggable(el) {
+        let p1=0, p2=0, p3=0, p4=0;
         el.onmousedown = (e) => {
-            e.preventDefault(); x2 = e.clientX; y2 = e.clientY;
+            e.preventDefault(); p3 = e.clientX; p4 = e.clientY;
             document.onmousemove = (e) => {
-                x1 = x2 - e.clientX; y1 = y2 - e.clientY; x2 = e.clientX; y2 = e.clientY;
-                el.style.top = (el.offsetTop - y1) + "px";
-                el.style.left = (el.offsetLeft - x1) + "px";
+                p1 = p3 - e.clientX; p2 = p4 - e.clientY; p3 = e.clientX; p4 = e.clientY;
+                el.style.top = (el.offsetTop - p2) + "px";
+                el.style.left = (el.offsetLeft - p1) + "px";
                 el.style.position = 'absolute';
             };
             document.onmouseup = () => { document.onmousemove = null; };
         }
     }
 
-    function applyGlobal() {
-        const c = document.getElementById('input-bg-color').value;
-        const t = document.getElementById('input-bg-texture').value;
-        document.getElementById('phone-shell').style.backgroundColor = c;
-        document.getElementById('bg-fixed-layer').style.backgroundImage = t;
+    function updateGlobalBg() {
+        const color = document.getElementById('bg-color').value;
+        const tex = document.getElementById('bg-texture').value;
+        document.getElementById('phone-frame').style.backgroundColor = color;
+        document.getElementById('fixed-bg').style.backgroundImage = tex;
     }
 
-    function processSave() {
-        localStorage.setItem('cecilia_save_v3', document.getElementById('main-content-stack').innerHTML);
-        alert("¡Diseño guardado con éxito!");
+    function saveProgress() {
+        localStorage.setItem('invitacion_maestra_v4', document.getElementById('master-container').innerHTML);
+        alert("¡Diseño guardado! Nada se perderá.");
     }
 
+    // CARGA INICIAL
     window.onload = () => {
-        const cache = localStorage.getItem('cecilia_save_v3');
-        if(cache) document.getElementById('main-content-stack').innerHTML = cache;
-        document.querySelectorAll('.editable').forEach(bindDrag);
+        const saved = localStorage.getItem('invitacion_maestra_v4');
+        if(saved) document.getElementById('master-container').innerHTML = saved;
+        document.querySelectorAll('.editable').forEach(makeDraggable);
         
+        // CONTADOR TIEMPO REAL
         setInterval(() => {
-            const diff = new Date(document.getElementById('wedding-date').value) - new Date();
+            const diff = new Date(document.getElementById('event-date').value) - new Date();
             if(diff > 0) {
                 document.getElementById('d').innerText = Math.floor(diff/864e5).toString().padStart(2,'0');
                 document.getElementById('h').innerText = Math.floor((diff%864e5)/36e5).toString().padStart(2,'0');
