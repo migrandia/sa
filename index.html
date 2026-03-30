@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Constructor Invitaciones</title>
+
+<style>
+body{margin:0;font-family:Arial;background:#f0f0f0}
+#editor,#viewer,#admin{display:none;padding:20px}
+.panel{width:320px;float:left;background:white;padding:15px}
+.preview{margin-left:340px;padding:20px}
+.phone{width:360px;background:white;margin:auto;padding:20px;border-radius:20px}
+.btn{display:block;background:black;color:white;padding:10px;margin-top:10px;text-align:center;text-decoration:none}
+</style>
+</head>
+
+<body>
+
+<div id="editor">
+<div class="panel">
+<h3>Editor</h3>
+
+<input id="names" placeholder="Nombres" oninput="update()"><br>
+<input id="date" type="date" onchange="update()"><br>
+<input id="phone" placeholder="WhatsApp" oninput="update()"><br>
+
+<label>Foto portada</label>
+<input type="file" onchange="uploadCover(event)">
+
+<button onclick="save()">Guardar</button>
+
+<div id="link"></div>
+</div>
+
+<div class="preview">
+<div class="phone">
+<img id="cover" style="width:100%">
+<h1 id="v-names"></h1>
+<p id="v-date"></p>
+<a id="wsp" class="btn">Confirmar</a>
+<div id="qr"></div>
+</div>
+</div>
+</div>
+
+<div id="viewer">
+<div class="phone">
+<img id="v-cover" style="width:100%">
+<h1 id="view-names"></h1>
+<p id="view-date"></p>
+<a id="view-wsp" class="btn">Confirmar</a>
+</div>
+</div>
+
+<div id="admin">
+<h2>Panel Admin</h2>
+<div id="list"></div>
+</div>
+
+<script>
+
+let params=new URLSearchParams(location.search)
+
+if(params.get("view")){
+viewer.style.display="block"
+loadView(params.get("view"))
+}
+else if(params.get("admin")){
+admin.style.display="block"
+loadAdmin()
+}
+else{
+editor.style.display="block"
+}
+
+function update(){
+v-names.innerText=names.value
+v-date.innerText=date.value
+wsp.href="https://wa.me/"+phone.value
+}
+
+function uploadCover(e){
+let reader=new FileReader()
+reader.onload=function(){
+cover.src=reader.result
+}
+reader.readAsDataURL(e.target.files[0])
+}
+
+function save(){
+
+let id="inv-"+Date.now()
+
+let data={
+names:names.value,
+date:date.value,
+phone:phone.value,
+cover:cover.src
+}
+
+localStorage.setItem(id,JSON.stringify(data))
+
+link.innerHTML=
+"Link: <a href='?view="+id+"' target='_blank'>Ver Invitación</a>"
+
+generateQR("?view="+id)
+
+}
+
+function loadView(id){
+
+let data=JSON.parse(localStorage.getItem(id))
+
+view-names.innerText=data.names
+view-date.innerText=data.date
+view-wsp.href="https://wa.me/"+data.phone
+v-cover.src=data.cover
+
+}
+
+function loadAdmin(){
+
+for(let i=0;i<localStorage.length;i++){
+
+let key=localStorage.key(i)
+
+if(key.startsWith("inv-")){
+
+list.innerHTML+=
+"<div>"+key+
+" <a href='?view="+key+"' target='_blank'>Ver</a></div>"
+
+}
+
+}
+
+}
+
+function generateQR(link){
+
+qr.innerHTML=
+"<img src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data="+
+location.href+link+"'>"
+
+}
+
+</script>
+
+</body>
+</html>
