@@ -3,196 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día Studio v2026 - Control Total Cecilia</title>
+    <title>Mi Gran Día - Constructor Pro v2</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&family=Cormorant+Garamond:ital,wght@1,600&display=swap" rel="stylesheet">
     <style>
-        :root { --p-width: 460px; --gold: #b8860b; --accent: #d4a373; }
-        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #111; height: 100vh; overflow: hidden; }
-
-        /* PANEL EDITOR IZQUIERDO */
-        #sidebar { width: var(--p-width); background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
-        .editor-card { background: #fdfaf6; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-left: 5px solid var(--gold); }
-        h1 { font-family: 'Dancing Script'; color: var(--gold); font-size: 30px; text-align: center; margin: 0 0 15px; }
-        label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 12px 0 4px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
-        .flex { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
-        .btn-t { flex: 1; padding: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; border-radius: 6px; font-size: 10px; font-weight: bold; }
-        .btn-t:hover { background: var(--gold); color: #fff; }
-
-        /* VISTA PREVIA CENTRAL */
-        #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; overflow: hidden; position: relative; }
-        #phone-container { position: relative; width: 385px; height: 820px; border: 14px solid #000; border-radius: 60px; background: #fff; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
+        :root { --gold: #b8860b; --bg-inv: #ffffff; --txt-col: #333; }
         
-        /* SCROLL Y FONDO MÁRMOL */
-        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; scroll-behavior: smooth; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
-        #phone::-webkit-scrollbar { width: 8px; }
-        #phone::-webkit-scrollbar-track { background: #f1f1f1; }
-        #phone::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        /* ESCENARIO ELEGANTE */
+        body { 
+            margin: 0; display: flex; height: 100vh; overflow: hidden;
+            background: radial-gradient(circle, #2c2c2c 0%, #000000 100%);
+            font-family: 'Montserrat', sans-serif;
+        }
 
-        /* SECCIONES */
-        .sec { padding: 70px 25px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; background-size: cover; background-position: center; width: 100%; box-sizing: border-box; }
-        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 50; }
+        /* PANEL IZQUIERDO */
+        #sidebar {
+            width: 420px; background: #fff; height: 100%; overflow-y: auto;
+            border-right: 5px solid var(--gold); padding: 25px; box-sizing: border-box;
+            box-shadow: 10px 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* VISTA PREVIA CELULAR */
+        #preview-area { flex-grow: 1; display: flex; justify-content: center; align-items: center; }
         
-        .e-text { cursor: pointer; transition: 0.2s; width: 100%; line-height: 1.4; display: block; }
-        .v-card { background: rgba(255,255,255,0.95); padding: 25px; border-radius: 20px; width: 100%; box-sizing: border-box; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 10px; }
-        .v-img { width: 100%; border-radius: 15px; margin: 15px 0; object-fit: cover; height: 220px; }
-        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 50px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        #phone-frame {
+            width: 375px; height: 780px; border: 14px solid #1a1a1a; border-radius: 55px;
+            position: relative; overflow: hidden; box-shadow: 0 0 60px rgba(0,0,0,0.9);
+            background-color: var(--bg-inv);
+        }
+        
+        /* CAPA DE FONDO FIJA (TEXTURAS) */
+        #fixed-background {
+            position: absolute; top:0; left:0; width:100%; height:100%;
+            z-index: 1; pointer-events: none; opacity: 0.4;
+            background-repeat: repeat;
+        }
 
-        /* CONTADOR */
-        .countdown { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
-        .c-unit { text-align: center; min-width: 60px; background: rgba(255,255,255,0.8); padding: 8px; border-radius: 10px; }
-        .c-num { font-size: 28px; font-family: 'Oswald'; color: var(--gold); display: block; }
+        #scroll-content {
+            width: 100%; height: 100%; overflow-y: auto;
+            position: relative; z-index: 2; scroll-behavior: smooth;
+        }
 
-        /* ITINERARIO */
-        .it-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; text-align: left; width: 100%; }
-        .it-s-2 { background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .it-s-3 { border-left: 4px solid var(--gold); padding-left: 12px; }
-        .it-s-4 { flex-direction: column; text-align: center; border: 2px solid var(--gold); border-radius: 50%; width: 130px; height: 130px; justify-content: center; margin: 10px auto; }
-        .it-s-5 { border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        /* SECCIONES EDITABLES */
+        .sec { 
+            padding: 60px 25px; position: relative; min-height: 100px;
+            display: flex; flex-direction: column; align-items: center; text-align: center;
+        }
 
-        body.final #sidebar, body.final .drag-handle { display: none !important; }
-        body.final #phone-container { border: none; width: 100%; max-width: 500px; height: auto; border-radius: 0; margin: 0 auto; overflow: visible; }
-        body.final #preview { background: #fff; padding: 0; }
+        .editable-obj { cursor: move; position: relative; transition: 0.2s; z-index: 10; }
+        .editable-obj:hover { outline: 2px dashed var(--gold); outline-offset: 5px; }
+        
+        /* ADORNOS LIBRES */
+        .sticker { position: absolute; cursor: move; z-index: 5; font-size: 50px; user-select: none; }
+
+        /* COMPONENTES */
+        .v-img { width: 100%; border-radius: 12px; margin: 20px 0; display: block; object-fit: cover; }
+        .v-btn { padding: 15px 30px; border-radius: 40px; text-decoration: none; font-weight: bold; display: inline-block; margin-top: 15px; }
+        
+        /* CONTADOR CON SEGUNDOS */
+        .timer-grid { display: flex; gap: 10px; margin-top: 20px; }
+        .t-box { 
+            background: rgba(255,255,255,0.8); border: 1px solid var(--gold); 
+            padding: 10px; border-radius: 12px; min-width: 55px; box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+        .t-num { font-size: 22px; font-weight: 700; display: block; color: var(--gold); font-family: 'Playfair Display'; }
+        .t-lab { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: #666; }
+
+        /* ESTILOS DEL EDITOR */
+        .group { background: #f4f6f8; padding: 18px; border-radius: 12px; margin-bottom: 20px; border-left: 5px solid var(--gold); }
+        h2 { font-family: 'Cinzel'; font-size: 14px; margin-top: 0; color: #222; }
+        label { font-size: 10px; font-weight: 800; display: block; margin: 12px 0 5px; color: #555; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; box-sizing: border-box; }
+        .btn-add { background: var(--gold); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 5px; }
     </style>
 </head>
 <body>
 
 <aside id="sidebar">
-    <h1>Grandía Studio ✨</h1>
+    <h1 style="font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0;">Mi Gran Día</h1>
+    <p style="text-align:center; font-size:11px; margin-bottom:25px;">CONSTRUCTOR DE INVITACIONES</p>
     
-    <div class="editor-card">
-        <label>🎵 Música (YouTube ID)</label>
-        <input type="text" id="m-id" value="PwJ8HIDghLg" oninput="saveAndRefreshMusic()">
-        <label>🎨 Fondo de Invitación</label>
-        <div class="flex">
-            <input type="color" id="bg-col" value="#ffffff" oninput="updateGlobalBg()">
-            <input type="text" id="bg-img" placeholder="URL Mármol/Textura" value="https://www.transparenttextures.com/patterns/white-marble.png" oninput="updateGlobalBg()">
+    <div class="group">
+        <h2>Fondo y Estilo Global</h2>
+        <label>Color Base</label>
+        <input type="color" id="bg-color-picker" value="#ffffff" oninput="updateGlobal()">
+        <label>Textura de Fondo</label>
+        <select id="bg-texture-select" onchange="updateGlobal()">
+            <option value="none">Liso</option>
+            <option value="url('https://www.transparenttextures.com/patterns/white-marble.png')">Mármol Blanco</option>
+            <option value="url('https://www.transparenttextures.com/patterns/handmade-paper.png')">Papel Artesanal</option>
+            <option value="url('https://www.transparenttextures.com/patterns/floral-paper.png')">Flores Vintage</option>
+        </select>
+    </div>
+
+    <div class="group">
+        <h2>Adornos Libres</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+            <button class="btn-add" onclick="addSticker('🌸')">Flor</button>
+            <button class="btn-add" onclick="addSticker('✨')">Brillo</button>
+            <button class="btn-add" onclick="addSticker('🌿')">Hoja</button>
+            <button class="btn-add" onclick="addSticker('💍')">Anillo</button>
         </div>
-        <label>📅 Fecha del Evento</label>
-        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData(); startTimer()">
     </div>
 
     <div id="editor-dynamic">
-        <p style="text-align:center; color:#999; font-size:12px; padding:20px;">Toca cualquier texto o sección para editar.</p>
+        <p style="text-align:center; font-size:12px; color:#999; border:1px dashed #ccc; padding:20px; border-radius:10px;">
+            Toca cualquier texto, botón o imagen en el celular para editar sus detalles.
+        </p>
     </div>
 
-    <button style="background:var(--gold); color:white; padding:18px; width:100%; border:none; border-radius:12px; font-weight:bold; cursor:pointer;" onclick="exportFinal()">🚀 DESCARGAR INVITACIÓN</button>
-    <button style="background:#f1f5f9; color:#64748b; padding:10px; width:100%; border:none; border-radius:10px; margin-top:10px; cursor:pointer; font-size:11px;" onclick="if(confirm('¿Borrar todo?')){localStorage.clear(); location.reload();}">🗑️ REINICIAR TODO</button>
+    <button onclick="saveAll()" style="width:100%; padding:18px; background:#222; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-top:20px; border:2px solid var(--gold);">💾 GUARDAR TODO</button>
 </aside>
 
-<main id="preview">
-    <div id="phone-container">
-        <div id="phone">
-            <div id="sortable-area">
+<main id="preview-area">
+    <div id="phone-frame">
+        <div id="fixed-background"></div>
+        <div id="scroll-content">
+            <div id="master-container">
                 
-                <section class="sec" id="s1" style="height:550px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');" onclick="openSecEditor('s1')">
-                    <div class="drag-handle">⠿</div>
-                    <span class="e-text" id="t1" style="font-family:'Great Vibes'; font-size:4rem; color:#fff;" onclick="event.stopPropagation(); openTextEditor('t1')">Sofía & Ale</span>
-                    <span class="e-text" id="t2" style="color:#fff; letter-spacing:4px; font-weight:bold;" onclick="event.stopPropagation(); openTextEditor('t2')">¡NOS CASAMOS!</span>
+                <section class="sec" id="sec-1">
+                    <div class="editable-obj" id="val-names" style="font-family:'Great Vibes'; font-size: 3.5rem; color: var(--gold);" onclick="openEdit('val-names','text')">Sofía & Ale</div>
+                    <div class="editable-obj" id="val-sub" style="font-weight:bold; letter-spacing:4px; font-size:14px;" onclick="openEdit('val-sub','text')">¡NOS CASAMOS!</div>
                 </section>
 
-                <section class="sec" id="s2" onclick="openSecEditor('s2')">
-                    <div class="drag-handle">⠿</div>
-                    <span class="e-text" id="t3" style="font-family:'Cinzel';" onclick="event.stopPropagation(); openTextEditor('t3')">FALTAN:</span>
-                    <div class="countdown">
-                        <div class="c-unit"><b class="c-num" id="d">00</b><small>Días</small></div>
-                        <div class="c-unit"><b class="c-num" id="h">00</b><small>Hrs</small></div>
-                        <div class="c-unit"><b class="c-num" id="m">00</b><small>Min</small></div>
+                <section class="sec" id="sec-2">
+                    <div class="editable-obj" id="val-count-txt" style="font-size:12px;" onclick="openEdit('val-count-txt','text')">FALTA MUY POCO:</div>
+                    <div class="timer-grid">
+                        <div class="t-box"><span class="t-num" id="d">00</span><span class="t-lab">Días</span></div>
+                        <div class="t-box"><span class="t-num" id="h">00</span><span class="t-lab">Hrs</span></div>
+                        <div class="t-box"><span class="t-num" id="m">00</span><span class="t-lab">Min</span></div>
+                        <div class="t-box" style="border-width:2px; border-color:var(--gold)"><span class="t-num" id="s">00</span><span class="t-lab">Seg</span></div>
                     </div>
                 </section>
 
-                <section class="sec" id="s3" onclick="openSecEditor('s3')">
-                    <div class="drag-handle">⠿</div>
-                    <p class="e-text" id="t4" style="font-style:italic; color:#555;" onclick="event.stopPropagation(); openTextEditor('t4')">"Nuestra historia apenas comienza y queremos que seas parte de ella."</p>
+                <section class="sec">
+                    <img id="img-main" src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="v-img editable-obj" onclick="openEdit('img-main','img')">
                 </section>
 
-                <section class="sec" id="s4" onclick="openSecEditor('s4')">
-                    <div class="drag-handle">⠿</div>
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600" class="v-img" id="i1" onclick="event.stopPropagation(); openImgEditor('i1')">
-                </section>
-
-                <section class="sec" id="s5" onclick="openSecEditor('s5')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="t5" style="color:var(--gold); font-family:'Cinzel';" onclick="event.stopPropagation(); openTextEditor('t5')">Con la bendición de nuestros padres</b>
-                    <div class="v-card">
-                        <p class="e-text" id="t6" style="line-height:2;" onclick="event.stopPropagation(); openTextEditor('t6')">Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López</p>
+                <section class="sec">
+                    <b class="editable-obj" id="val-iti-tit" onclick="openEdit('val-iti-tit','text')">Nuestro Itinerario</b>
+                    <div class="editable-obj" id="val-iti-body" style="margin-top:15px; line-height:1.8;" onclick="openEdit('val-iti-body','text')">
+                        ⛪ 6:00 PM - Ceremonia<br>
+                        🍹 7:30 PM - Coctel de Bienvenida<br>
+                        🍽️ 8:30 PM - Cena de Gala<br>
+                        💃 10:00 PM - Baile y Fiesta
                     </div>
                 </section>
 
-                <section class="sec" id="s6" onclick="openSecEditor('s6')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="t7" onclick="event.stopPropagation(); openTextEditor('t7')">Nuestros Padrinos</b>
-                    <p class="e-text" id="t8" onclick="event.stopPropagation(); openTextEditor('t8')">Nombres de Padrinos aquí</p>
+                <section class="sec">
+                    <div class="editable-obj" id="val-mus-txt" onclick="openEdit('val-mus-txt','text')">🎵 Dale play a nuestra canción</div>
+                    <audio id="audio-player" controls style="width: 100%; margin-top: 15px; border-radius: 30px;"></audio>
+                    <input type="text" placeholder="URL de audio MP3 aquí..." onchange="document.getElementById('audio-player').src=this.value" style="margin-top:10px; font-size:10px;">
                 </section>
 
-                <section class="sec" id="s7" onclick="openSecEditor('s7')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" style="font-family:'Cinzel'; margin-bottom:20px;">Itinerario</b>
-                    <div id="it-list" style="width:100%;">
-                        <div class="it-row"><span style="font-size:25px;">⛪</span><div><b>Ceremonia</b><br>6:00 PM</div></div>
-                        <div class="it-row"><span style="font-size:25px;">🥂</span><div><b>Coctel</b><br>7:30 PM</div></div>
-                        <div class="it-row"><span style="font-size:25px;">💃</span><div><b>Recepción</b><br>8:30 PM</div></div>
-                    </div>
-                </section>
-
-                <section class="sec" id="s8" onclick="openSecEditor('s8')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <span id="dr-ico" style="font-size:40px;">👗👔</span>
-                        <b class="e-text" id="t9" onclick="event.stopPropagation(); openTextEditor('t9')">Código de Vestimenta</b>
-                        <p class="e-text" id="t10" onclick="event.stopPropagation(); openTextEditor('t10')">FORMAL / GUAYABERA</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s9" onclick="openSecEditor('s9')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <b>Misa</b>
-                        <p id="t11" class="e-text" style="font-size:13px; margin:10px 0;" onclick="event.stopPropagation(); openTextEditor('t11')">Parroquia de Tunkás</p>
-                        <a href="#" class="v-btn" id="b1" style="background:var(--gold); color:#fff;" onclick="event.stopPropagation(); openBtnEditor('b1')">VER MAPA</a>
-                    </div>
-                </section>
-
-                <section class="sec" id="s10" onclick="openSecEditor('s10')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <b>Celebración</b>
-                        <p id="t12" class="e-text" style="font-size:13px; margin:10px 0;" onclick="event.stopPropagation(); openTextEditor('t12')">Salón Quinta Real</p>
-                        <a href="#" class="v-btn" id="b2" style="background:#333; color:#fff;" onclick="event.stopPropagation(); openBtnEditor('b2')">VER LUGAR</a>
-                    </div>
-                </section>
-
-                <section class="sec" id="s11" onclick="openSecEditor('s11')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card" style="border:2px dashed var(--gold);">
-                        <b>Mesa de Regalos</b>
-                        <p id="t13" class="e-text" onclick="event.stopPropagation(); openTextEditor('t13')">Liverpool: 5012345</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s12" onclick="openSecEditor('s12')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <span>✉️</span><br>
-                        <b>Lluvia de Sobres</b>
-                        <p id="t14" class="e-text" onclick="event.stopPropagation(); openTextEditor('t14')">Su presencia es nuestro mejor regalo, pero si desean tener un detalle...</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s13" onclick="openSecEditor('s13')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <b>Hospedaje</b>
-                        <p id="t15" class="e-text" onclick="event.stopPropagation(); openTextEditor('t15')">Hotel Central Mérida - Código BODA</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s14" onclick="openSecEditor('s14')">
-                    <div class="drag-handle">⠿</div>
-                    <p id="t16" class="e-text" style="font-weight:bold; margin-bottom:10px;" onclick="event.stopPropagation(); openTextEditor('t16')">Contamos con su presencia</p>
-                    <a href="https://wa.me/9911105456" class="v-btn" id="b3" style="background:#25D366; color:#fff; width:100%;" onclick="event.stopPropagation(); openBtnEditor('b3')">CONFIRMAR AQUÍ</a>
+                <section class="sec">
+                    <a href="https://wa.me/9911105456" class="v-btn editable-obj" id="val-btn-wa" style="background:#25D366; color:white;" onclick="openEdit('val-btn-wa','btn')">CONFIRMAR ASISTENCIA</a>
                 </section>
 
             </div>
@@ -201,127 +166,109 @@
 </main>
 
 <script>
-    const area = document.getElementById('sortable-area');
-    new Sortable(area, { animation: 150, handle: '.drag-handle', onEnd: saveData });
+    let activeEl = null;
 
+    // EDITOR DINÁMICO
+    function openEdit(id, type) {
+        activeEl = document.getElementById(id);
+        const panel = document.getElementById('editor-dynamic');
+        let h = `<h3>Personalizar</h3>`;
+
+        if(type === 'text' || type === 'btn') {
+            h += `<label>Contenido</label><textarea oninput="activeEl.innerHTML=this.value.replace(/\\n/g,'<br>')">${activeEl.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
+            h += `<label>Fuente</label><select onchange="activeEl.style.fontFamily=this.value">
+                <option value="'Montserrat'">Montserrat</option>
+                <option value="'Dancing Script'">Dancing Script</option>
+                <option value="'Playfair Display'">Playfair Display</option>
+                <option value="'Cinzel'">Cinzel</option>
+                <option value="'Cormorant Garamond'">Cormorant Garamond</option>
+            </select>`;
+            h += `<label>Tamaño (px)</label><input type="number" value="${parseInt(window.getComputedStyle(activeEl).fontSize)}" oninput="activeEl.style.fontSize=this.value+'px'">`;
+            h += `<label>Color</label><input type="color" oninput="activeEl.style.color=this.value">`;
+            h += `<label>Grosor (Bold)</label><select onchange="activeEl.style.fontWeight=this.value">
+                <option value="300">Delgada</option>
+                <option value="400">Normal</option>
+                <option value="700">Negrita</option>
+            </select>`;
+        }
+
+        if(type === 'img') {
+            h += `<label>URL de Imagen</label><input type="text" value="${activeEl.src}" onchange="activeEl.src=this.value">`;
+            h += `<label>Borde Dorado</label><select onchange="activeEl.style.border=this.value">
+                <option value="none">Sin Borde</option>
+                <option value="4px solid #b8860b">Dorado Premium</option>
+                <option value="2px solid #333">Negro Fino</option>
+            </select>`;
+        }
+
+        panel.innerHTML = h;
+    }
+
+    // AGREGAR ADORNOS (STICKERS)
+    function addSticker(emoji) {
+        const s = document.createElement('div');
+        s.className = 'sticker';
+        s.innerHTML = emoji;
+        s.style.top = '150px'; s.style.left = '50px';
+        document.getElementById('scroll-content').appendChild(s);
+        dragElement(s);
+    }
+
+    // ARRASTRE LIBRE (TEXTOS Y ADORNOS)
+    function dragElement(el) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        el.onmousedown = (e) => {
+            e.preventDefault();
+            pos3 = e.clientX; pos4 = e.clientY;
+            document.onmouseup = () => { document.onmousemove = null; saveAll(); };
+            document.onmousemove = (e) => {
+                pos1 = pos3 - e.clientX; pos2 = pos4 - e.clientY;
+                pos3 = e.clientX; pos4 = e.clientY;
+                el.style.top = (el.offsetTop - pos2) + "px";
+                el.style.left = (el.offsetLeft - pos1) + "px";
+                el.style.position = 'absolute';
+            };
+        }
+    }
+
+    // CONFIGURACIÓN GLOBAL
+    function updateGlobal() {
+        const bg = document.getElementById('bg-color-picker').value;
+        const tex = document.getElementById('bg-texture-select').value;
+        document.documentElement.style.setProperty('--bg-inv', bg);
+        document.getElementById('fixed-background').style.backgroundImage = tex;
+    }
+
+    // GUARDADO EN NAVEGADOR
+    function saveAll() {
+        localStorage.setItem('migrandia_v2', document.getElementById('master-container').innerHTML);
+        localStorage.setItem('migrandia_bg', document.getElementById('phone-frame').style.backgroundColor);
+    }
+
+    // INICIALIZACIÓN
     window.onload = () => {
-        const saved = localStorage.getItem('ceciliaFinalData');
-        if(saved) area.innerHTML = saved;
-        const meta = JSON.parse(localStorage.getItem('ceciliaMeta') || '{}');
-        if(meta.bgCol) document.getElementById('phone').style.backgroundColor = meta.bgCol;
-        if(meta.bgImg) document.getElementById('phone').style.backgroundImage = `url(${meta.bgImg})`;
-        if(meta.mId) document.getElementById('m-id').value = meta.mId;
-        if(meta.eDate) document.getElementById('event-date').value = meta.eDate;
-        startTimer();
-        updateMusic();
-    };
-
-    function saveData() {
-        localStorage.setItem('ceciliaFinalData', area.innerHTML);
-        localStorage.setItem('ceciliaMeta', JSON.stringify({
-            bgCol: document.getElementById('bg-col').value,
-            bgImg: document.getElementById('bg-img').value,
-            mId: document.getElementById('m-id').value,
-            eDate: document.getElementById('event-date').value
-        }));
-    }
-
-    function updateGlobalBg() {
-        const p = document.getElementById('phone');
-        p.style.backgroundColor = document.getElementById('bg-col').value;
-        p.style.backgroundImage = `url(${document.getElementById('bg-img').value})`;
-        saveData();
-    }
-
-    function openTextEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>📝 Texto</h3>
-            <textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>'); saveData()">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>
-            <label>Color</label><input type="color" value="${rgbToHex(el.style.color)}" oninput="document.getElementById('${id}').style.color=this.value; saveData()">
-            <label>Fuente</label><select onchange="document.getElementById('${id}').style.fontFamily=this.value; saveData()">
-                <option value="'Montserrat'">Moderna</option><option value="'Great Vibes'">Cursiva</option><option value="'Cinzel'">Elegante</option><option value="'Oswald'">Fuerte</option>
-            </select>
-            <label>Tamaño</label><input type="number" value="${parseInt(window.getComputedStyle(el).fontSize)}" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'; saveData()"></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function openSecEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🖼️ Sección</h3>
-            <label>Fondo (URL)</label><input type="text" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'; saveData()">
-            <label>Fondo (Color)</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value; saveData()">
-            <label>Altura (px)</label><input type="number" value="${el.offsetHeight}" oninput="document.getElementById('${id}').style.height=this.value+'px'; saveData()">`;
+        const saved = localStorage.getItem('migrandia_v2');
+        if(saved) document.getElementById('master-container').innerHTML = saved;
         
-        if(id === 's7') {
-            html += `<label>Estilos Itinerario</label><div class="flex">
-                <button class="btn-t" onclick="chIt(1)">Línea</button><button class="btn-t" onclick="chIt(2)">Tarjeta</button>
-                <button class="btn-t" onclick="chIt(3)">Borde</button><button class="btn-t" onclick="chIt(4)">Círculo</button>
-            </div>`;
-        }
-        if(id === 's8') {
-            html += `<label>Iconos</label><div class="flex">
-                <button class="btn-t" onclick="document.getElementById('dr-ico').innerText='👗👔'; saveData()">Boda</button>
-                <button class="btn-t" onclick="document.getElementById('dr-ico').innerText='👕✨'; saveData()">Guayabera</button>
-            </div>`;
-        }
-        html += `<button style="background:#fee2e2; color:red; border:none; padding:10px; width:100%; border-radius:10px; margin-top:15px; cursor:pointer;" onclick="document.getElementById('${id}').remove(); saveData()">ELIMINAR BLOQUE</button></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
+        document.querySelectorAll('.editable-obj').forEach(dragElement);
+        document.querySelectorAll('.sticker').forEach(dragElement);
 
-    function openBtnEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🔗 Botón</h3>
-            <label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value; saveData()">
-            <label>Link (URL/WA)</label><input type="text" value="${el.href}" oninput="document.getElementById('${id}').href=this.value; saveData()">
-            <label>Color</label><input type="color" value="${rgbToHex(el.style.backgroundColor)}" oninput="document.getElementById('${id}').style.backgroundColor=this.value; saveData()"></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
+        // Sortable para el orden de las secciones
+        new Sortable(document.getElementById('master-container'), { animation: 150 });
 
-    function openImgEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🖼️ Imagen</h3>
-            <label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value; saveData()"></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function chIt(n) { document.querySelectorAll('#it-list .it-row').forEach(r => r.className = 'it-row it-s-' + n); saveData(); }
-    function saveAndRefreshMusic() { saveData(); updateMusic(); }
-    function updateMusic() {
-        const id = document.getElementById('m-id').value;
-        const old = document.getElementById('pl'); if(old) old.remove();
-        const d = document.createElement('div'); d.id = 'pl';
-        d.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
-        document.body.appendChild(d);
-    }
-
-    function startTimer() {
-        const target = new Date(document.getElementById('event-date').value).getTime();
-        clearInterval(window.tm);
-        window.tm = setInterval(() => {
-            const diff = target - new Date().getTime();
+        // CONTADOR CON SEGUNDOS REALES
+        setInterval(() => {
+            const target = new Date("2026-12-31T20:00:00").getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
             if(diff > 0) {
-                document.getElementById('d').innerText = Math.floor(diff/86400000).toString().padStart(2,'0');
-                document.getElementById('h').innerText = Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');
-                document.getElementById('m').innerText = Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
+                document.getElementById('d').innerText = Math.floor(diff/864e5).toString().padStart(2,'0');
+                document.getElementById('h').innerText = Math.floor((diff%864e5)/36e5).toString().padStart(2,'0');
+                document.getElementById('m').innerText = Math.floor((diff%36e5)/6e4).toString().padStart(2,'0');
+                document.getElementById('s').innerText = Math.floor((diff%6e4)/1000).toString().padStart(2,'0');
             }
         }, 1000);
-    }
-
-    function rgbToHex(rgb) {
-        if(!rgb) return '#000000';
-        let res = rgb.match(/\d+/g);
-        if(!res) return '#000000';
-        return "#" + ((1 << 24) + (parseInt(res[0]) << 16) + (parseInt(res[1]) << 8) + parseInt(res[2])).toString(16).slice(1);
-    }
-
-    function exportFinal() {
-        document.body.classList.add('final');
-        const content = `<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body>${document.getElementById('phone-container').outerHTML}</body></html>`
-            .replace(/<script[\s\S]*?<\/script>/g, '').replace(/drag-handle/g, 'hidden');
-        const blob = new Blob([content], {type: 'text/html'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'invitacion_final.html'; a.click();
-        document.body.classList.remove('final');
-    }
+    };
 </script>
 </body>
 </html>
