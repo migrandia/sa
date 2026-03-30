@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grandía Studio v2026 - CECILIA DEFINITIVO</title>
+    <title>Grandía Studio v2026 - Control Total</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
@@ -11,55 +11,60 @@
         :root { --gold: #b8860b; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #111; height: 100vh; overflow: hidden; }
 
-        /* PANEL IZQUIERDO REFORZADO */
+        /* PANEL DE CONTROL */
         #sidebar { width: 400px; background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); }
         .editor-card { background: #fdfaf6; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--gold); }
-        h1 { font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0 0 10px; }
+        h1 { font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0; }
         label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 10px 0 4px; text-transform: uppercase; }
         input, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; margin-bottom: 5px; }
 
         /* VISTA PREVIA */
         #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; }
         #phone-container { width: 375px; height: 780px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; position: relative; }
-        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); background-color: #ffffff; }
+        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-color: #ffffff; background-size: cover; }
 
-        /* ELEMENTOS (SIN SOMBRAS) */
-        .sec { padding: 60px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; min-height: 150px; }
-        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; z-index: 99; opacity: 0.5; }
+        /* SECCIONES Y MOVIMIENTO */
+        .sec { padding: 60px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; }
+        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: rgba(255,255,255,0.8); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; z-index: 99; font-size: 12px; }
         
-        .movable { position: relative; cursor: move; z-index: 10; display: inline-block; text-shadow: none !important; }
-        .v-img-main { width: 100%; border-radius: 15px; margin: 10px 0; }
+        .movable { position: relative; cursor: move; z-index: 10; display: inline-block; text-shadow: none !important; transition: transform 0.1s; }
+        .v-img-main { width: 100%; border-radius: 15px; margin: 10px 0; cursor: pointer; }
 
+        /* CONTADOR */
         .countdown { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
         .c-unit { text-align: center; min-width: 50px; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 8px; border: 1px solid #ddd; }
         .c-num { font-size: 20px; font-family: 'Oswald'; color: var(--gold); display: block; }
 
         .v-card { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; width: 100%; border: 1px solid #eee; margin-top: 10px; }
-        .v-btn { display: inline-block; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 30px; color: #fff; margin-top: 10px; }
-        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: left; }
+        .v-btn { display: inline-block; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 30px; color: #fff; margin-top: 10px; border: none; cursor: pointer; }
+        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: left; width: 100%; }
     </style>
 </head>
 <body>
 
 <aside id="sidebar">
     <h1>Grandía Studio ✨</h1>
-    
+    <p style="font-size: 10px; text-align: center; color: #999;">Diseñador: Cecilia Landa</p>
+
     <div class="editor-card">
         <label>🎵 Música (ID YouTube)</label>
-        <input type="text" id="m-id" value="PwJ8HIDghLg" oninput="updateMusic()">
+        <input type="text" id="m-id" placeholder="Ej: PwJ8HIDghLg" oninput="updateMusic()">
         
         <label>🎨 Color de Fondo</label>
-        <input type="color" id="bg-col" value="#ffffff" oninput="updateBg()">
+        <input type="color" id="bg-col" value="#ffffff" oninput="updateStyle()">
         
-        <label>📅 Fecha del Evento</label>
+        <label>🖼️ Textura de Fondo (URL)</label>
+        <input type="text" id="bg-img" value="https://www.transparenttextures.com/patterns/white-marble.png" oninput="updateStyle()">
+
+        <label>📅 Fecha Cuenta Regresiva</label>
         <input type="datetime-local" id="event-date" value="2026-12-31T20:00">
     </div>
 
     <div id="editor-dynamic">
-        <p style="text-align:center; color:#999; font-size:11px; padding:20px;">Toca cualquier texto o foto para editar.</p>
+        <p style="text-align:center; color:#999; font-size:11px; padding:10px;">Toca cualquier elemento de la derecha para editar sus detalles.</p>
     </div>
 
-    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="saveData()">💾 GUARDAR TODO</button>
+    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="saveData()">💾 GUARDAR CAMBIOS</button>
 </aside>
 
 <main id="preview">
@@ -67,7 +72,7 @@
         <div id="phone">
             <div id="sortable-area">
                 
-                <section class="sec" id="s1" style="height:480px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800'); background-size: cover;">
+                <section class="sec" id="s1" style="height:480px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800'); background-size: cover; background-position: center;">
                     <div class="drag-handle">⠿</div>
                     <div class="movable" id="t1" style="font-family:'Great Vibes'; font-size:3.5rem; color:#fff;" onclick="openEditor('t1','text')">Sofía & Ale</div>
                     <div class="movable" id="t2" style="font-family:'Montserrat'; color:#fff; font-weight:bold; letter-spacing:3px; top:10px;" onclick="openEditor('t2','text')">¡NOS CASAMOS!</div>
@@ -108,8 +113,8 @@
                 <section class="sec" id="s_map">
                     <div class="drag-handle">⠿</div>
                     <div class="v-card movable" id="map_card">
-                        <b>Parroquia de Tunkás</b><br>
-                        <a href="#" class="v-btn" style="background:var(--gold);">VER MAPA</a>
+                        <b id="loc_name" onclick="openEditor('loc_name','text')">Parroquia de Tunkás</b><br>
+                        <a href="#" class="v-btn" id="btn_map" style="background:var(--gold);" onclick="openEditor('btn_map','btn')">VER MAPA</a>
                     </div>
                 </section>
 
@@ -124,6 +129,7 @@
 </main>
 
 <script>
+    // SISTEMA DE MOVIMIENTO REFORZADO
     function makeMovable(el) {
         let p1=0, p2=0, p3=0, p4=0;
         el.onmousedown = start; el.ontouchstart = start;
@@ -141,37 +147,48 @@
         function stop() { document.onmouseup=null; document.onmousemove=null; document.ontouchend=null; document.ontouchmove=null; saveData(); }
     }
 
+    // EDITOR DINÁMICO
     function openEditor(id, type) {
         const el = document.getElementById(id);
-        let h = `<div class="editor-card"><h3>Editar</h3>`;
-        if(type==='text') h += `<label>Texto</label><textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>');saveData()">${el.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
-        if(type==='img') h += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value;saveData()">`;
-        if(type==='btn') h += `<label>Texto Botón</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value;saveData()">`;
+        let h = `<div class="editor-card"><h3>Configurar Elemento</h3>`;
+        if(type==='text') h += `<label>Contenido</label><textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>');saveData()">${el.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
+        if(type==='img') h += `<label>Link de la Foto</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value;saveData()">`;
+        if(type==='btn') h += `<label>Texto del Botón</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value;saveData()">`;
         h += `<label>Color</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value;saveData()"></div>`;
         document.getElementById('editor-dynamic').innerHTML = h;
     }
 
-    function updateBg() { document.getElementById('phone').style.backgroundColor = document.getElementById('bg-col').value; saveData(); }
+    function updateStyle() {
+        const p = document.getElementById('phone');
+        p.style.backgroundColor = document.getElementById('bg-col').value;
+        p.style.backgroundImage = `url('${document.getElementById('bg-img').value}')`;
+        saveData();
+    }
     
     function updateMusic() {
         const id = document.getElementById('m-id').value;
         const old = document.getElementById('music-player'); if(old) old.remove();
         const d = document.createElement('div'); d.id = 'music-player';
         d.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
-        document.body.appendChild(d); saveData();
+        document.body.appendChild(d);
     }
 
     function saveData() { 
-        localStorage.setItem('cecilia_v_def', document.getElementById('sortable-area').innerHTML);
-        localStorage.setItem('cecilia_bg', document.getElementById('bg-col').value);
+        localStorage.setItem('inv_v_total', document.getElementById('sortable-area').innerHTML);
+        localStorage.setItem('inv_bg', document.getElementById('bg-col').value);
+        localStorage.setItem('inv_texture', document.getElementById('bg-img').value);
     }
 
     window.onload = () => {
-        const saved = localStorage.getItem('cecilia_v_def');
+        const saved = localStorage.getItem('inv_v_total');
         if(saved) document.getElementById('sortable-area').innerHTML = saved;
-        const sBg = localStorage.getItem('cecilia_bg');
+        
+        const sBg = localStorage.getItem('inv_bg');
         if(sBg) { document.getElementById('phone').style.backgroundColor = sBg; document.getElementById('bg-col').value = sBg; }
         
+        const sTex = localStorage.getItem('inv_texture');
+        if(sTex) { document.getElementById('phone').style.backgroundImage = `url('${sTex}')`; document.getElementById('bg-img').value = sTex; }
+
         document.querySelectorAll('.movable').forEach(makeMovable);
         new Sortable(document.getElementById('sortable-area'), { handle: '.drag-handle', animation: 150 });
         
