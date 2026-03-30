@@ -3,64 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día Studio - Editor Maestro V22.0</title>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <title>Mi Gran día Studio - VERSIÓN FINAL OMNI</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Alex+Brush&family=Cormorant+Garamond:ital,wght@0,400;1,500&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Alex+Brush&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
     <style>
         :root { --p-width: 450px; --accent: #d4a373; --bg-phone: #ffffff; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #cbd5e1; height: 100vh; overflow: hidden; }
 
-        /* PANEL IZQUIERDO */
+        /* PANEL DE CONTROL */
         #sidebar { width: var(--p-width); background: #ffffff; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; overflow-y: auto; padding: 30px; box-sizing: border-box; }
         .editor-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 20px; animation: fadeIn 0.3s; }
         h1 { font-family: 'Dancing Script'; color: var(--accent); font-size: 32px; margin: 0; }
         label { display: block; font-size: 10px; font-weight: 800; color: #64748b; margin: 15px 0 5px; text-transform: uppercase; }
         input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; background: white; margin-bottom: 10px; box-sizing: border-box; }
         .flex { display: flex; gap: 10px; align-items: center; }
+        .btn-align { flex: 1; padding: 8px; border: 1px solid #cbd5e1; background: white; cursor: pointer; border-radius: 5px; }
+        .btn-delete { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 12px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px; }
 
-        /* VISTA PREVIA */
+        /* VISTA PREVIA CELULAR */
         #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        #phone { width: 375px; height: 812px; border: 14px solid #111; border-radius: 55px; background: var(--bg-phone); overflow-y: auto; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); scroll-behavior: smooth; }
+        #phone { width: 375px; height: 812px; border: 14px solid #111; border-radius: 55px; background: var(--bg-phone); overflow-y: auto; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); }
 
         /* SECCIONES */
-        .sec { padding: 40px 25px; text-align: center; position: relative; cursor: default; transition: 0.3s; box-sizing: border-box; }
-        .sec:hover { outline: 2px dashed var(--accent); background: rgba(212, 163, 115, 0.02); }
-        .drag-handle { position: absolute; left: 5px; top: 50%; transform: translateY(-50%); cursor: grab; font-size: 20px; color: #cbd5e1; opacity: 0; transition: 0.3s; }
-        .sec:hover .drag-handle { opacity: 1; }
-
-        .e-text, .e-img { cursor: pointer; transition: 0.2s; display: inline-block; width: 100%; }
-        .hero { height: 500px; background-size: cover; background-position: center; display: flex; flex-direction: column; justify-content: center; color: white; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .v-img { width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); margin: 10px 0; display: block; object-fit: cover; height: 300px; }
+        .sec { padding: 40px 25px; position: relative; transition: 0.3s; display: flex; flex-direction: column; }
+        .drag-handle { position: absolute; left: 5px; top: 5px; cursor: grab; font-size: 20px; color: #ccc; z-index: 30; background: white; border-radius: 5px; }
         
-        .v-card-btn { background: #ffffff; padding: 25px; border-radius: 25px; box-shadow: 0 15px 40px rgba(0,0,0,0.06); border: 1px solid #f1f5f9; margin-top: 15px; cursor: pointer; }
-        .v-btn { display: block; width: 100%; padding: 18px; text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; border-radius: 40px; margin-top: 10px; border: none; text-align: center; cursor: pointer; }
+        .e-text { cursor: pointer; display: block; width: 100%; }
+        .v-card-btn { background: #ffffff; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 10px; }
+        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 40px; text-align: center; }
+        .v-img { width: 100%; border-radius: 20px; object-fit: cover; height: 250px; margin: 10px 0; cursor: pointer; }
 
-        /* CONTADOR */
-        .countdown { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
-        .count-unit { background: rgba(0,0,0,0.03); padding: 10px 5px; border-radius: 12px; min-width: 60px; border: 1px solid rgba(0,0,0,0.05); }
-        .count-num { display: block; font-family: 'Oswald', sans-serif; font-size: 24px; color: var(--accent); line-height: 1; }
-        .count-lab { font-size: 8px; text-transform: uppercase; color: #888; }
-
-        .it-row { display: flex; align-items: center; gap: 20px; text-align: left; margin-bottom: 20px; }
-        .it-icon { font-size: 28px; color: var(--accent); }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .countdown { display: flex; justify-content: inherit; gap: 8px; margin-top: 15px; }
+        .count-unit { background: rgba(0,0,0,0.04); padding: 10px 5px; border-radius: 12px; min-width: 60px; text-align: center; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <aside id="sidebar">
     <h1>Mi Grandía ✨</h1>
-    <p style="font-size:11px; color:#94a3b8; margin-bottom:20px;">Edita tocando elementos. Arrastra desde los puntos (⠿) para reordenar.</p>
     <div id="editor-container">
         <div class="editor-card">
-            <h2>⚙️ Ajustes Base</h2>
-            <label>ID Música (YouTube)</label>
-            <input type="text" id="in-music" value="PwJ8HIDghLg" oninput="updateMusic()">
+            <h2>⚙️ General</h2>
             <label>Fondo Invitación</label>
             <input type="color" id="in-bg" value="#ffffff" oninput="syncPage()">
+            <label>Música ID (YouTube)</label>
+            <input type="text" id="in-music" value="PwJ8HIDghLg" oninput="updateMusic()">
         </div>
     </div>
 </aside>
@@ -69,76 +59,58 @@
     <div id="phone">
         <div id="sortable-area">
             
-            <section class="sec hero" id="s-hero" style="background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=600');" onclick="openEditor('s-hero', 'Portada', 'bg')">
+            <section class="sec" id="s-portada" style="height:450px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=600'); background-size:cover; justify-content:center; text-align:center;" onclick="openEditor('s-portada', 'Portada', 'bg')">
                 <div class="drag-handle">⠿</div>
-                <span class="e-text" id="t-occ" style="font-size:12px; letter-spacing:5px;" onclick="event.stopPropagation(); openEditor('t-occ', 'Ocasión')">NUESTRA BODA</span>
-                <span class="e-text" id="t-names" style="font-family:'Great Vibes'; font-size:3.5rem; margin:10px 0;" onclick="event.stopPropagation(); openEditor('t-names', 'Nombres')">Sofía & Ale</span>
-                <span class="e-text" id="t-date" style="font-size:16px;" onclick="event.stopPropagation(); openEditor('t-date', 'Fecha')">31 . 12 . 2026</span>
+                <span class="e-text" id="t-names" style="font-family:'Great Vibes'; font-size:3.5rem; color:white; text-shadow:2px 2px 8px rgba(0,0,0,0.6);" onclick="event.stopPropagation(); openEditor('t-names', 'Nombres')">Sofía & Ale</span>
             </section>
 
-            <section class="sec" id="s-count" onclick="openEditor('s-count', 'Contador', 'timer')">
+            <section class="sec" id="s-contador" style="text-align:center;" onclick="openEditor('s-contador', 'Contador', 'timer')">
                 <div class="drag-handle">⠿</div>
-                <span id="t-count-tit" class="e-text" style="font-size:11px; letter-spacing:3px; font-weight:bold;" onclick="event.stopPropagation(); openEditor('t-count-tit', 'Título Contador')">FALTAN:</span>
-                <div class="countdown">
-                    <div class="count-unit" id="cu-1"><b class="count-num" id="d">00</b><span class="count-lab">Días</span></div>
-                    <div class="count-unit" id="cu-2"><b class="count-num" id="h">00</b><span class="count-lab">Hs</span></div>
-                    <div class="count-unit" id="cu-3"><b class="count-num" id="m">00</b><span class="count-lab">Min</span></div>
-                    <div class="count-unit" id="cu-4"><b class="count-num" id="s">00</b><span class="count-lab">Seg</span></div>
+                <div class="countdown" id="c-wrap" style="justify-content:center;">
+                    <div class="count-unit"><b id="d">00</b><br><small>Días</small></div>
+                    <div class="count-unit"><b id="h">00</b><br><small>Hrs</small></div>
+                    <div class="count-unit"><b id="m">00</b><br><small>Min</small></div>
                 </div>
                 <input type="hidden" id="count-date-val" value="2026-12-31T20:00">
             </section>
 
-            <section class="sec" id="s-msg">
+            <section class="sec" id="s-mensaje" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <span class="e-text" id="t-msg-t" style="font-family:'Cinzel'; font-size:1.5rem; color:var(--accent);" onclick="openEditor('t-msg-t', 'Título')">Nuestro Amor</span>
-                <p class="e-text" id="t-msg-b" style="font-size:13px; color:#555; line-height:1.8;" onclick="openEditor('t-msg-b', 'Mensaje')">Caminaremos de la mano por siempre, construyendo una historia sin final.</p>
+                <p class="e-text" id="t-msg" style="font-size:14px; color:#555;" onclick="openEditor('t-msg', 'Mensaje Bienvenida')">¡Nuestra aventura comienza aquí!</p>
             </section>
 
-            <section class="sec" id="s-img2">
+            <section class="sec" id="s-foto2">
                 <div class="drag-handle">⠿</div>
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" class="v-img" id="v-img-2" onclick="openEditor('v-img-2', 'Foto 2', 'img')">
+                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" class="v-img" id="img-2" onclick="openEditor('img-2', 'Segunda Foto', 'img')">
             </section>
 
-            <section class="sec" id="s-familia">
+            <section class="sec" id="s-ubicacion" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <span class="e-text" id="t-fam-t1" style="font-size:14px; color:var(--accent); font-weight:bold;" onclick="openEditor('t-fam-t1', 'Título Padres')">Padres de los Novios</span>
-                <p class="e-text" id="t-fam-n1" style="font-size:13px; font-style:italic;" onclick="openEditor('t-fam-n1', 'Nombres Padres')">María García & Juan Pérez<br>Elena Soto & Carlos Ruiz</p>
-                <div style="height:20px;"></div>
-                <span class="e-text" id="t-fam-t2" style="font-size:14px; color:var(--accent); font-weight:bold;" onclick="openEditor('t-fam-t2', 'Título Padrinos')">Nuestros Padrinos</span>
-                <p class="e-text" id="t-fam-n2" style="font-size:13px;" onclick="openEditor('t-fam-n2', 'Nombres Padrinos')">Lucía Méndez & Roberto Lara</p>
-            </section>
-
-            <section class="sec" id="s-dress">
-                <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="card-dress" onclick="openEditor('card-dress', 'Cuadro Vestimenta', 'card')">
-                    <span id="t-dress-ico" class="e-text" style="font-size:30px;" onclick="event.stopPropagation(); openEditor('t-dress-ico', 'Icono')">👔</span>
-                    <p id="t-dress-t" class="e-text" style="font-weight:bold; color:var(--accent);" onclick="event.stopPropagation(); openEditor('t-dress-t', 'Título Dress')">Código de Vestimenta</p>
-                    <p id="t-dress-d" class="e-text" style="font-size:13px; margin:5px 0;" onclick="event.stopPropagation(); openEditor('t-dress-d', 'Tipo')">FORMAL / RIGUROSA</p>
+                <div class="v-card-btn" id="c-ubi" onclick="openEditor('c-ubi', 'Cuadro Ubicación', 'card')">
+                    <span id="u-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('u-t', 'Título Ubicación')">Ceremonia Religiosa</span>
+                    <div id="btn-w-u" style="text-align:center; margin-top:10px;">
+                        <a href="#" id="b-u" class="v-btn" style="background:var(--accent); color:white;" onclick="event.stopPropagation(); openEditor('b-u', 'Botón Mapa', 'btn')">Ver Mapa</a>
+                    </div>
                 </div>
             </section>
 
-            <section class="sec" id="s-it">
+            <section class="sec" id="s-foto3">
                 <div class="drag-handle">⠿</div>
-                <span class="e-text" id="it-main-t" style="font-family:'Cinzel'; font-size:1.5rem; color:var(--accent); margin-bottom:20px;" onclick="openEditor('it-main-t', 'Título Itinerario')">Itinerario</span>
-                <div class="it-row"><div class="it-icon">⛪</div><div><b id="it1-n" class="e-text" onclick="openEditor('it1-n', 'Acto 1')">Ceremonia</b><br><small id="it1-h" class="e-text" onclick="openEditor('it1-h', 'Hora 1')">6:00 PM</small></div></div>
-                <div class="it-row"><div class="it-icon">🥂</div><div><b id="it2-n" class="e-text" onclick="openEditor('it2-n', 'Acto 2')">Recepción</b><br><small id="it2-h" class="e-text" onclick="openEditor('it2-h', 'Hora 2')">8:00 PM</small></div></div>
+                <img src="https://images.unsplash.com/photo-1465495910483-0d6749ee9f4a?w=500" class="v-img" id="img-3" onclick="openEditor('img-3', 'Tercera Foto', 'img')">
             </section>
 
-            <section class="sec" id="s-map">
+            <section class="sec" id="s-regalos" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="card-map" onclick="openEditor('card-map', 'Cuadro Mapa', 'card')">
-                    <span id="t-map-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('t-map-t', 'Título Mapa')">Ubicación</span>
-                    <p id="t-map-d" class="e-text" style="font-size:12px; margin: 10px 0;" onclick="event.stopPropagation(); openEditor('t-map-d', 'Dirección')">Quinta las Flores, Mérida Yuc.</p>
-                    <a href="#" id="btn-map" class="v-btn" style="background:var(--accent); color:white;" onclick="event.stopPropagation(); openEditor('btn-map', 'Botón Maps', 'btn')">Ver Mapa</a>
+                <div class="v-card-btn" id="c-reg" style="border:1px dashed #ccc;" onclick="openEditor('c-reg', 'Cuadro Regalos', 'card')">
+                    <span id="r-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('r-t', 'Título Regalos')">Mesa de Regalos</span>
+                    <b id="r-clabe" class="e-text" style="margin-top:10px;" onclick="event.stopPropagation(); openEditor('r-clabe', 'Cuenta')">CLABE: 000 000 000</b>
                 </div>
             </section>
 
-            <section class="sec" id="s-gifts">
+            <section class="sec" id="s-reserva" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="card-gifts" style="border: 1px dashed var(--accent);" onclick="openEditor('card-gifts', 'Cuadro Regalos', 'card')">
-                    <span id="t-gift-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('t-gift-t', 'Título Regalos')">Mesa de Regalos</span>
-                    <p class="e-text" id="t-gift-b" style="font-size:12px; margin: 10px 0;" onclick="event.stopPropagation(); openEditor('t-gift-b', 'Detalle')">Si gustas darnos un detalle:</p>
-                    <b id="t-clabe" class="e-text" onclick="event.stopPropagation(); openEditor('t-clabe', 'Cuenta')">CLABE: 012 345 6789</b>
+                <div id="btn-w-res" style="text-align:center;">
+                    <a href="#" id="b-res" class="v-btn" style="background:#25D366; color:white;" onclick="event.stopPropagation(); openEditor('b-res', 'Botón WhatsApp', 'btn')">Confirmar Asistencia</a>
                 </div>
             </section>
 
@@ -146,64 +118,72 @@
     </div>
 </main>
 
-<div id="music-box" style="display:none;"></div>
-
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init();
-    new Sortable(document.getElementById('sortable-area'), { 
-        animation: 150, 
-        handle: '.drag-handle' 
-    });
+    new Sortable(document.getElementById('sortable-area'), { animation: 150, handle: '.drag-handle' });
 
     function openEditor(id, label, type = 'text') {
         const el = document.getElementById(id);
         const container = document.getElementById('editor-container');
+        const sectionId = el.closest('.sec').id;
+        
         let html = `<div class="editor-card"><h2>✎ ${label}</h2>`;
         
-        if(type === 'img') {
+        if(type === 'bg') {
+            html += `<label>URL Fondo Portada</label><input type="text" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'">`;
+        } else if(type === 'img') {
             html += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value">`;
-        } else if(type === 'bg') {
-            html += `<label>Fondo Portada (URL)</label><input type="text" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'">`;
         } else if(type === 'btn') {
             html += `
                 <label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value">
                 <label>Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
-                <label>Letra</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value">
+                <label>Redondeo</label><input type="range" min="0" max="50" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">
+                <label>Alineación</label>
+                <div class="flex">
+                    <button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='left'">Izq</button>
+                    <button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='center'">Centro</button>
+                </div>
             `;
         } else if(type === 'card') {
             html += `
-                <label>Color Fondo Cuadro</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
+                <label>Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
                 <label>Redondeo</label><input type="range" min="0" max="60" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">
             `;
         } else if(type === 'timer') {
-            html += `
-                <label>Fecha del Evento</label><input type="datetime-local" value="${document.getElementById('count-date-val').value}" oninput="document.getElementById('count-date-val').value=this.value; startCountdown();">
-                <label>Color Números</label><input type="color" oninput="updStyle('.count-num','color',this.value)">
-                <label>Fondo Círculos</label><input type="color" oninput="updStyle('.count-unit','backgroundColor',this.value)">
-            `;
+            html += `<label>Fecha Evento</label><input type="datetime-local" value="${document.getElementById('count-date-val').value}" oninput="document.getElementById('count-date-val').value=this.value; startCountdown();">`;
         } else {
-            const currentStyle = window.getComputedStyle(el);
             html += `
                 <label>Texto</label><textarea oninput="document.getElementById('${id}').innerText=this.value">${el.innerText}</textarea>
                 <label>Letra</label>
                 <select onchange="document.getElementById('${id}').style.fontFamily=this.value">
                     <option value="'Montserrat'">Montserrat</option><option value="'Great Vibes'">Great Vibes</option>
-                    <option value="'Cinzel'">Cinzel</option><option value="'Parisienne'">Parisienne</option>
-                    <option value="'Playfair Display'">Playfair Display</option><option value="'Oswald'">Oswald</option>
+                    <option value="'Cinzel'">Cinzel</option>
                 </select>
                 <div class="flex">
                     <div><label>Color</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value"></div>
-                    <div><label>Tamaño</label><input type="number" value="${parseInt(currentStyle.fontSize)}" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'"></div>
+                    <div><label>Tamaño</label><input type="number" value="${parseInt(window.getComputedStyle(el).fontSize)}" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'"></div>
+                </div>
+                <label>Alineación Texto</label>
+                <div class="flex">
+                    <button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='left'">Izq</button>
+                    <button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='center'">Centro</button>
+                    <button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='right'">Der</button>
                 </div>
             `;
         }
-        container.innerHTML = html + `</div>`;
+
+        html += `<button class="btn-delete" onclick="removeSection('${sectionId}')">🗑️ Eliminar esta sección</button>`;
+        html += `</div>`;
+        container.innerHTML = html;
     }
 
-    function updStyle(sel, prop, val) { document.querySelectorAll(sel).forEach(e => e.style[prop] = val); }
-    function syncPage() { document.documentElement.style.setProperty('--bg-phone', document.getElementById('in-bg').value); }
+    function removeSection(sid) {
+        if(confirm("¿Eliminar este bloque?")) {
+            document.getElementById(sid).remove();
+            document.getElementById('editor-container').innerHTML = '<p style="text-align:center; padding:20px; color:#94a3b8;">Sección eliminada.</p>';
+        }
+    }
 
+    function syncPage() { document.documentElement.style.setProperty('--bg-phone', document.getElementById('in-bg').value); }
     function startCountdown() {
         const target = new Date(document.getElementById('count-date-val').value).getTime();
         setInterval(() => {
@@ -212,19 +192,17 @@
                 document.getElementById('d').innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
                 document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
                 document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
-                document.getElementById('s').innerText = Math.floor((diff % 60000) / 1000).toString().padStart(2, '0');
             }
         }, 1000);
     }
-
     function updateMusic() {
         const val = document.getElementById('in-music').value;
-        const box = document.getElementById('music-box');
-        if(val.length > 5) box.innerHTML = `<iframe src="https://www.youtube.com/embed/${val}?autoplay=1" allow="autoplay"></iframe>`;
+        const oldBox = document.getElementById('music-player'); if(oldBox) oldBox.remove();
+        const box = document.createElement('div'); box.id = "music-player";
+        box.innerHTML = `<iframe src="https://www.youtube.com/embed/${val}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
+        document.body.appendChild(box);
     }
-
     startCountdown();
-    updateMusic();
 </script>
 </body>
 </html>
