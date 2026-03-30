@@ -3,154 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día - Editor Profesional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <title>Mi Gran día - Editor Maestro de Invitaciones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #d4a373; --bg-invitation: #ffffff; }
-        body { font-family: 'Montserrat', sans-serif; display: flex; margin: 0; background: #eef0f3; height: 100vh; overflow: hidden; }
+        :root { --accent: #d4a373; --bg-inv: #ffffff; }
+        body { font-family: 'Montserrat', sans-serif; display: flex; margin: 0; background: #d1d5db; height: 100vh; overflow: hidden; }
         
-        /* PANEL DE HERRAMIENTAS */
-        #editor-panel { width: 400px; background: white; padding: 25px; box-shadow: 4px 0 15px rgba(0,0,0,0.1); overflow-y: auto; z-index: 10; }
-        .tool-group { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-        h2 { font-size: 1.1rem; color: #444; margin-top: 0; display: flex; align-items: center; justify-content: space-between; }
-        .help { background: #ccc; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; cursor: help; text-align: center; display: inline-block; }
+        /* PANEL DE CONTROL IZQUIERDO */
+        #editor { width: 420px; background: white; padding: 20px; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.2); z-index: 10; }
+        .group { background: #f9f9f9; border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
+        h2 { font-size: 14px; text-transform: uppercase; color: #444; margin-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block; }
+        label { display: block; font-size: 11px; font-weight: bold; margin: 8px 0 3px; color: #666; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
         
-        label { display: block; font-size: 12px; font-weight: bold; color: #777; margin: 10px 0 5px; text-transform: uppercase; }
-        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 5px; }
+        /* VISTA PREVIA (CELULAR CON SCROLL) */
+        #viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        #phone { width: 360px; height: 720px; background: var(--bg-inv); border: 10px solid #222; border-radius: 40px; overflow-y: auto; overflow-x: hidden; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5); scroll-behavior: smooth; }
         
-        /* ÁREA DE PREVISUALIZACIÓN */
-        #preview-viewport { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 30px; overflow-y: auto; background: #d1d5db; }
-        #mobile-mockup { width: 360px; background: var(--bg-invitation); min-height: 750px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 8px solid #333; position: relative; padding-bottom: 40px; overflow-x: hidden; }
+        /* SECCIONES DE LA INVITACIÓN */
+        section { padding: 40px 20px; text-align: center; border-bottom: 1px solid #f0f0f0; }
+        .hero { height: 400px; background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display: flex; align-items: center; justify-content: center; color: white; flex-direction: column; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .v-names { font-size: 3rem; margin: 10px 0; }
+        .itinerary-row { display: flex; align-items: center; margin: 15px 0; text-align: left; gap: 15px; }
+        .btn { display: block; width: 90%; margin: 10px auto; padding: 12px; border-radius: 30px; text-decoration: none; color: white; background: var(--accent); font-weight: bold; font-size: 12px; }
         
-        /* ESTILOS DE LA INVITACIÓN */
-        .hero-img { width: 100%; height: 220px; background: #ddd url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80') center/cover; }
-        .content { padding: 20px; text-align: center; }
-        .v-names { font-size: 2.5rem; margin: 10px 0; color: #333; transition: 0.3s; }
-        
-        .itinerary-item { display: flex; align-items: center; text-align: left; margin: 15px 0; padding-left: 20px; border-left: 2px solid var(--accent); }
-        .icon { font-size: 24px; margin-right: 15px; }
-        .time { font-weight: bold; font-size: 14px; color: var(--accent); display: block; }
-        .btn-action { display: block; margin: 10px auto; padding: 12px; width: 85%; border-radius: 25px; text-decoration: none; color: white; background: var(--accent); font-weight: bold; font-size: 13px; }
-
-        #pay-blocker { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 100; color: white; text-align: center; justify-content: center; align-items: center; padding: 30px; box-sizing: border-box; flex-direction: column; }
+        /* ICONOS AYUDA */
+        .q { background: #999; color: white; border-radius: 50%; width: 15px; height: 15px; display: inline-block; font-size: 10px; text-align: center; cursor: help; }
     </style>
 </head>
 <body>
 
-<aside id="editor-panel">
-    <h1 style="color:var(--accent); margin-bottom:0;">Mi Grandía Editor ✨</h1>
-    <p style="font-size: 13px; color: #888; margin-bottom:20px;">Personalización profesional en tiempo real.</p>
-
-    <div class="tool-group">
-        <h2>Música de Fondo <span class="help" title="Pega el link de YouTube para que suene al abrir la invitación">?</span></h2>
-        <label>ID de Video YouTube</label>
-        <input type="text" id="in-music" placeholder="Ej: d6P0O-N2fTo" oninput="updateMusic()">
-    </div>
-
-    <div class="tool-group">
-        <h2>Estilo Visual <span class="help" title="Cambia colores y tipografía">?</span></h2>
-        <label>Color Principal</label>
-        <input type="color" id="in-color" value="#d4a373" oninput="sync()">
-        <label>Tipo de Letra</label>
-        <select id="in-font" onchange="sync()">
-            <option value="'Dancing Script', cursive">Elegante Cursiva</option>
-            <option value="'Playfair Display', serif">Clásica de Gala</option>
-            <option value="'Montserrat', sans-serif">Moderna Minimalista</option>
+<aside id="editor">
+    <h1 style="color:var(--accent); font-size: 22px;">Mi Grandía Studio ✨</h1>
+    
+    <div class="group">
+        <h2>1. Tipo de Evento <span class="q" title="Cambia los textos base automáticamente">?</span></h2>
+        <select id="event-type" onchange="changeType()">
+            <option value="Boda">Boda</option>
+            <option value="XV Años">XV Años</option>
+            <option value="Bautizo">Bautizo</option>
         </select>
     </div>
 
-    <div class="tool-group">
-        <h2>Contenido <span class="help" title="Nombres y horarios del evento">?</span></h2>
-        <label>Nombres</label>
-        <input type="text" id="in-names" value="Fernanda & Roberto" oninput="sync()">
-        <label>Ceremonia 💍</label>
-        <input type="text" id="in-time1" value="17:00 HRS" oninput="sync()">
-        <label>Banquete 🥂</label>
-        <input type="text" id="in-time2" value="19:30 HRS" oninput="sync()">
-        <label>Baile 💃</label>
-        <input type="text" id="in-time3" value="21:00 HRS" oninput="sync()">
+    <div class="group">
+        <h2>2. Diseño y Música <span class="q" title="Fuentes, colores y YouTube">?</span></h2>
+        <label>Color Temático</label>
+        <input type="color" id="in-color" value="#d4a373" oninput="update()">
+        <label>Fuente Principal</label>
+        <select id="in-font" onchange="update()">
+            <option value="'Dancing Script', cursive">Elegante Cursiva</option>
+            <option value="'Great Vibes', cursive">Script Clásica</option>
+            <option value="'Playfair Display', serif">Gala Romana</option>
+            <option value="'Montserrat', sans-serif">Moderna</option>
+        </select>
+        <label>ID Música YouTube</label>
+        <input type="text" id="in-music" placeholder="Ej: d6P0O-N2fTo" oninput="playMusic()">
     </div>
 
-    <div class="tool-group">
-        <h2>Enlaces <span class="help" title="Botones interactivos para tus invitados">?</span></h2>
-        <label>Link Google Maps</label>
-        <input type="text" id="link-church" placeholder="Pegar enlace de mapa..." oninput="sync()">
+    <div class="group">
+        <h2>3. Nombres y Mensaje <span class="q" title="Lo que verán al inicio">?</span></h2>
+        <input type="text" id="in-names" value="Fernanda & Roberto" oninput="update()">
+        <textarea id="in-msg" oninput="update()">Nuestra historia no tiene fin, apenas comienza...</textarea>
     </div>
 
-    <button onclick="pay()" style="width:100%; padding: 18px; background: #22c55e; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);">
-        FINALIZAR Y PAGAR 💳
+    <div class="group">
+        <h2>4. Secciones Especiales <span class="q" title="Mesa de regalos, sobres, etc.">?</span></h2>
+        <label>Mesa de Regalos (Tienda)</label>
+        <input type="text" id="in-mesa" value="Liverpool - Folio 12345" oninput="update()">
+        <label>Lluvia de Sobres</label>
+        <input type="text" id="in-sobres" value="Habrá un baúl para sus detalles en la entrada." oninput="update()">
+    </div>
+
+    <button onclick="download()" style="width:100%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
+        GENERAR E IMPRIMIR 📥
     </button>
 </aside>
 
-<main id="preview-viewport">
-    <div id="mobile-mockup">
+<main id="viewport">
+    <div id="phone">
+        <div id="music-box"></div>
         
-        <div id="pay-blocker">
-            <h3>¡Se ve espectacular! 😍</h3>
-            <p>Tu invitación personalizada está lista para ser enviada.</p>
-            <p style="font-size: 13px; color: #aaa;">Al pagar obtendrás tu enlace permanente y el archivo descargable.</p>
-            <button onclick="location.reload()" style="background:white; color:black; border:none; padding:12px 25px; border-radius:25px; cursor:pointer; font-weight:bold; margin-top:20px;">Seguir Editando</button>
-        </div>
+        <section class="hero" id="v-hero">
+            <p id="v-event-tag">¡Nuestra Boda!</p>
+            <h1 class="v-names" id="v-names">Fernanda & Roberto</h1>
+        </section>
 
-        <div id="music-container"></div> <div class="hero-img"></div>
-        <div class="content">
-            <h1 class="v-names" id="v-names" style="font-family: 'Dancing Script', cursive;">Fernanda & Roberto</h1>
-            <p style="font-style: italic; color: #888; font-size: 14px;">¡Nos casamos!</p>
-            
-            <hr style="width: 40%; border: 0.5px solid #eee; margin: 20px auto;">
+        <section>
+            <h3 id="v-font-title">Nuestra Historia</h3>
+            <p id="v-msg" style="font-style: italic; color: #666;">Nuestra historia no tiene fin, apenas comienza...</p>
+        </section>
 
-            <div style="text-align: left; padding: 0 10px;">
-                <h3 style="font-size: 14px; margin-bottom: 20px; letter-spacing: 1px; color:#444;">📍 ITINERARIO</h3>
-                
-                <div class="itinerary-item">
-                    <span class="icon">💍</span>
-                    <div><span class="time" id="v-time1">17:00 HRS</span><span style="font-size: 13px; color:#666;">Ceremonia Religiosa</span></div>
-                </div>
-
-                <div class="itinerary-item">
-                    <span class="icon">🥂</span>
-                    <div><span class="time" id="v-time2">19:30 HRS</span><span style="font-size: 13px; color:#666;">Recepción y Banquete</span></div>
-                </div>
-
-                <div class="itinerary-item">
-                    <span class="icon">💃</span>
-                    <div><span class="time" id="v-time3">21:00 HRS</span><span style="font-size: 13px; color:#666;">¡Gran Festejo!</span></div>
-                </div>
+        <section style="background: #fafafa;">
+            <h3>📍 ¿Dónde y Cuándo?</h3>
+            <div class="itinerary-row">
+                <span style="font-size: 30px;">💍</span>
+                <div><b>Ceremonia Religiosa</b><br><small id="v-t1">17:00 HRS - Iglesia de Tunkás</small></div>
             </div>
+            <div class="itinerary-row">
+                <span style="font-size: 30px;">🥂</span>
+                <div><b>Recepción</b><br><small id="v-t2">19:30 HRS - Hacienda San José</small></div>
+            </div>
+            <a href="#" class="btn">VER UBICACIÓN GOOGLE MAPS</a>
+        </section>
 
-            <a href="#" class="btn-action" id="v-btn">📍 VER MAPA DEL EVENTO</a>
-            <a href="https://wa.me/9911105456" class="btn-action" style="background:#25d366">💬 CONFIRMAR ASISTENCIA</a>
-        </div>
+        <section>
+            <h3>🎁 Detalles y Regalos</h3>
+            <p><b>Mesa de Regalos:</b> <span id="v-mesa">Liverpool - Folio 12345</span></p>
+            <p style="font-size: 13px; border: 1px dashed var(--accent); padding: 10px;" id="v-sobres">
+                Habrá un baúl para sus detalles en la entrada.
+            </p>
+        </section>
+
+        <section>
+            <h3>📩 Confirmación</h3>
+            <p>Favor de confirmar antes del 15 de Octubre</p>
+            <a href="#" class="btn" style="background: #25d366;">CONFIRMAR POR WHATSAPP</a>
+        </section>
+        
+        <p style="text-align: center; font-size: 10px; color: #ccc;">Diseñado en migrandia.mx</p>
     </div>
 </main>
 
 <script>
-    function sync() {
-        // Nombres y Fuentes
-        const nameDisplay = document.getElementById('v-names');
-        nameDisplay.innerText = document.getElementById('in-names').value;
-        nameDisplay.style.fontFamily = document.getElementById('in-font').value;
-        
-        // Color Temático
+    function update() {
+        // Colores y Fuentes
         const color = document.getElementById('in-color').value;
         document.documentElement.style.setProperty('--accent', color);
+        
+        const font = document.getElementById('in-font').value;
+        document.getElementById('v-names').style.fontFamily = font;
 
-        // Tiempos
-        document.getElementById('v-time1').innerText = document.getElementById('in-time1').value;
-        document.getElementById('v-time2').innerText = document.getElementById('in-time2').value;
-        document.getElementById('v-time3').innerText = document.getElementById('in-time3').value;
+        // Textos
+        document.getElementById('v-names').innerText = document.getElementById('in-names').value;
+        document.getElementById('v-msg').innerText = document.getElementById('in-msg').value;
+        document.getElementById('v-mesa').innerText = document.getElementById('in-mesa').value;
+        document.getElementById('v-sobres').innerText = document.getElementById('in-sobres').value;
     }
 
-    function updateMusic() {
+    function changeType() {
+        const type = document.getElementById('event-type').value;
+        document.getElementById('v-event-tag').innerText = "¡Mis " + type + "!";
+        if(type === "XV Años") {
+            document.getElementById('v-event-tag').innerText = "¡Mis XV Años!";
+            document.getElementById('in-names').value = "Lucía Valentina";
+        }
+        update();
+    }
+
+    function playMusic() {
         const id = document.getElementById('in-music').value;
         if(id.length > 5) {
-            document.getElementById('music-container').innerHTML = 
-                `<iframe width="0" height="0" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+            document.getElementById('music-box').innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
         }
     }
 
-    function pay() {
-        document.getElementById('pay-blocker').style.display = 'flex';
+    function download() {
+        alert("¡Felicidades! Tu invitación personalizada de " + document.getElementById('in-names').value + " se está generando...");
     }
 </script>
 
