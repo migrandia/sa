@@ -3,163 +3,310 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día - Editor Maestro de Invitaciones</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Great+Vibes&display=swap" rel="stylesheet">
+    <title>Mi Grandía - Editor Supremo de Invitaciones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
     <style>
-        :root { --accent: #d4a373; --bg-inv: #ffffff; }
-        body { font-family: 'Montserrat', sans-serif; display: flex; margin: 0; background: #d1d5db; height: 100vh; overflow: hidden; }
+        :root { --accent: #d4a373; --bg-invitation: #ffffff; --text-color: #555; }
+        body { font-family: 'Montserrat', sans-serif; display: flex; margin: 0; background: #cbd5e1; height: 100vh; overflow: hidden; color: var(--text-color); }
         
-        /* PANEL DE CONTROL IZQUIERDO */
-        #editor { width: 420px; background: white; padding: 20px; overflow-y: auto; box-shadow: 5px 0 15px rgba(0,0,0,0.2); z-index: 10; }
-        .group { background: #f9f9f9; border: 1px solid #eee; padding: 15px; border-radius: 10px; margin-bottom: 15px; }
-        h2 { font-size: 14px; text-transform: uppercase; color: #444; margin-bottom: 10px; border-bottom: 2px solid var(--accent); display: inline-block; }
-        label { display: block; font-size: 11px; font-weight: bold; margin: 8px 0 3px; color: #666; }
-        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        /* --- PANEL DE HERRAMIENTAS IZQUIERDO --- */
+        #editor-studio { width: 440px; background: white; padding: 25px; overflow-y: auto; box-shadow: 6px 0 20px rgba(0,0,0,0.15); z-index: 100; scroll-behavior: smooth; }
+        #editor-studio h1 { font-family: 'Dancing Script', cursive; color: var(--accent); font-size: 26px; margin-top: 0; margin-bottom: 5px; }
+        #editor-studio p { font-size: 13px; color: #888; margin-bottom: 25px; }
         
-        /* VISTA PREVIA (CELULAR CON SCROLL) */
-        #viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        #phone { width: 360px; height: 720px; background: var(--bg-inv); border: 10px solid #222; border-radius: 40px; overflow-y: auto; overflow-x: hidden; position: relative; box-shadow: 0 25px 50px rgba(0,0,0,0.5); scroll-behavior: smooth; }
+        .tool-group { background: #fdfdfd; border: 1px solid #f0f0f0; padding: 18px; border-radius: 12px; margin-bottom: 20px; transition: 0.3s; }
+        .tool-group:hover { box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-color: #e0e0e0; }
+        .tool-group h2 { font-size: 13px; text-transform: uppercase; color: #333; margin-top: 0; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; font-weight: 700; }
         
-        /* SECCIONES DE LA INVITACIÓN */
-        section { padding: 40px 20px; text-align: center; border-bottom: 1px solid #f0f0f0; }
-        .hero { height: 400px; background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display: flex; align-items: center; justify-content: center; color: white; flex-direction: column; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .v-names { font-size: 3rem; margin: 10px 0; }
-        .itinerary-row { display: flex; align-items: center; margin: 15px 0; text-align: left; gap: 15px; }
-        .btn { display: block; width: 90%; margin: 10px auto; padding: 12px; border-radius: 30px; text-decoration: none; color: white; background: var(--accent); font-weight: bold; font-size: 12px; }
+        .help-icon { background: #bbb; color: white; border-radius: 50%; width: 16px; height: 16px; font-size: 10px; cursor: help; text-align: center; line-height: 16px; display: inline-block; }
         
-        /* ICONOS AYUDA */
-        .q { background: #999; color: white; border-radius: 50%; width: 15px; height: 15px; display: inline-block; font-size: 10px; text-align: center; cursor: help; }
+        label { display: block; font-size: 11px; font-weight: 700; color: #777; margin: 10px 0 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; font-size: 13px; transition: 0.2s; font-family: inherit; }
+        input:focus, select:focus, textarea:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 2px rgba(212, 163, 115, 0.2); }
+        
+        /* --- BOTÓN DE DESCARGA FINAL --- */
+        #btn-generate { width: 100%; padding: 18px; background: #007bff; color: white; border: none; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 16px; box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3); transition: 0.3s; margin-top: 10px; }
+        #btn-generate:hover { background: #0069d9; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.4); }
+
+        /* --- VISTA PREVIA (CELULAR CON SCROLL) --- */
+        #viewport-container { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 30px; }
+        #phone-mockup { width: 375px; height: 750px; background: var(--bg-invitation); border: 12px solid #1a1a1a; border-radius: 45px; overflow-y: auto; overflow-x: hidden; position: relative; box-shadow: 0 30px 60px rgba(0,0,0,0.5); scroll-behavior: smooth; border-bottom-width: 25px; border-top-width: 20px; }
+        #phone-mockup::-webkit-scrollbar { width: 6px; }
+        #phone-mockup::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.2); border-radius: 3px; }
+
+        /* --- ESTILOS DE LA INVITACIÓN --- */
+        .inv-section { padding: 50px 25px; text-align: center; border-bottom: 1px solid #f2f2f2; position: relative; }
+        .inv-section h3 { font-family: 'Noto Serif', serif; font-style: italic; font-weight: 400; font-size: 22px; color: var(--accent); margin-top: 0; margin-bottom: 25px; text-transform: none; letter-spacing: 0; }
+        
+        /* Hero (Portada) */
+        .hero { height: 450px; background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display: flex; align-items: center; justify-content: center; color: white; flex-direction: column; text-shadow: 2px 2px 10px rgba(0,0,0,0.6); position: relative; padding: 0; border-bottom: none; }
+        .v-names { font-family: 'Great Vibes', cursive; font-size: 3.5rem; margin: 15px 0 10px; transition: font-family 0.3s; }
+        .v-event-tag { font-size: 14px; text-transform: uppercase; letter-spacing: 2px; font-weight: 700; color: rgba(255,255,255,0.9); }
+        .music-status { position: absolute; top: 15px; right: 20px; font-size: 10px; background: rgba(0,0,0,0.5); color: white; padding: 4px 8px; border-radius: 12px; display: none; }
+
+        /* Itinerario y Ubicación */
+        .v-itinerary-item { display: flex; align-items: flex-start; text-align: left; margin: 20px 0; gap: 20px; padding: 0 10px; }
+        .v-itinerary-item .icon { font-size: 32px; min-width: 40px; text-align: center; color: var(--accent); }
+        .v-itinerary-item div { flex-grow: 1; }
+        .v-itinerary-item .time { font-weight: 700; font-size: 15px; color: var(--accent); display: block; margin-bottom: 3px; }
+        .v-itinerary-item .activity { font-size: 14px; font-weight: 400; color: var(--text-color); line-height: 1.4; }
+
+        .btn-action { display: block; width: 85%; margin: 10px auto; padding: 14px; border-radius: 30px; text-decoration: none; color: white; background: var(--accent); font-weight: 700; font-size: 13px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
+        .btn-action:hover { opacity: 0.9; transform: scale(1.03); }
+
+        /* Mesa de Regalos y Sobres */
+        .gifts-box { display: flex; flex-direction: column; gap: 15px; text-align: left; }
+        .gift-item { background: #fafafa; border: 1px solid #f0f0f0; border-radius: 10px; padding: 15px; font-size: 14px; }
+        .gift-item b { color: var(--accent); font-size: 15px; display: block; margin-bottom: 5px; }
+
+        /* Confirmación */
+        .v-date-tag { display: inline-block; padding: 10px 20px; border: 1.5px solid var(--accent); font-family: 'Great Vibes', cursive; font-size: 20px; margin-bottom: 20px; color: var(--accent); }
+
     </style>
 </head>
 <body>
 
-<aside id="editor">
-    <h1 style="color:var(--accent); font-size: 22px;">Mi Grandía Studio ✨</h1>
+<aside id="editor-studio">
+    <h1>Mi Grandía Studio ✨</h1>
+    <p>La herramienta más potente para crear tu invitación digital única.</p>
     
-    <div class="group">
-        <h2>1. Tipo de Evento <span class="q" title="Cambia los textos base automáticamente">?</span></h2>
-        <select id="event-type" onchange="changeType()">
+    <div class="tool-group">
+        <h2>1. Evento y Estilo <span class="help-icon" title="Configura los cimientos de tu invitación">?</span></h2>
+        <label>Tipo de Evento</label>
+        <select id="event-type" onchange="changeEventType()">
             <option value="Boda">Boda</option>
             <option value="XV Años">XV Años</option>
             <option value="Bautizo">Bautizo</option>
         </select>
-    </div>
-
-    <div class="group">
-        <h2>2. Diseño y Música <span class="q" title="Fuentes, colores y YouTube">?</span></h2>
-        <label>Color Temático</label>
-        <input type="color" id="in-color" value="#d4a373" oninput="update()">
-        <label>Fuente Principal</label>
-        <select id="in-font" onchange="update()">
-            <option value="'Dancing Script', cursive">Elegante Cursiva</option>
-            <option value="'Great Vibes', cursive">Script Clásica</option>
-            <option value="'Playfair Display', serif">Gala Romana</option>
-            <option value="'Montserrat', sans-serif">Moderna</option>
+        <label>Fuente Principal (Título)</label>
+        <select id="in-font-vnames" onchange="updateView()">
+            <option value="'Great Vibes', cursive">Great Vibes (Script Clásica)</option>
+            <option value="'Dancing Script', cursive">Dancing Script (Elegante)</option>
+            <option value="'Parisienne', cursive">Parisienne (Sofisticada)</option>
+            <option value="'Playfair Display', serif">Playfair Display (Gala)</option>
         </select>
-        <label>ID Música YouTube</label>
-        <input type="text" id="in-music" placeholder="Ej: d6P0O-N2fTo" oninput="playMusic()">
+        <label>Color Temático</label>
+        <input type="color" id="in-accent-color" value="#d4a373" oninput="updateView()">
+        <label>Música de Fondo (ID YouTube)</label>
+        <input type="text" id="in-music-id" placeholder="Ej: d6P0O-N2fTo" oninput="playMusic()">
+        <p style="font-size: 9px; color: #aaa; margin-top: -5px;">Pega el código final del enlace de YouTube.</p>
     </div>
 
-    <div class="group">
-        <h2>3. Nombres y Mensaje <span class="q" title="Lo que verán al inicio">?</span></h2>
-        <input type="text" id="in-names" value="Fernanda & Roberto" oninput="update()">
-        <textarea id="in-msg" oninput="update()">Nuestra historia no tiene fin, apenas comienza...</textarea>
+    <div class="tool-group">
+        <h2>2. Nombres y Mensaje <span class="help-icon" title="Lo que verán al inicio">?</span></h2>
+        <label>Nombre(s)</label>
+        <input type="text" id="in-names" value="Sofía & Alejandro" oninput="updateView()">
+        <label>Mensaje de Bienvenida</label>
+        <textarea id="in-hero-msg" oninput="updateView()">Nuestra historia no tiene fin, apenas comienza...</textarea>
     </div>
 
-    <div class="group">
-        <h2>4. Secciones Especiales <span class="q" title="Mesa de regalos, sobres, etc.">?</span></h2>
-        <label>Mesa de Regalos (Tienda)</label>
-        <input type="text" id="in-mesa" value="Liverpool - Folio 12345" oninput="update()">
-        <label>Lluvia de Sobres</label>
-        <input type="text" id="in-sobres" value="Habrá un baúl para sus detalles en la entrada." oninput="update()">
+    <div class="tool-group">
+        <h2>3. Itinerario Dinámico <span class="help-icon" title="Añade o quita eventos y personaliza iconos">?</span></h2>
+        <div id="itinerary-list">
+            <div class="group" style="border:none; padding:0; background:none;">
+                <label>Hora Ceremonia 💍</label>
+                <input type="text" id="in-t1" value="17:00 HRS - Iglesia de Nuestra Señora" oninput="updateView()">
+                <label>Hora Recepción 🥂</label>
+                <input type="text" id="in-t2" value="19:30 HRS - Hacienda San José" oninput="updateView()">
+            </div>
+        </div>
+        <p style="font-size: 11px; color: #999;">Estamos trabajando en un sistema para que puedas añadir y mover más eventos fácilmente.</p>
     </div>
 
-    <button onclick="download()" style="width:100%; padding: 15px; background: #007bff; color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer;">
-        GENERAR E IMPRIMIR 📥
-    </button>
+    <div class="tool-group">
+        <h2>4. Mesa de Regalos y Sobres <span class="help-icon" title="Facilita los detalles a tus invitados">?</span></h2>
+        <label>Tienda y Folio 🎁</label>
+        <input type="text" id="in-mesa" value="Mesa de Regalos Liverpool: Sofía Ale" oninput="updateView()">
+        <label>Mensaje Lluvia de Sobres ✉️</label>
+        <textarea id="in-sobres" oninput="updateView()">Habrá un baúl para sus detalles en la entrada. ¡Gracias!</textarea>
+    </div>
+
+    <div class="tool-group">
+        <h2>5. Confirmación <span class="help-icon" title="Fecha límite y mensaje de WhatsApp">?</span></h2>
+        <label>Fecha Límite</label>
+        <input type="date" id="in-confirm-date" value="2026-10-15" onchange="updateView()">
+        <label>Número WhatsApp (Solo números)</label>
+        <input type="text" id="in-whatsapp" value="9911105456" oninput="updateView()">
+    </div>
+
+    <button id="btn-generate" onclick="generateAndPay()">GENERAR E IMPRIMIR INVITACIÓN FINAL 📥</button>
+    <p style="text-align: center; font-size: 11px; margin-top: 15px;">Estamos trabajando en la función de "Pagar y Descargar". Por ahora, esta es una previsualización completa.</p>
 </aside>
 
-<main id="viewport">
-    <div id="phone">
-        <div id="music-box"></div>
+<main id="viewport-container">
+    <div id="phone-mockup">
         
-        <section class="hero" id="v-hero">
-            <p id="v-event-tag">¡Nuestra Boda!</p>
-            <h1 class="v-names" id="v-names">Fernanda & Roberto</h1>
+        <div id="music-container"></div>
+        
+        <section class="inv-section hero" id="v-hero-bg">
+            <span class="music-status" id="v-music-status">🎵 Sonando...</span>
+            <p class="v-event-tag" id="v-event-tag">¡Nuestra Boda!</p>
+            <h1 class="v-names" id="v-names">Sofía & Alejandro</h1>
+            <p style="font-style: italic; color: rgba(255,255,255,0.9); font-size: 14px;" id="v-hero-msg">Nuestra historia no tiene fin, apenas comienza...</p>
         </section>
-
-        <section>
-            <h3 id="v-font-title">Nuestra Historia</h3>
-            <p id="v-msg" style="font-style: italic; color: #666;">Nuestra historia no tiene fin, apenas comienza...</p>
-        </section>
-
-        <section style="background: #fafafa;">
-            <h3>📍 ¿Dónde y Cuándo?</h3>
-            <div class="itinerary-row">
-                <span style="font-size: 30px;">💍</span>
-                <div><b>Ceremonia Religiosa</b><br><small id="v-t1">17:00 HRS - Iglesia de Tunkás</small></div>
+        
+        <section class="inv-section" style="background: #fafafa;">
+            <h3>Con la bendición de nuestros padres</h3>
+            <div style="font-size: 14px; color: #666; font-style: italic;">
+                [Nombres de los padres de la novia]<br>&<br>[Nombres de los padres del novio]<br>
             </div>
-            <div class="itinerary-row">
-                <span style="font-size: 30px;">🥂</span>
-                <div><b>Recepción</b><br><small id="v-t2">19:30 HRS - Hacienda San José</small></div>
-            </div>
-            <a href="#" class="btn">VER UBICACIÓN GOOGLE MAPS</a>
+            <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; margin-top: 30px; font-weight: bold; color: var(--accent);">Nuestros Padrinos</p>
+            <div style="font-size: 13px;">[Nombres de los Padrinos]</div>
         </section>
 
-        <section>
+        <section class="inv-section">
+            <h3>¿Dónde y Cuándo?</h3>
+            <p style="font-size: 14px;">La celebración de nuestro gran día se llevará a cabo el Sábado 12 de Octubre del 2026 en Tunkás, Yucatán.</p>
+            
+            <a href="#" class="btn-action">📍 VER MAPA COMPLETO DEL EVENTO</a>
+        </section>
+        
+        <section class="inv-section" style="background: #fafafa; border-bottom: none;">
+            <h3>📍 ITINERARIO</h3>
+            
+            <div class="v-itinerary-item">
+                <span class="icon">💍</span>
+                <div>
+                    <span class="time" id="v-t1-time">17:00 HRS</span>
+                    <span class="activity" id="v-t1-text">Ceremonia Religiosa<br>Iglesia de Nuestra Señora</span>
+                </div>
+            </div>
+
+            <div class="v-itinerary-item">
+                <span class="icon">🥂</span>
+                <div>
+                    <span class="time" id="v-t2-time">19:30 HRS</span>
+                    <span class="activity" id="v-t2-text">Recepción y Banquete<br>Hacienda San José</span>
+                </div>
+            </div>
+
+            <div class="v-itinerary-item">
+                <span class="icon">💃</span>
+                <div>
+                    <span class="time">21:00 HRS</span>
+                    <span class="activity">¡A Bailar y Celebrar!</span>
+                </div>
+            </div>
+        </section>
+        
+        <section class="inv-section">
             <h3>🎁 Detalles y Regalos</h3>
-            <p><b>Mesa de Regalos:</b> <span id="v-mesa">Liverpool - Folio 12345</span></p>
-            <p style="font-size: 13px; border: 1px dashed var(--accent); padding: 10px;" id="v-sobres">
-                Habrá un baúl para sus detalles en la entrada.
-            </p>
+            <p style="font-size: 14px; margin-bottom: 30px;">Su presencia es nuestro mayor regalo, pero si desean darnos un detalle...</p>
+            <div class="gifts-box">
+                <div class="gift-item">
+                    <b>Mesa de Regalos 🛍️</b>
+                    <span id="v-mesa">Mesa de Regalos Liverpool: Sofía Ale</span>
+                </div>
+                <div class="gift-item" style="border: 2px dashed var(--accent); background: #fdfdfd;">
+                    <b>Lluvia de Sobres ✉️</b>
+                    <span id="v-sobres">Habrá un baúl para sus detalles en la entrada. ¡Gracias!</span>
+                </div>
+            </div>
         </section>
 
-        <section>
-            <h3>📩 Confirmación</h3>
-            <p>Favor de confirmar antes del 15 de Octubre</p>
-            <a href="#" class="btn" style="background: #25d366;">CONFIRMAR POR WHATSAPP</a>
+        <section class="inv-section" style="background: #fafafa;">
+            <h3>💌 CONFIRMACIÓN</h3>
+            <p style="font-size: 14px;">Rogamos nos acompañen en este día tan especial.</p>
+            
+            <div class="v-date-tag">
+                <small style="font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 700;">Antes del</small><br>
+                <span id="v-confirm-date">15 de Octubre 2026</span>
+            </div>
+            
+            <a href="https://wa.me/9911105456?text=¡Hola!%20Confirmo%20mi%20asistencia" class="btn-action" style="background: #25d366;" id="v-whatsapp-btn">💬 CONFIRMAR POR WHATSAPP</a>
         </section>
         
-        <p style="text-align: center; font-size: 10px; color: #ccc;">Diseñado en migrandia.mx</p>
+        <p style="text-align: center; font-size: 10px; color: #ccc; padding: 20px 0;">Diseñado en migrandia.mx</p>
     </div>
 </main>
 
 <script>
-    function update() {
+    function updateView() {
         // Colores y Fuentes
-        const color = document.getElementById('in-color').value;
-        document.documentElement.style.setProperty('--accent', color);
+        const accentColor = document.getElementById('in-accent-color').value;
+        document.documentElement.style.setProperty('--accent', accentColor);
         
-        const font = document.getElementById('in-font').value;
-        document.getElementById('v-names').style.fontFamily = font;
+        const namesFont = document.getElementById('in-font-vnames').value;
+        document.getElementById('v-names').style.fontFamily = namesFont;
 
-        // Textos
+        // Textos Hero
         document.getElementById('v-names').innerText = document.getElementById('in-names').value;
-        document.getElementById('v-msg').innerText = document.getElementById('in-msg').value;
+        document.getElementById('v-hero-msg').innerText = document.getElementById('in-hero-msg').value;
+
+        // Tiempos Itinerario
+        const time1 = document.getElementById('in-t1').value;
+        const time2 = document.getElementById('in-t2').value;
+        
+        if(time1) {
+            document.getElementById('v-t1-time').innerText = time1.substring(0, time1.indexOf('HRS') + 3);
+            document.getElementById('v-t1-text').innerHTML = time1.substring(time1.indexOf('HRS') + 5).replace(" - ", "<br>");
+        }
+        
+        if(time2) {
+            document.getElementById('v-t2-time').innerText = time2.substring(0, time2.indexOf('HRS') + 3);
+            document.getElementById('v-t2-text').innerHTML = time2.substring(time2.indexOf('HRS') + 5).replace(" - ", "<br>");
+        }
+
+        // Mesa de Regalos y Sobres
         document.getElementById('v-mesa').innerText = document.getElementById('in-mesa').value;
         document.getElementById('v-sobres').innerText = document.getElementById('in-sobres').value;
+
+        // Fecha de Confirmación
+        const confirmDate = document.getElementById('in-confirm-date').value;
+        if(confirmDate) {
+            const dateObj = new Date(confirmDate + 'T00:00:00');
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            document.getElementById('v-confirm-date').innerText = dateObj.toLocaleDateString('es-ES', options);
+        }
+
+        // Número de WhatsApp
+        const whatsappNumber = document.getElementById('in-whatsapp').value;
+        const eventNames = document.getElementById('in-names').value;
+        const whatsappBtn = document.getElementById('v-whatsapp-btn');
+        whatsappBtn.href = `https://wa.me/${whatsappNumber}?text=¡Hola!%20Confirmo%20mi%20asistencia%20para%20${encodeURIComponent(eventNames)}`;
     }
 
-    function changeType() {
+    function changeEventType() {
         const type = document.getElementById('event-type').value;
-        document.getElementById('v-event-tag').innerText = "¡Mis " + type + "!";
+        const eventTag = document.getElementById('v-event-tag');
+        
         if(type === "XV Años") {
-            document.getElementById('v-event-tag').innerText = "¡Mis XV Años!";
-            document.getElementById('in-names').value = "Lucía Valentina";
+            eventTag.innerText = "¡Mis XV Años!";
+            document.getElementById('in-names').value = "Valeria Valentina";
+            document.getElementById('in-hero-msg').value = "Un sueño hecho realidad...";
+        } else if(type === "Bautizo") {
+            eventTag.innerText = "¡Mi Bautizo!";
+            document.getElementById('in-names').value = "Mateo Sebastián";
+            document.getElementById('in-hero-msg').value = "Mi primer encuentro con Dios...";
+        } else {
+            eventTag.innerText = "¡Nuestra Boda!";
+            document.getElementById('in-names').value = "Sofía & Alejandro";
+            document.getElementById('in-hero-msg').value = "Nuestra historia no tiene fin, apenas comienza...";
         }
-        update();
+        updateView();
     }
 
     function playMusic() {
-        const id = document.getElementById('in-music').value;
-        if(id.length > 5) {
-            document.getElementById('music-box').innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+        const musicId = document.getElementById('in-music-id').value;
+        const musicStatus = document.getElementById('v-music-status');
+        
+        if(musicId.length > 5) {
+            document.getElementById('music-container').innerHTML = 
+                `<iframe width="0" height="0" src="https://www.youtube.com/embed/${musicId}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+            musicStatus.style.display = 'block';
+        } else {
+            document.getElementById('music-container').innerHTML = '';
+            musicStatus.style.display = 'none';
         }
     }
 
-    function download() {
-        alert("¡Felicidades! Tu invitación personalizada de " + document.getElementById('in-names').value + " se está generando...");
+    function generateAndPay() {
+        const eventNames = document.getElementById('in-names').value;
+        alert(`¡Felicidades! Tu invitación personalizada de "${eventNames}" se ha generado con éxito. Estamos conectando con la pasarela de pago para que puedas descargar el enlace permanente y el archivo final.`);
     }
+
+    // Actualizar la vista al cargar
+    updateView();
 </script>
 
 </body>
