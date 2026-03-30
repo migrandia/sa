@@ -4,90 +4,93 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Creador Profesional - Mi Gran Día</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #b8860b; --dark: #111; --glass: rgba(255, 255, 255, 0.98); }
+        :root { --gold: #b8860b; --oxford: #1a1a1a; --glass: rgba(255, 255, 255, 0.98); }
         body, html { margin: 0; padding: 0; height: 100%; background: #000; font-family: 'Montserrat', sans-serif; overflow: hidden; }
         
-        /* ENTORNO OXFORD PROFESIONAL */
-        #editor-frame { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; background: radial-gradient(#333 1px, #111 1px); background-size: 30px 30px; }
+        /* ESCENARIO PROFESIONAL */
+        #editor-canvas { display: flex; justify-content: center; align-items: center; height: 100vh; width: 100vw; background: radial-gradient(#333 1px, #111 1px); background-size: 30px 30px; }
         
-        /* EL CELULAR */
-        #phone-container { width: 100%; max-width: 414px; height: 92vh; background: #fff; position: relative; border-radius: 50px; overflow: hidden; border: 10px solid #222; box-shadow: 0 0 100px rgba(0,0,0,0.8); transition: background 0.3s; }
+        #phone-frame { width: 100%; max-width: 400px; height: 90vh; background: #fff; position: relative; border-radius: 45px; overflow: hidden; border: 8px solid #222; box-shadow: 0 0 80px rgba(0,0,0,0.9); }
         
-        /* CAPA FIJA DE FONDO */
-        #fixed-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; background-size: cover; background-position: center; }
+        #fixed-bg-layer { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; background-size: cover; }
         
-        #scroll-content { position: relative; z-index: 2; height: 100%; overflow-y: auto; scroll-behavior: smooth; }
-        .sec { padding: 80px 25px; min-height: 200px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        #scroll-area { position: relative; z-index: 2; height: 100%; overflow-y: auto; scroll-behavior: smooth; }
+        .section-box { padding: 60px 20px; min-height: 180px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
         
-        /* ELEMENTOS MOVIBLES */
-        .editable { cursor: move; position: absolute; z-index: 10; touch-action: none; user-select: none; transition: outline 0.2s; }
-        .editable:hover { outline: 2px dashed var(--gold); outline-offset: 5px; }
-        .v-img { width: 100%; border-radius: 0; pointer-events: none; transition: border 0.3s; }
-        .v-btn { padding: 15px 25px; text-decoration: none; font-weight: bold; display: block; border: none; text-align: center; pointer-events: none; }
-        .sticker { font-size: 50px; z-index: 5; }
+        /* ELEMENTOS EDITABLES (DRAG & DROP) */
+        .editable { cursor: move; position: absolute; z-index: 10; touch-action: none; user-select: none; transition: outline 0.2s; max-width: 90%; }
+        .editable:hover { outline: 2px dashed var(--gold); outline-offset: 4px; }
+        
+        .v-img { width: 100%; transition: 0.3s; pointer-events: none; }
+        .v-btn { padding: 16px 30px; text-decoration: none; font-weight: bold; border: none; text-align: center; pointer-events: none; transition: 0.3s; }
 
-        /* CONTADOR ESTILO CUADROS */
-        #timer-display { display: flex; gap: 8px; justify-content: center; margin: 20px 0; }
-        .t-box { background: #f4f4f4; padding: 10px; border-radius: 8px; min-width: 55px; border: 1px solid #ddd; }
-        .t-val { font-size: 1.5rem; font-weight: bold; display: block; color: var(--gold); }
-        .t-lbl { font-size: 9px; text-transform: uppercase; color: #666; }
+        /* CONTADOR DE CUADROS */
+        #timer-wrap { display: flex; gap: 8px; justify-content: center; margin-top: 15px; }
+        .t-box { background: #f9f9f9; padding: 8px; border-radius: 6px; min-width: 50px; border: 1px solid #eee; }
+        .t-num { font-size: 1.4rem; font-weight: 700; display: block; color: var(--gold); }
+        .t-lab { font-size: 8px; text-transform: uppercase; color: #888; }
 
-        /* BOTTOM SHEET EDITOR */
-        #bottom-editor { position: fixed; bottom: -100%; left: 0; width: 100%; background: var(--glass); z-index: 5000; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; box-shadow: 0 -10px 40px rgba(0,0,0,0.5); transition: 0.4s; overflow-y: auto; max-height: 80vh; }
-        #bottom-editor.open { bottom: 0; }
-        .edit-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-        label { font-size: 10px; font-weight: bold; color: #888; text-transform: uppercase; display: block; margin-bottom: 5px; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; background: #fafafa; box-sizing: border-box; }
+        /* PANEL DE EDICIÓN (ESTILOS) */
+        #style-panel { position: fixed; bottom: -100%; left: 0; width: 100%; background: var(--glass); z-index: 5000; border-radius: 25px 25px 0 0; padding: 20px; box-sizing: border-box; box-shadow: 0 -10px 40px rgba(0,0,0,0.4); transition: 0.4s; overflow-y: auto; max-height: 75vh; }
+        #style-panel.open { bottom: 0; }
+        
+        .control-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+        label { font-size: 9px; font-weight: bold; color: #555; text-transform: uppercase; display: block; margin-bottom: 4px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 13px; }
 
-        .floating-add { position: fixed; bottom: 30px; left: 30px; background: var(--gold); color: white; width: 60px; height: 60px; border-radius: 50%; font-size: 30px; border: none; cursor: pointer; z-index: 4000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .floating-save { position: fixed; top: 20px; right: 20px; background: #000; color: white; padding: 12px 25px; border-radius: 30px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; z-index: 4000; }
+        .btn-add { position: fixed; bottom: 25px; left: 25px; background: var(--gold); color: white; width: 55px; height: 55px; border-radius: 50%; font-size: 28px; border: none; cursor: pointer; z-index: 4000; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+        .btn-save { position: fixed; top: 20px; right: 20px; background: #000; color: white; padding: 10px 22px; border-radius: 25px; font-weight: bold; border: 2px solid var(--gold); cursor: pointer; z-index: 4000; }
     </style>
 </head>
-<body onclick="tryPlay()">
+<body>
 
-    <div id="music-player" style="position:fixed; top:20px; right:220px; z-index:4500; cursor:pointer; font-size:25px;" onclick="openGlobalConfig()">🎵</div>
-    <audio id="main-audio" loop></audio>
-    <button class="floating-add" onclick="spawnSticker('🌸')">+</button>
-    <div class="floating-save" onclick="processExport()">DESCARGAR</div>
+    <button class="btn-add" onclick="addSticker('🌸')">+</button>
+    <div class="btn-save" onclick="processExport()">GUARDAR PROYECTO</div>
 
-    <div id="editor-frame">
-        <div id="phone-container">
-            <div id="fixed-bg"></div>
-            <div id="scroll-content">
+    <div id="editor-canvas">
+        <div id="phone-frame">
+            <div id="fixed-bg-layer"></div>
+            <div id="scroll-area">
                 <div id="full-inventory">
                     
-                    <section class="sec" style="height: 70vh;">
-                        <div class="editable" id="s1-t1" style="font-family:'Great Vibes'; font-size:3.5rem; top: 80px; width:100%; color:var(--gold);">Cecilia & Ruben</div>
-                        <div class="editable" id="s1-img" style="top: 180px; width: 85%;"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" class="v-img"></div>
+                    <section class="section-box" style="height: 65vh;">
+                        <div class="editable" id="p-names" style="font-family:'Great Vibes'; font-size:3.2rem; top: 70px; width:100%; color:var(--gold);">Cecilia & Ruben</div>
+                        <div class="editable" id="p-img" style="top: 170px; width: 85%;"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" class="v-img"></div>
                     </section>
 
-                    <section class="sec">
-                        <div class="editable" id="s2-t1" style="position:relative;">FALTAN:</div>
-                        <div id="timer-display">
-                            <div class="t-box"><span class="t-val" id="d">00</span><span class="t-lbl">Días</span></div>
-                            <div class="t-box"><span class="t-val" id="h">00</span><span class="t-lbl">Horas</span></div>
-                            <div class="t-box"><span class="t-val" id="m">00</span><span class="t-lbl">Min</span></div>
-                            <div class="t-box"><span class="t-val" id="s">00</span><span class="t-lbl">Seg</span></div>
+                    <section class="section-box">
+                        <div class="editable" id="c-txt" style="position:relative;">FALTAN SOLO:</div>
+                        <div id="timer-wrap">
+                            <div class="t-box"><span class="t-num" id="td">00</span><span class="t-lab">Días</span></div>
+                            <div class="t-box"><span class="t-num" id="th">00</span><span class="t-lab">Hrs</span></div>
+                            <div class="t-box"><span class="t-num" id="tm">00</span><span class="t-lab">Min</span></div>
+                            <div class="t-box"><span class="t-num" id="ts">00</span><span class="t-lab">Seg</span></div>
                         </div>
-                        <input type="datetime-local" id="target-date" value="2026-12-31T20:00">
+                        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" style="margin-top:10px;">
                     </section>
 
-                    <section class="sec" style="height: 450px;">
-                        <div class="editable" id="iti-t" style="top:10px; font-weight:bold; color:var(--gold);">ITINERARIO</div>
-                        <div class="editable" id="iti-1" style="top:60px; width:100%;">⛪ 17:00 - Ceremonia</div>
-                        <div class="editable" id="iti-2" style="top:110px; width:100%;">🖋️ 18:30 - Civil</div>
-                        <div class="editable" id="iti-3" style="top:160px; width:100%;">🥂 19:30 - Cóctel</div>
-                        <div class="editable" id="iti-4" style="top:210px; width:100%;">🍽️ 21:00 - Cena</div>
-                        <div class="editable" id="iti-5" style="top:260px; width:100%;">💃 22:30 - Baile</div>
+                    <section class="section-box" style="height: 480px;">
+                        <div class="editable" id="iti-t" style="top:10px; font-weight:bold; color:var(--gold); letter-spacing:2px;">NUESTRO ITINERARIO</div>
+                        <div class="editable" id="iti-1" style="top:60px; width:100%;">⛪ 17:00 - Ceremonia Religiosa</div>
+                        <div class="editable" id="iti-2" style="top:110px; width:100%;">✒️ 18:30 - Boda Civil</div>
+                        <div class="editable" id="iti-3" style="top:160px; width:100%;">🥂 19:30 - Recepción de Invitados</div>
+                        <div class="editable" id="iti-4" style="top:210px; width:100%;">🍽️ 21:00 - Cena y Brindis</div>
+                        <div class="editable" id="iti-5" style="top:260px; width:100%;">💃 22:30 - Apertura de Pista</div>
                     </section>
 
-                    <section class="sec"><div class="editable" id="g1" style="position:relative; width:90%;"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="v-img"></div></section>
-                    <section class="sec"><div class="editable" id="g2" style="position:relative; width:90%;"><img src="https://images.unsplash.com/photo-1465495910483-34a171a43923?w=500" class="v-img"></div></section>
+                    <section class="section-box"><div class="editable" id="gal1" style="position:relative; width:88%;"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="v-img"></div></section>
+                    
+                    <section class="section-box">
+                        <div class="editable" id="txt-parents" style="position:relative; width:90%;">
+                            <b style="color:var(--gold);">NUESTROS PADRES</b><br><br>
+                            Emperatriz Landa & Rubén Pérez<br>---<br>Familia del Novio
+                        </div>
+                    </section>
 
-                    <section class="sec">
-                        <div class="editable" id="s17-b1" style="position:relative; width:90%;"><a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:white; border-radius:10px;">WHATSAPP RSVP</a></div>
+                    <section class="section-box">
+                        <div class="editable" id="btn-rsvp" style="position:relative; width:85%;"><a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:white; border-radius:12px; display:block;">CONFIRMAR ASISTENCIA</a></div>
                     </section>
 
                 </div>
@@ -95,125 +98,111 @@
         </div>
     </div>
 
-    <div id="bottom-editor">
-        <div id="editor-ui"></div>
-        <div class="edit-grid" style="margin-top:20px;">
-            <button onclick="closeEditor()" style="padding:15px; background:black; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">APLICAR</button>
-            <button onclick="deleteElement()" id="del-btn" style="background:none; border:1px solid red; color:red; border-radius:12px; cursor:pointer;">BORRAR</button>
+    <div id="style-panel">
+        <div id="ui-controls"></div>
+        <div class="control-grid" style="margin-top:20px;">
+            <button onclick="applyStyles()" style="padding:15px; background:black; color:white; border:none; border-radius:10px; font-weight:bold;">APLICAR CAMBIOS</button>
+            <button onclick="deleteEl()" id="del-btn" style="background:none; border:1px solid red; color:red; border-radius:10px;">Borrar</button>
         </div>
     </div>
 
     <script>
         let activeId = null;
-        let isDragging = false;
+        let moving = false;
 
         function initDrag() {
             document.querySelectorAll('.editable').forEach(el => {
                 el.onmousedown = el.ontouchstart = function(e) {
-                    isDragging = false;
-                    let startX = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
-                    let startY = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
-                    let initL = el.offsetLeft; let initT = el.offsetTop;
+                    moving = false;
+                    let sx = (e.type === 'touchstart') ? e.touches[0].clientX : e.clientX;
+                    let sy = (e.type === 'touchstart') ? e.touches[0].clientY : e.clientY;
+                    let iL = el.offsetLeft; let iT = el.offsetTop;
 
                     document.onmousemove = document.ontouchmove = function(ev) {
-                        isDragging = true;
-                        let cx = (ev.type === 'touchmove' ? ev.touches[0].clientX : ev.clientX) - startX;
-                        let cy = (ev.type === 'touchmove' ? ev.touches[0].clientY : ev.clientY) - startY;
-                        el.style.left = (initL + cx) + 'px'; el.style.top = (initT + cy) + 'px';
+                        moving = true;
+                        let cx = (ev.type === 'touchmove' ? ev.touches[0].clientX : ev.clientX) - sx;
+                        let cy = (ev.type === 'touchmove' ? ev.touches[0].clientY : ev.clientY) - startY; // Corrección lógica de eje
+                        el.style.left = (iL + cx) + 'px'; el.style.top = (iT + (ev.type === 'touchmove' ? ev.touches[0].clientY : ev.clientY) - sy) + 'px';
                         el.style.transform = 'none';
                     };
                     document.onmouseup = document.ontouchend = function() { document.onmousemove = document.ontouchmove = null; };
                 };
-                el.onclick = function(e) { if (!isDragging) { e.stopPropagation(); openEditor(el.id); } };
+                el.onclick = function(e) { if(!moving) { e.stopPropagation(); openStyleEditor(el.id); } };
             });
         }
 
-        function openEditor(id) {
+        function openStyleEditor(id) {
             activeId = id;
             const el = document.getElementById(id);
-            const ui = document.getElementById('editor-ui');
-            const style = window.getComputedStyle(el);
+            const ui = document.getElementById('ui-controls');
+            const st = window.getComputedStyle(el);
             
-            let html = `<h3>Edición Profesional</h3>`;
+            let html = `<h3>Edición de Elemento</h3>`;
             if(el.querySelector('img')) {
-                html += `<label>URL Foto</label><input type="text" id="inp-val" value="${el.querySelector('img').src}">`;
-                html += `<label>Borde</label><select id="inp-border"><option value="none">Sin Borde</option><option value="6px solid #b8860b">Dorado Cecilia</option><option value="2px solid black">Negro Fino</option></select>`;
+                html += `<label>URL Foto</label><input type="text" id="v-val" value="${el.querySelector('img').src}">`;
+                html += `<label>Borde Dorado</label><select id="v-border"><option value="none">Sin Borde</option><option value="5px solid #b8860b">Dorado Premium</option><option value="2px solid black">Línea Negra</option></select>`;
             } else if(el.querySelector('a')) {
-                html += `<label>Texto</label><input type="text" id="inp-val" value="${el.querySelector('a').innerText}">`;
-                html += `<label>Esquinas (px)</label><input type="range" id="inp-radius" min="0" max="50" value="10">`;
+                html += `<label>Texto Botón</label><input type="text" id="v-val" value="${el.querySelector('a').innerText}">`;
+                html += `<label>Redondeo (px)</label><input type="range" id="v-rad" min="0" max="50" value="12">`;
             } else {
-                html += `<label>Texto</label><textarea id="inp-val" rows="3">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>`;
+                html += `<label>Contenido</label><textarea id="v-val" rows="3">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>`;
             }
 
-            html += `<div class="edit-grid">
-                <div><label>Color</label><input type="color" id="inp-color" value="${rgbToHex(style.color)}"></div>
-                <div><label>Tamaño</label><input type="number" id="inp-size" value="${parseInt(style.fontSize)}"></div>
-                <div><label>Fuente</label><select id="inp-font">
+            html += `<div class="control-grid">
+                <div><label>Color</label><input type="color" id="v-color" value="${rgbToHex(st.color)}"></div>
+                <div><label>Tamaño Letra</label><input type="number" id="v-size" value="${parseInt(st.fontSize)}"></div>
+                <div><label>Fuente</label><select id="v-font">
                     <option value="'Montserrat'">Montserrat</option><option value="'Great Vibes'">Elegante</option><option value="'Cinzel'">Imperial</option>
                 </select></div>
-                <div><label>Grosor</label><select id="inp-weight"><option value="400">Normal</option><option value="700">Negrita (Bold)</option></select></div>
+                <div><label>Grosor</label><select id="v-weight"><option value="400">Normal</option><option value="700">Negrita (Bold)</option></select></div>
             </div>`;
 
             ui.innerHTML = html;
-            document.getElementById('bottom-editor').classList.add('open');
+            document.getElementById('style-panel').classList.add('open');
         }
 
-        function closeEditor() {
+        function applyStyles() {
             const el = document.getElementById(activeId);
-            const val = document.getElementById('inp-val').value;
+            const val = document.getElementById('v-val').value;
             if(el.querySelector('img')) {
                 el.querySelector('img').src = val;
-                el.querySelector('img').style.border = document.getElementById('inp-border').value;
+                el.querySelector('img').style.border = document.getElementById('v-border').value;
             } else if(el.querySelector('a')) {
                 el.querySelector('a').innerText = val;
-                el.querySelector('a').style.borderRadius = document.getElementById('inp-radius').value + 'px';
+                el.querySelector('a').style.borderRadius = document.getElementById('v-rad').value + 'px';
             } else { el.innerHTML = val.replace(/\n/g, '<br>'); }
 
-            el.style.color = document.getElementById('inp-color').value;
-            el.style.fontSize = document.getElementById('inp-size').value + 'px';
-            el.style.fontFamily = document.getElementById('inp-font').value;
-            el.style.fontWeight = document.getElementById('inp-weight').value;
-            document.getElementById('bottom-editor').classList.remove('open');
-        }
-
-        function openGlobalConfig() {
-            const ui = document.getElementById('editor-ui');
-            ui.innerHTML = `<h3>Fondo y Música</h3>
-                <label>Color de Fondo</label><input type="color" oninput="document.getElementById('phone-container').style.backgroundColor=this.value" value="#ffffff">
-                <label>Textura Fija</label><select onchange="document.getElementById('fixed-bg').style.backgroundImage=this.value">
-                    <option value="none">Liso</option>
-                    <option value="url('https://www.transparenttextures.com/patterns/white-marble.png')">Mármol Blanco</option>
-                    <option value="url('https://www.transparenttextures.com/patterns/handmade-paper.png')">Papel Artesanal</option>
-                </select>
-                <label>Link Música (MP3)</label><input type="text" id="g-music" onchange="document.getElementById('main-audio').src=this.value; document.getElementById('main-audio').load()">`;
-            document.getElementById('bottom-editor').classList.add('open');
+            el.style.color = document.getElementById('v-color').value;
+            el.style.fontSize = document.getElementById('v-size').value + 'px';
+            el.style.fontFamily = document.getElementById('v-font').value;
+            el.style.fontWeight = document.getElementById('v-weight').value;
+            document.getElementById('style-panel').classList.remove('open');
         }
 
         function rgbToHex(rgb) {
-            const res = rgb.match(/\d+/g);
-            return res ? "#" + res.slice(0,3).map(x => parseInt(x).toString(16).padStart(2, '0')).join('') : '#000000';
+            const r = rgb.match(/\d+/g);
+            return r ? "#" + r.slice(0,3).map(x => parseInt(x).toString(16).padStart(2, '0')).join('') : '#000000';
         }
 
+        // CONTADOR TIEMPO REAL CON SEGUNDOS
         setInterval(() => {
-            const diff = new Date(document.getElementById('target-date').value) - new Date();
-            if(diff > 0) {
-                document.getElementById('d').innerText = Math.floor(diff/864e5).toString().padStart(2,'0');
-                document.getElementById('h').innerText = Math.floor((diff%864e5)/36e5).toString().padStart(2,'0');
-                document.getElementById('m').innerText = Math.floor((diff%36e5)/6e4).toString().padStart(2,'0');
-                document.getElementById('s').innerText = Math.floor((diff%6e4)/1000).toString().padStart(2,'0');
+            const d = new Date(document.getElementById('event-date').value) - new Date();
+            if(d > 0) {
+                document.getElementById('td').innerText = Math.floor(d/864e5).toString().padStart(2,'0');
+                document.getElementById('th').innerText = Math.floor((d%864e5)/36e5).toString().padStart(2,'0');
+                document.getElementById('tm').innerText = Math.floor((d%36e5)/6e4).toString().padStart(2,'0');
+                document.getElementById('ts').innerText = Math.floor((d%6e4)/1000).toString().padStart(2,'0');
             }
         }, 1000);
 
-        function spawnSticker(emoji) {
-            const s = document.createElement('div'); s.className = 'editable sticker'; s.id = 'stk'+Date.now();
-            s.innerHTML = emoji; s.style.top='100px'; s.style.left='100px';
-            document.getElementById('scroll-content').appendChild(s);
-            initDrag();
+        function addSticker(e) {
+            const s = document.createElement('div'); s.className = 'editable'; s.style.fontSize = '50px'; s.style.top='100px'; s.style.left='100px';
+            s.innerHTML = e; s.id = 's'+Date.now(); document.getElementById('scroll-area').appendChild(s); initDrag();
         }
 
         function processExport() {
-            const blob = new Blob([document.getElementById('full-inventory').innerHTML], {type: 'text/html'});
-            const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'invitacion-trabajo.html'; a.click();
+            const b = new Blob([document.getElementById('full-inventory').innerHTML], {type:'text/html'});
+            const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'invitacion-trabajo.html'; a.click();
         }
 
         window.onload = initDrag;
