@@ -3,112 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día Studio - Sistema Profesional V6.0</title>
+    <title>Mi Grandía Studio - Editor Profesional Full</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
-        /* --- ESTILOS DEL PANEL DE CONTROL (IZQUIERDA) --- */
         :root { 
-            --accent: #2563eb; --panel-bg: #ffffff; 
-            --inv-bg: #ffffff; --inv-accent: #d4a373; --inv-text: #555;
-            --inv-font-t: 'Great Vibes'; --inv-font-b: 'Montserrat';
+            --accent: #3b82f6; --inv-bg: #ffffff; --inv-accent: #d4a373; 
+            --inv-text: #555; --inv-btn-radius: 30px; --inv-font-t: 'Great Vibes';
         }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #f3f4f6; height: 100vh; overflow: hidden; }
 
-        #panel { width: 500px; background: var(--panel-bg); padding: 25px; overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; }
-        .section-box { background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-bottom: 20px; position: relative; }
-        .section-box h2 { font-size: 13px; text-transform: uppercase; color: #4b5563; margin-top: 0; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        /* PANEL IZQUIERDO (TU ESTILO) */
+        #panel { width: 480px; background: white; padding: 25px; overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; }
+        .group-box { background: #fff; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-bottom: 20px; position: relative; }
+        .group-box h2 { font-size: 13px; text-transform: uppercase; color: #4b5563; margin: 0 0 15px 0; border-bottom: 1px solid #eee; padding-bottom: 8px; }
         
-        label { display: block; font-size: 11px; font-weight: 700; color: #6b7280; margin: 12px 0 5px; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
+        label { display: block; font-size: 11px; font-weight: 700; color: #6b7280; margin: 12px 0 5px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; background: #f9fafb; font-size: 13px; }
         
-        .add-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
-        .btn-add { padding: 10px; background: white; border: 1px dashed var(--inv-accent); color: var(--inv-accent); border-radius: 8px; cursor: pointer; font-size: 10px; font-weight: bold; }
         .btn-trash { position: absolute; top: 15px; right: 15px; background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; }
+        .btn-main { width: 100%; padding: 15px; background: var(--accent); color: white; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
-        /* --- ESTILOS DE LA INVITACIÓN (VISTA PREVIA CELULAR) --- */
+        /* VISTA PREVIA (IPHONE) */
         #viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         #phone { 
-            width: 375px; height: 812px; border: 12px solid #1f2937; border-radius: 50px; 
+            width: 375px; height: 780px; border: 12px solid #1f2937; border-radius: 50px; 
             background: var(--inv-bg); overflow-y: auto; position: relative; scroll-behavior: smooth;
         }
 
-        .inv-sec { padding: 50px 25px; text-align: center; color: var(--inv-text); font-family: var(--inv-font-b); }
-        .inv-t { font-family: var(--inv-font-t), cursive; color: var(--inv-accent); font-size: 3.2rem; margin: 0; }
-        .inv-btn { display: block; width: 85%; margin: 15px auto; padding: 16px; background: var(--inv-accent); color: white; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        /* SECCIONES INVITACIÓN */
+        section { padding: 50px 25px; text-align: center; color: var(--inv-text); }
+        .v-hero { height: 400px; background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display: flex; flex-direction: column; justify-content: center; color: white; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); }
+        .v-title { font-family: var(--inv-font-t), cursive; color: var(--inv-accent); font-size: 3rem; margin: 0; }
+        .v-btn { display: block; width: 85%; margin: 15px auto; padding: 15px; background: var(--inv-accent); color: white; border-radius: var(--inv-btn-radius); text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase; }
         
         /* Contador */
-        .timer { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
-        .t-unit { background: #fcf8f3; padding: 10px; border-radius: 8px; min-width: 55px; border: 1px solid #eee; }
-        .t-unit b { display: block; font-size: 20px; color: var(--inv-accent); }
-        .t-unit span { font-size: 9px; text-transform: uppercase; color: #999; }
-
-        /* Itinerario */
-        .step { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 20px; }
-        .step-icon { font-size: 24px; background: #fcf8f3; padding: 10px; border-radius: 50%; }
-
-        /* Lluvia de sobres */
-        .bank-card { background: #fff; border: 1px dashed var(--inv-accent); padding: 15px; border-radius: 10px; margin-top: 10px; font-size: 13px; }
-        .copy-btn { font-size: 10px; color: var(--accent); cursor: pointer; text-decoration: underline; }
+        .timer { display: flex; justify-content: center; gap: 10px; margin-top: 20px; }
+        .t-unit { background: #fdfaf7; padding: 10px; border-radius: 8px; min-width: 50px; border: 1px solid #eee; }
+        .t-unit b { display: block; font-size: 18px; color: var(--inv-accent); }
+        
+        /* Iconos Itinerario */
+        .step { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 20px; border-left: 2px solid var(--inv-accent); padding-left: 15px; }
     </style>
 </head>
 <body>
 
 <aside id="panel">
     <h1>Mi Grandía Studio ✨</h1>
-    <p style="font-size:12px; color:#666;">Editor Profesional de Invitaciones</p>
+    <p style="font-size:12px; color:#666; margin-bottom:20px;">Versión Profesional 7.0</p>
 
-    <div class="section-box">
+    <div class="group-box">
         <h2>🎨 Diseño y Colores</h2>
         <label>Fondo de Invitación</label>
-        <input type="color" id="in-bg" value="#ffffff" oninput="updateGlobal()">
-        <label>Imagen de Textura (URL)</label>
-        <input type="text" id="in-bg-img" oninput="updateGlobal()">
-        <label>Color de Acento (Títulos/Botones)</label>
-        <input type="color" id="in-accent" value="#d4a373" oninput="updateGlobal()">
+        <input type="color" id="g-bg" value="#ffffff" oninput="sync()">
+        <label>Textura de Fondo (URL)</label>
+        <input type="text" id="g-bg-img" oninput="sync()" placeholder="URL de mármol o papel">
+        <label>Color de Acento</label>
+        <input type="color" id="g-accent" value="#d4a373" oninput="sync()">
+        <label>Forma de Botones</label>
+        <select id="g-radius" onchange="sync()">
+            <option value="30px">Redondos</option>
+            <option value="5px">Cuadrados</option>
+        </select>
     </div>
 
-    <div class="section-box">
+    <div class="group-box">
         <h2>⏰ Cuenta Regresiva</h2>
-        <label>Fecha del Evento</label>
-        <input type="datetime-local" id="in-date" value="2026-12-31T20:00" oninput="startTimer()">
+        <label>Fecha y Hora del Evento</label>
+        <input type="datetime-local" id="g-date" value="2026-12-31T20:00" oninput="updateTimer()">
     </div>
 
-    <div class="section-box">
-        <h2>🎵 Música de Fondo</h2>
-        <label>ID de YouTube (Ej: PwJ8HIDghLg)</label>
-        <input type="text" id="in-music" value="PwJ8HIDghLg" oninput="updateMusic()">
+    <div class="group-box">
+        <h2>📸 Galería y Fotos</h2>
+        <label>Foto de Portada (URL)</label>
+        <input type="text" id="g-hero" value="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80" oninput="sync()">
     </div>
 
-    <div class="add-btns">
-        <button class="btn-add" onclick="add('foto')">+ FOTO</button>
-        <button class="btn-add" onclick="add('itinerario')">+ PASO</button>
-        <button class="btn-add" onclick="add('sobres')">+ BANCO</button>
+    <div class="group-box">
+        <h2>➕ Agregar Secciones</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+            <button onclick="add('padrinos')">+ Padrinos</button>
+            <button onclick="add('itinerario')">+ Itinerario</button>
+            <button onclick="add('regalos')">+ Regalos</button>
+            <button onclick="add('hotel')">+ Hotel</button>
+        </div>
+        <div id="dynamic-editors" style="margin-top:20px;"></div>
     </div>
 
-    <div id="dynamic-editors"></div>
+    <button class="btn-main" onclick="window.print()">FINALIZAR Y PUBLICAR 📥</button>
 </aside>
 
 <main id="viewport">
     <div id="phone">
-        <section id="hero" class="inv-sec" style="height:400px; background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display:flex; flex-direction:column; justify-content:center; color:white; text-shadow:2px 2px 8px rgba(0,0,0,0.6);">
-            <h1 class="inv-t" style="color:white !important;">Sofía & Ale</h1>
-            <p>NUESTRA BODA</p>
+        <section id="v-hero" class="v-hero">
+            <div data-aos="fade-down">
+                <h1 id="v-names" class="v-title" style="color:white !important;">Sofía & Ale</h1>
+                <p>NUESTRA BODA</p>
+            </div>
         </section>
 
-        <section class="inv-sec" data-aos="fade-up">
+        <section data-aos="fade-up">
             <p style="font-size:11px; letter-spacing:2px;">FALTAN SÓLO</p>
             <div class="timer">
                 <div class="t-unit"><b id="d">00</b><span>Días</span></div>
-                <div class="t-unit"><b id="h">00</b><span>Horas</span></div>
+                <div class="t-unit"><b id="h">00</b><span>Hs</span></div>
                 <div class="t-unit"><b id="m">00</b><span>Min</span></div>
             </div>
         </section>
 
-        <div id="inv-content"></div>
+        <div id="v-content"></div>
 
-        <div id="music-player"></div>
+        <div id="v-music"></div>
     </div>
 </main>
 
@@ -117,21 +122,25 @@
     AOS.init();
     let count = 0;
 
-    function updateGlobal() {
+    function sync() {
         const root = document.documentElement.style;
-        root.setProperty('--inv-bg', document.getElementById('in-bg').value);
-        root.setProperty('--inv-accent', document.getElementById('in-accent').value);
-        const bgImg = document.getElementById('in-bg-img').value;
-        document.getElementById('phone').style.backgroundImage = bgImg ? `url('${bgImg}')` : 'none';
+        const phone = document.getElementById('phone').style;
+        
+        root.setProperty('--inv-bg', document.getElementById('g-bg').value);
+        root.setProperty('--inv-accent', document.getElementById('g-accent').value);
+        root.setProperty('--inv-btn-radius', document.getElementById('g-radius').value);
+        
+        const bgImg = document.getElementById('g-bg-img').value;
+        phone.backgroundImage = bgImg ? `url('${bgImg}')` : 'none';
+        document.getElementById('v-hero').style.backgroundImage = `url('${document.getElementById('g-hero').value}')`;
     }
 
-    function startTimer() {
-        const target = new Date(document.getElementById('in-date').value).getTime();
+    function updateTimer() {
+        const target = new Date(document.getElementById('g-date').value).getTime();
         setInterval(() => {
-            const now = new Date().getTime();
-            const diff = target - now;
+            const diff = target - new Date().getTime();
             if(diff > 0) {
-                document.getElementById('d').innerText = Math.floor(diff / (86400000));
+                document.getElementById('d').innerText = Math.floor(diff / 86400000);
                 document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000);
                 document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
             }
@@ -142,43 +151,38 @@
         count++;
         const id = `b${count}`;
         const edit = document.createElement('div');
-        edit.className = 'section-box';
+        edit.className = 'group-box';
         edit.id = `ed-${id}`;
-        edit.innerHTML = `<button class="btn-trash" onclick="remove('${id}')">×</button><h2>Nuevo ${type}</h2>`;
+        edit.innerHTML = `<button class="btn-trash" onclick="remove('${id}')">×</button><h3>${type.toUpperCase()}</h3>`;
         
         const view = document.createElement('section');
-        view.className = 'inv-sec';
         view.id = `vw-${id}`;
         view.setAttribute('data-aos', 'fade-up');
 
-        if(type === 'foto') {
-            edit.innerHTML += `<input type="text" placeholder="URL Foto" oninput="updImg('${id}', this.value)">`;
-            view.innerHTML = `<img id="val-${id}" src="" style="width:100%; border-radius:15px;">`;
-        }
-        if(type === 'itinerario') {
-            edit.innerHTML += `<input type="text" placeholder="Evento (Ej: Cena)" oninput="updTxt('${id}', this.value)">`;
-            view.innerHTML = `<div class="step"><div class="step-icon">🍽️</div><div><b id="val-${id}">Evento</b><br><small>20:00 PM</small></div></div>`;
-        }
-        if(type === 'sobres') {
-            edit.innerHTML += `<input type="text" placeholder="CLABE" oninput="updTxt('${id}', this.value)">`;
-            view.innerHTML = `<h3>💸 Lluvia de Sobres</h3><div class="bank-card"><p id="val-${id}">0000000000000</p><span class="copy-btn">Copiar cuenta</span></div>`;
+        if(type === 'padrinos') {
+            edit.innerHTML += `<label>Nombres</label><textarea oninput="updTxt('${id}', this.value)"></textarea>`;
+            view.innerHTML = `<h3>Padrinos</h3><p id="val-${id}">Nombres aquí...</p>`;
+        } else if(type === 'itinerario') {
+            edit.innerHTML += `<label>Evento</label><input type="text" oninput="updTxt('${id}', this.value)">`;
+            view.innerHTML = `<div class="step"><div><b id="val-${id}">Evento</b><br><small>Hora: 00:00</small></div></div>`;
+        } else if(type === 'regalos') {
+            edit.innerHTML += `<label>CLABE Bancaria</label><input type="text" oninput="updTxt('${id}', this.value)">`;
+            view.innerHTML = `<h3>Lluvia de Sobres</h3><div style="border:1px dashed var(--inv-accent); padding:15px;"><p id="val-${id}">0000000000</p></div>`;
+        } else if(type === 'hotel') {
+            edit.innerHTML += `<label>Nombre Hotel</label><input type="text" oninput="updTxt('${id}', this.value)">`;
+            view.innerHTML = `<h3>Hospedaje</h3><p id="val-${id}">Hotel...</p><a href="#" class="v-btn">Reservar ahora</a>`;
         }
 
         document.getElementById('dynamic-editors').appendChild(edit);
-        document.getElementById('inv-content').appendChild(view);
+        document.getElementById('v-content').appendChild(view);
         AOS.refresh();
     }
 
-    function updImg(id, val) { document.getElementById(`val-${id}`).src = val; }
     function updTxt(id, val) { document.getElementById(`val-${id}`).innerText = val; }
     function remove(id) { document.getElementById(`ed-${id}`).remove(); document.getElementById(`vw-${id}`).remove(); }
 
-    function updateMusic() {
-        const id = document.getElementById('in-music').value;
-        document.getElementById('music-player').innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
-    }
-
-    startTimer();
+    updateTimer();
+    sync();
 </script>
 </body>
 </html>
