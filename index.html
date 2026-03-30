@@ -2,88 +2,67 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grandía Studio v2026 - Control Total Cecilia</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grandía Studio - Control Cecilia</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
     <style>
-        :root { --p-width: 460px; --gold: #b8860b; --accent: #d4a373; }
+        :root { --p-width: 400px; --gold: #b8860b; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #111; height: 100vh; overflow: hidden; }
 
-        /* PANEL EDITOR IZQUIERDO */
-        #sidebar { width: var(--p-width); background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
-        .editor-card { background: #fdfaf6; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-left: 5px solid var(--gold); }
-        h1 { font-family: 'Dancing Script'; color: var(--gold); font-size: 30px; text-align: center; margin: 0 0 15px; }
-        label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 12px 0 4px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
-        .flex { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
-        .btn-t { flex: 1; padding: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; border-radius: 6px; font-size: 10px; font-weight: bold; }
-        .btn-t:hover { background: var(--gold); color: #fff; }
+        /* PANEL EDITOR */
+        #sidebar { width: var(--p-width); background: #fff; z-index: 100; overflow-y: auto; padding: 20px; border-right: 5px solid var(--gold); }
+        .editor-card { background: #fdfaf6; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-left: 5px solid var(--gold); }
+        h1 { font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0 0 15px; }
+        label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 10px 0 4px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 13px; }
 
-        /* VISTA PREVIA CENTRAL */
-        #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; overflow: hidden; position: relative; }
-        #phone-container { position: relative; width: 385px; height: 820px; border: 14px solid #000; border-radius: 60px; background: #fff; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-        
-        /* SCROLL Y FONDO MÁRMOL */
-        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; scroll-behavior: smooth; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
-        #phone::-webkit-scrollbar { width: 8px; }
-        #phone::-webkit-scrollbar-track { background: #f1f1f1; }
-        #phone::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+        /* VISTA PREVIA */
+        #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; position: relative; }
+        #phone-container { position: relative; width: 375px; height: 750px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; }
+        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
 
         /* SECCIONES */
-        .sec { padding: 70px 25px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; background-size: cover; background-position: center; width: 100%; box-sizing: border-box; }
-        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 50; }
+        .sec { padding: 60px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; background-size: cover; background-position: center; width: 100%; box-sizing: border-box; }
+        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 99; }
         
-        .e-text { cursor: pointer; transition: 0.2s; width: 100%; line-height: 1.4; display: block; }
-        .v-card { background: rgba(255,255,255,0.95); padding: 25px; border-radius: 20px; width: 100%; box-sizing: border-box; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 10px; }
-        .v-img { width: 100%; border-radius: 15px; margin: 15px 0; object-fit: cover; height: 220px; }
-        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 50px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        /* TÍTULOS MOVIBLES (DRAGGABLE) */
+        .movable-text { 
+            position: absolute; 
+            cursor: move; 
+            z-index: 100; 
+            touch-action: none; 
+            user-select: none;
+            text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
+            white-space: nowrap;
+        }
 
-        /* CONTADOR */
-        .countdown { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
-        .c-unit { text-align: center; min-width: 60px; background: rgba(255,255,255,0.8); padding: 8px; border-radius: 10px; }
-        .c-num { font-size: 28px; font-family: 'Oswald'; color: var(--gold); display: block; }
+        /* CONTADOR CON SEGUNDOS */
+        .countdown { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
+        .c-unit { text-align: center; min-width: 55px; background: rgba(255,255,255,0.8); padding: 5px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .c-num { font-size: 22px; font-family: 'Oswald'; color: var(--gold); display: block; }
+        .c-label { font-size: 9px; text-transform: uppercase; font-weight: bold; }
 
-        /* TITULOS MOVIBLES */
-        .movable-title { cursor: grab; position: relative; z-index: 10; user-select: none; }
-        .movable-title:active { cursor: grabbing; }
-
-        /* ITINERARIO */
-        .it-row { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; text-align: left; width: 100%; }
-        .it-s-2 { background: #fff; padding: 12px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .it-s-3 { border-left: 4px solid var(--gold); padding-left: 12px; }
-        .it-s-4 { flex-direction: column; text-align: center; border: 2px solid var(--gold); border-radius: 50%; width: 130px; height: 130px; justify-content: center; margin: 10px auto; }
-        .it-s-5 { border-bottom: 1px solid #eee; padding-bottom: 10px; }
-
-        body.final #sidebar, body.final .drag-handle { display: none !important; }
-        body.final #phone-container { border: none; width: 100%; max-width: 500px; height: auto; border-radius: 0; margin: 0 auto; overflow: visible; }
-        body.final #preview { background: #fff; padding: 0; }
+        .v-card { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; width: 100%; box-sizing: border-box; margin-top: 10px; border: 1px solid #eee; }
+        .v-img { width: 100%; border-radius: 12px; margin: 10px 0; object-fit: cover; height: 200px; }
+        .v-btn { display: inline-block; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 30px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <aside id="sidebar">
     <h1>Grandía Studio ✨</h1>
-    
     <div class="editor-card">
-        <label>🎵 Música (YouTube ID)</label>
-        <input type="text" id="m-id" value="PwJ8HIDghLg" oninput="saveAndRefreshMusic()">
-        <label>🎨 Fondo de Invitación</label>
-        <div class="flex">
-            <input type="color" id="bg-col" value="#ffffff" oninput="updateGlobalBg()">
-            <input type="text" id="bg-img" placeholder="URL Mármol/Textura" value="https://www.transparenttextures.com/patterns/white-marble.png" oninput="updateGlobalBg()">
-        </div>
         <label>📅 Fecha del Evento</label>
-        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData(); startTimer()">
+        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData()">
+        <label>🎨 Color de Fondo</label>
+        <input type="color" id="bg-col" value="#ffffff" oninput="updateStyle()">
     </div>
-
     <div id="editor-dynamic">
-        <p style="text-align:center; color:#999; font-size:12px; padding:20px;">Toca cualquier texto o sección para editar.</p>
+        <p style="text-align:center; color:#999; font-size:11px;">Toca un texto o imagen para editar.</p>
     </div>
-
-    <button style="background:var(--gold); color:white; padding:18px; width:100%; border:none; border-radius:12px; font-weight:bold; cursor:pointer;" onclick="exportFinal()">🚀 DESCARGAR INVITACIÓN</button>
-    <button style="background:#f1f5f9; color:#64748b; padding:10px; width:100%; border:none; border-radius:10px; margin-top:10px; cursor:pointer; font-size:11px;" onclick="if(confirm('¿Borrar todo?')){localStorage.clear(); location.reload();}">🗑️ REINICIAR TODO</button>
+    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="alert('Invitación Guardada')">GUARDAR CAMBIOS</button>
 </aside>
 
 <main id="preview">
@@ -91,117 +70,43 @@
         <div id="phone">
             <div id="sortable-area">
                 
-                <section class="sec" id="s1" style="height:550px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');" onclick="openSecEditor('s1')">
+                <section class="sec" id="s1" style="height:500px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');">
                     <div class="drag-handle">⠿</div>
-                    <span class="e-text movable-title" id="t1" style="font-family:'Great Vibes'; font-size:4rem; color:#fff;" onclick="event.stopPropagation(); openTextEditor('t1')">Sofía & Ale</span>
-                    <span class="e-text movable-title" id="t2" style="color:#fff; letter-spacing:4px; font-weight:bold;" onclick="event.stopPropagation(); openTextEditor('t2')">¡NOS CASAMOS!</span>
+                    <div class="movable-text" id="t1" style="top: 150px; font-family:'Great Vibes'; font-size:3.5rem; color:#fff;" onclick="openTextEditor('t1')">Sofía & Ale</div>
+                    <div class="movable-text" id="t2" style="top: 280px; font-family:'Montserrat'; color:#fff; letter-spacing:4px; font-weight:bold;" onclick="openTextEditor('t2')">¡NOS CASAMOS!</div>
                 </section>
 
-                <section class="sec" id="s2" onclick="openSecEditor('s2')">
+                <section class="sec" id="s2">
                     <div class="drag-handle">⠿</div>
-                    <span class="e-text" id="t3" style="font-family:'Cinzel';" onclick="event.stopPropagation(); openTextEditor('t3')">FALTAN:</span>
+                    <span style="font-family:'Cinzel'; font-size:14px;">FALTAN:</span>
                     <div class="countdown">
-                        <div class="c-unit"><b class="c-num" id="d">00</b><small>Días</small></div>
-                        <div class="c-unit"><b class="c-num" id="h">00</b><small>Hrs</small></div>
-                        <div class="c-unit"><b class="c-num" id="m">00</b><small>Min</small></div>
+                        <div class="c-unit"><b class="c-num" id="days">00</b><span class="c-label">Días</span></div>
+                        <div class="c-unit"><b class="c-num" id="hours">00</b><span class="c-label">Hrs</span></div>
+                        <div class="c-unit"><b class="c-num" id="mins">00</b><span class="c-label">Min</span></div>
+                        <div class="c-unit" style="border: 1px solid var(--gold);"><b class="c-num" id="secs">00</b><span class="c-label">Seg</span></div>
                     </div>
                 </section>
 
-                <section class="sec" id="s3" onclick="openSecEditor('s3')">
-                    <div class="drag-handle">⠿</div>
-                    <p class="e-text" id="t4" style="font-style:italic; color:#555;" onclick="event.stopPropagation(); openTextEditor('t4')">"Nuestra historia apenas comienza y queremos que seas parte de ella."</p>
-                </section>
-
-                <section class="sec" id="s4" onclick="openSecEditor('s4')">
-                    <div class="drag-handle">⠿</div>
-                    <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600" class="v-img" id="i1" onclick="event.stopPropagation(); openImgEditor('i1')">
-                </section>
-
-                <section class="sec" id="s5" onclick="openSecEditor('s5')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="t5" style="color:var(--gold); font-family:'Cinzel';" onclick="event.stopPropagation(); openTextEditor('t5')">Con la bendición de nuestros padres</b>
-                    <div class="v-card">
-                        <p class="e-text" id="t6" style="line-height:2;" onclick="event.stopPropagation(); openTextEditor('t6')">Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s6" onclick="openSecEditor('s6')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="t7" onclick="event.stopPropagation(); openTextEditor('t7')">Nuestros Padrinos</b>
-                    <p class="e-text" id="t8" onclick="event.stopPropagation(); openTextEditor('t8')">Nombres de Padrinos aquí</p>
-                </section>
-
-                <section class="sec" id="s7" onclick="openSecEditor('s7')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" style="font-family:'Cinzel'; margin-bottom:20px;">Itinerario</b>
-                    <div id="it-list" style="width:100%;">
-                        <div class="it-row"><span style="font-size:25px;">⛪</span><div><b>Ceremonia</b><br>6:00 PM</div></div>
-                        <div class="it-row"><span style="font-size:25px;">🥂</span><div><b>Coctel</b><br>7:30 PM</div></div>
-                        <div class="it-row"><span style="font-size:25px;">💃</span><div><b>Recepción</b><br>8:30 PM</div></div>
-                    </div>
-                </section>
-
-                <section class="sec" id="s8" onclick="openSecEditor('s8')">
+                <section class="sec" id="s8">
                     <div class="drag-handle">⠿</div>
                     <div class="v-card">
-                        <span id="dr-ico" style="font-size:40px;">👗👔</span>
-                        <b class="e-text" id="t9" onclick="event.stopPropagation(); openTextEditor('t9')">Código de Vestimenta</b>
-                        <p class="e-text" id="t10" onclick="event.stopPropagation(); openTextEditor('t10')">FORMAL / GUAYABERA</p>
+                        <b>Código de Vestimenta</b>
+                        <p>FORMAL / GUAYABERA</p>
                     </div>
                 </section>
 
-                <section class="sec" id="s_extra_img" onclick="openSecEditor('s_extra_img')">
+                <section class="sec" id="s_extra">
                     <div class="drag-handle">⠿</div>
-                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600" class="v-img" id="i_extra" onclick="event.stopPropagation(); openImgEditor('i_extra')">
+                    <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600" class="v-img" id="i_extra" onclick="openImgEditor('i_extra')">
                 </section>
 
-                <section class="sec" id="s9" onclick="openSecEditor('s9')">
+                <section class="sec" id="s9">
                     <div class="drag-handle">⠿</div>
                     <div class="v-card">
-                        <b>Misa</b>
-                        <p id="t11" class="e-text" style="font-size:13px; margin:10px 0;" onclick="event.stopPropagation(); openTextEditor('t11')">Parroquia de Tunkás</p>
-                        <a href="#" class="v-btn" id="b1" style="background:var(--gold); color:#fff;" onclick="event.stopPropagation(); openBtnEditor('b1')">VER MAPA</a>
+                        <b>Ubicación Misa</b>
+                        <p>Parroquia de Tunkás</p>
+                        <a href="#" class="v-btn" style="background:var(--gold); color:#fff;">VER MAPA</a>
                     </div>
-                </section>
-
-                <section class="sec" id="s10" onclick="openSecEditor('s10')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <b>Celebración</b>
-                        <p id="t12" class="e-text" style="font-size:13px; margin:10px 0;" onclick="event.stopPropagation(); openTextEditor('t12')">Salón Quinta Real</p>
-                        <a href="#" class="v-btn" id="b2" style="background:#333; color:#fff;" onclick="event.stopPropagation(); openBtnEditor('b2')">VER LUGAR</a>
-                    </div>
-                </section>
-
-                <section class="sec" id="s11" onclick="openSecEditor('s11')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card" style="border:2px dashed var(--gold);">
-                        <b>Mesa de Regalos</b>
-                        <p id="t13" class="e-text" onclick="event.stopPropagation(); openTextEditor('t13')">Liverpool: 5012345</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s12" onclick="openSecEditor('s12')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <span>✉️</span><br>
-                        <b>Lluvia de Sobres</b>
-                        <p id="t14" class="e-text" onclick="event.stopPropagation(); openTextEditor('t14')">Su presencia es nuestro mejor regalo, pero si desean tener un detalle...</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s13" onclick="openSecEditor('s13')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <b>Hospedaje</b>
-                        <p id="t15" class="e-text" onclick="event.stopPropagation(); openTextEditor('t15')">Hotel Central Mérida - Código BODA</p>
-                    </div>
-                </section>
-
-                <section class="sec" id="s14" onclick="openSecEditor('s14')">
-                    <div class="drag-handle">⠿</div>
-                    <p id="t16" class="e-text" style="font-weight:bold; margin-bottom:10px;" onclick="event.stopPropagation(); openTextEditor('t16')">Contamos con su presencia</p>
-                    <a href="https://wa.me/9911105456" class="v-btn" id="b3" style="background:#25D366; color:#fff; width:100%;" onclick="event.stopPropagation(); openBtnEditor('b3')">CONFIRMAR AQUÍ</a>
                 </section>
 
             </div>
@@ -210,170 +115,99 @@
 </main>
 
 <script>
-    const area = document.getElementById('sortable-area');
-    new Sortable(area, { animation: 150, handle: '.drag-handle', onEnd: saveData });
-
-    // SCRIPT PARA MOVER TITULOS LIBREMENTE
-    document.querySelectorAll('.movable-title').forEach(el => {
-        let isDragging = false;
-        let startX, startY, initialX, initialY;
-
-        el.addEventListener('mousedown', (e) => {
-            isDragging = true;
-            startX = e.clientX;
-            startY = e.clientY;
-            initialX = el.offsetLeft;
-            initialY = el.offsetTop;
-            el.style.position = 'absolute';
-        });
-
-        window.addEventListener('mousemove', (e) => {
-            if (!isDragging) return;
-            const dx = e.clientX - startX;
-            const dy = e.clientY - startY;
-            el.style.left = (initialX + dx) + 'px';
-            el.style.top = (initialY + dy) + 'px';
-        });
-
-        window.addEventListener('mouseup', () => { isDragging = false; saveData(); });
+    // 1. FUNCION DE ARRASTRE DE TEXTOS (DRAG & DROP)
+    function makeDraggable(el) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
         
-        // Soporte para Touch (Móvil)
-        el.addEventListener('touchstart', (e) => {
-            isDragging = true;
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-            initialX = el.offsetLeft;
-            initialY = el.offsetTop;
-            el.style.position = 'absolute';
-        });
-        el.addEventListener('touchmove', (e) => {
-            if (!isDragging) return;
-            const dx = e.touches[0].clientX - startX;
-            const dy = e.touches[0].clientY - startY;
-            el.style.left = (initialX + dx) + 'px';
-            el.style.top = (initialY + dy) + 'px';
-        });
-        el.addEventListener('touchend', () => { isDragging = false; saveData(); });
-    });
+        el.onmousedown = dragMouseDown;
+        el.ontouchstart = dragMouseDown;
 
-    window.onload = () => {
-        const saved = localStorage.getItem('ceciliaFinalData');
-        if(saved) area.innerHTML = saved;
-        const meta = JSON.parse(localStorage.getItem('ceciliaMeta') || '{}');
-        if(meta.bgCol) document.getElementById('phone').style.backgroundColor = meta.bgCol;
-        if(meta.bgImg) document.getElementById('phone').style.backgroundImage = `url(${meta.bgImg})`;
-        if(meta.mId) document.getElementById('m-id').value = meta.mId;
-        if(meta.eDate) document.getElementById('event-date').value = meta.eDate;
-        startTimer();
-        updateMusic();
-    };
-
-    function saveData() {
-        localStorage.setItem('ceciliaFinalData', area.innerHTML);
-        localStorage.setItem('ceciliaMeta', JSON.stringify({
-            bgCol: document.getElementById('bg-col').value,
-            bgImg: document.getElementById('bg-img').value,
-            mId: document.getElementById('m-id').value,
-            eDate: document.getElementById('event-date').value
-        }));
-    }
-
-    function updateGlobalBg() {
-        const p = document.getElementById('phone');
-        p.style.backgroundColor = document.getElementById('bg-col').value;
-        p.style.backgroundImage = `url(${document.getElementById('bg-img').value})`;
-        saveData();
-    }
-
-    function openTextEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>📝 Texto</h3>
-            <textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>'); saveData()">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>
-            <label>Color</label><input type="color" value="${rgbToHex(el.style.color)}" oninput="document.getElementById('${id}').style.color=this.value; saveData()">
-            <label>Fuente</label><select onchange="document.getElementById('${id}').style.fontFamily=this.value; saveData()">
-                <option value="'Montserrat'">Moderna</option><option value="'Great Vibes'">Cursiva</option><option value="'Cinzel'">Elegante</option><option value="'Oswald'">Fuerte</option>
-            </select>
-            <label>Tamaño</label><input type="number" value="${parseInt(window.getComputedStyle(el).fontSize)}" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'; saveData()"></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function openSecEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🖼️ Sección</h3>
-            <label>Fondo (URL)</label><input type="text" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'; saveData()">
-            <label>Fondo (Color)</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value; saveData()">
-            <label>Altura (px)</label><input type="number" value="${el.offsetHeight}" oninput="document.getElementById('${id}').style.height=this.value+'px'; saveData()">`;
-        
-        if(id === 's7') {
-            html += `<label>Estilos Itinerario</label><div class="flex">
-                <button class="btn-t" onclick="chIt(1)">Línea</button><button class="btn-t" onclick="chIt(2)">Tarjeta</button>
-                <button class="btn-t" onclick="chIt(3)">Borde</button><button class="btn-t" onclick="chIt(4)">Círculo</button>
-            </div>`;
+        function dragMouseDown(e) {
+            e = e || window.event;
+            if (e.type !== 'touchstart') e.preventDefault();
+            pos3 = e.clientX || e.touches[0].clientX;
+            pos4 = e.clientY || e.touches[0].clientY;
+            document.onmouseup = closeDragElement;
+            document.ontouchend = closeDragElement;
+            document.onmousemove = elementDrag;
+            document.ontouchmove = elementDrag;
         }
-        if(id === 's8') {
-            html += `<label>Iconos</label><div class="flex">
-                <button class="btn-t" onclick="document.getElementById('dr-ico').innerText='👗👔'; saveData()">Boda</button>
-                <button class="btn-t" onclick="document.getElementById('dr-ico').innerText='👕✨'; saveData()">Guayabera</button>
-            </div>`;
+
+        function elementDrag(e) {
+            e = e || window.event;
+            let clientX = e.clientX || e.touches[0].clientX;
+            let clientY = e.clientY || e.touches[0].clientY;
+            pos1 = pos3 - clientX;
+            pos2 = pos4 - clientY;
+            pos3 = clientX;
+            pos4 = clientY;
+            el.style.top = (el.offsetTop - pos2) + "px";
+            el.style.left = (el.offsetLeft - pos1) + "px";
         }
-        html += `<button style="background:#fee2e2; color:red; border:none; padding:10px; width:100%; border-radius:10px; margin-top:15px; cursor:pointer;" onclick="document.getElementById('${id}').remove(); saveData()">ELIMINAR BLOQUE</button></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
+
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+            document.ontouchend = null;
+            document.ontouchmove = null;
+            saveData();
+        }
     }
 
-    function openBtnEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🔗 Botón</h3>
-            <label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value; saveData()">
-            <label>Link (URL/WA)</label><input type="text" value="${el.href}" oninput="document.getElementById('${id}').href=this.value; saveData()">
-            <label>Color</label><input type="color" value="${rgbToHex(el.style.backgroundColor)}" oninput="document.getElementById('${id}').style.backgroundColor=this.value; saveData()"></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
+    // Inicializar arrastre en los títulos
+    makeDraggable(document.getElementById("t1"));
+    makeDraggable(document.getElementById("t2"));
 
-    function openImgEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🖼️ Imagen</h3>
-            <label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value; saveData()"></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function chIt(n) { document.querySelectorAll('#it-list .it-row').forEach(r => r.className = 'it-row it-s-' + n); saveData(); }
-    function saveAndRefreshMusic() { saveData(); updateMusic(); }
-    function updateMusic() {
-        const id = document.getElementById('m-id').value;
-        const old = document.getElementById('pl'); if(old) old.remove();
-        const d = document.createElement('div'); d.id = 'pl';
-        d.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
-        document.body.appendChild(d);
-    }
-
+    // 2. CONTADOR FUNCIONAL (CON SEGUNDOS)
     function startTimer() {
-        const target = new Date(document.getElementById('event-date').value).getTime();
-        clearInterval(window.tm);
-        window.tm = setInterval(() => {
-            const diff = target - new Date().getTime();
-            if(diff > 0) {
-                document.getElementById('d').innerText = Math.floor(diff/86400000).toString().padStart(2,'0');
-                document.getElementById('h').innerText = Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');
-                document.getElementById('m').innerText = Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
+        setInterval(() => {
+            const target = new Date(document.getElementById('event-date').value).getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
+
+            if (diff > 0) {
+                document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById('hours').innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById('mins').innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById('secs').innerText = Math.floor((diff % (1000 * 60)) / 1000);
             }
         }, 1000);
     }
 
-    function rgbToHex(rgb) {
-        if(!rgb) return '#000000';
-        let res = rgb.match(/\d+/g);
-        if(!res) return '#000000';
-        return "#" + ((1 << 24) + (parseInt(res[0]) << 16) + (parseInt(res[1]) << 8) + parseInt(res[2])).toString(16).slice(1);
+    // 3. SORTABLE (PARA LAS SECCIONES)
+    new Sortable(document.getElementById('sortable-area'), { 
+        handle: '.drag-handle', 
+        animation: 150,
+        onEnd: saveData 
+    });
+
+    // 4. PERSISTENCIA Y EDICIÓN
+    function saveData() {
+        localStorage.setItem('cecilia_content', document.getElementById('sortable-area').innerHTML);
+        localStorage.setItem('cecilia_date', document.getElementById('event-date').value);
     }
 
-    function exportFinal() {
-        document.body.classList.add('final');
-        const content = `<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body>${document.getElementById('phone-container').outerHTML}</body></html>`
-            .replace(/<script[\s\S]*?<\/script>/g, '').replace(/drag-handle/g, 'hidden');
-        const blob = new Blob([content], {type: 'text/html'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'invitacion_final.html'; a.click();
-        document.body.classList.remove('final');
+    window.onload = () => {
+        const saved = localStorage.getItem('cecilia_content');
+        if(saved) {
+            document.getElementById('sortable-area').innerHTML = saved;
+            makeDraggable(document.getElementById("t1"));
+            makeDraggable(document.getElementById("t2"));
+        }
+        startTimer();
+    };
+
+    function openTextEditor(id) {
+        const el = document.getElementById(id);
+        document.getElementById('editor-dynamic').innerHTML = `
+            <div class="editor-card">
+                <label>Editar Texto</label>
+                <input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value; saveData()">
+                <label>Tamaño Fuente</label>
+                <input type="number" value="40" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'; saveData()">
+            </div>`;
     }
 </script>
+
 </body>
 </html>
