@@ -3,161 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editor Mi Gran día Studio - 100% COMPLETO</title>
+    <title>Mi Gran día Studio - EDICIÓN TOTAL</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Alex+Brush&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
     <style>
-        :root { --p-width: 450px; --accent: #d4a373; --bg-phone: #ffffff; }
-        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #cbd5e1; height: 100vh; overflow: hidden; }
+        :root { --p-width: 480px; --accent: #d4a373; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #0f172a; height: 100vh; overflow: hidden; }
 
         /* PANEL DE CONTROL */
-        #sidebar { width: var(--p-width); background: #ffffff; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; overflow-y: auto; padding: 30px; box-sizing: border-box; }
-        .editor-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 20px; }
-        h1 { font-family: 'Dancing Script'; color: var(--accent); font-size: 32px; margin: 0; }
-        label { display: block; font-size: 10px; font-weight: 800; color: #64748b; margin: 15px 0 5px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; }
-        .flex { display: flex; gap: 10px; align-items: center; }
-        .btn-align { flex: 1; padding: 8px; border: 1px solid #cbd5e1; background: white; cursor: pointer; border-radius: 5px; }
-        .btn-export { background: #2563eb; color: white; padding: 15px; width: 100%; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 16px; }
+        #sidebar { width: var(--p-width); background: #ffffff; box-shadow: 20px 0 60px rgba(0,0,0,0.5); z-index: 100; overflow-y: auto; padding: 25px; box-sizing: border-box; border-right: 5px solid var(--accent); }
+        .editor-card { background: #f8fafc; border-radius: 18px; padding: 18px; margin-bottom: 15px; border: 1px solid #e2e8f0; }
+        h1 { font-family: 'Dancing Script'; color: var(--accent); font-size: 35px; margin: 0; text-align: center; }
+        
+        label { display: block; font-size: 9px; font-weight: 900; color: #64748b; margin: 12px 0 4px; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 10px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 13px; margin-bottom: 5px; box-sizing: border-box; }
+        
+        .flex { display: flex; gap: 8px; margin-bottom: 8px; }
+        .btn-add { background: #f1f5f9; border: 2px dashed #cbd5e1; padding: 10px; border-radius: 10px; cursor: pointer; font-size: 11px; flex: 1; font-weight: bold; }
+        .btn-add:hover { background: var(--accent); color: white; }
+        .btn-main { background: var(--accent); color: white; padding: 18px; width: 100%; border-radius: 15px; border: none; font-weight: 800; cursor: pointer; margin-top: 15px; font-size: 16px; box-shadow: 0 4px 15px rgba(212, 163, 115, 0.3); }
 
         /* VISTA PREVIA */
-        #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        #phone { width: 375px; height: 812px; border: 14px solid #111; border-radius: 55px; background: var(--bg-phone); overflow-y: auto; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); scroll-behavior: smooth; }
+        #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; background: radial-gradient(circle, #334155, #0f172a); }
+        #phone { width: 385px; height: 820px; border: 12px solid #000; border-radius: 60px; position: relative; overflow-y: auto; background-color: #fff; background-size: cover; background-attachment: local; box-shadow: 0 50px 100px rgba(0,0,0,0.7); scroll-behavior: smooth; }
 
         /* SECCIONES */
-        .sec { padding: 40px 25px; position: relative; display: flex; flex-direction: column; transition: 0.3s; }
-        .drag-handle { position: absolute; left: 5px; top: 5px; cursor: grab; font-size: 20px; color: #ccc; z-index: 30; background: white; border-radius: 4px; padding: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .sec { padding: 50px 30px; position: relative; display: flex; flex-direction: column; transition: 0.3s; box-sizing: border-box; background-size: cover; background-position: center; min-height: 50px; }
+        .sec:hover { outline: 3px solid var(--accent); outline-offset: -3px; }
+        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; font-size: 20px; color: #ccc; z-index: 50; background: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border: 1px solid #ddd; }
         
-        .e-text { cursor: pointer; display: block; width: 100%; }
-        .v-card-btn { background: #ffffff; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 15px; }
-        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 40px; text-align: center; margin-top: 10px; }
-        .v-img { width: 100%; border-radius: 20px; object-fit: cover; height: 250px; margin: 10px 0; }
+        .e-text { cursor: pointer; transition: 0.2s; line-height: 1.5; }
+        .v-card { background: rgba(255,255,255,1); padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: 0.3s; }
+        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 50px; text-align: center; margin-top: 10px; transition: 0.3s; }
+        .v-img { width: 100%; border-radius: 20px; object-fit: cover; box-shadow: 0 8px 16px rgba(0,0,0,0.1); }
 
-        /* CONTADOR */
-        .countdown { display: flex; justify-content: inherit; gap: 8px; margin-top: 15px; }
-        .count-unit { background: rgba(0,0,0,0.04); padding: 10px 5px; border-radius: 12px; min-width: 60px; text-align: center; }
-        .count-num { display: block; font-family: 'Oswald'; font-size: 22px; color: var(--accent); }
+        .countdown { display: flex; justify-content: center; gap: 15px; }
+        .count-unit { text-align: center; }
+        .count-num { font-size: 28px; font-family: 'Oswald'; color: var(--accent); display: block; }
 
         /* MODO FINAL */
-        body.final-mode #sidebar, body.final-mode .drag-handle { display: none !important; }
-        body.final-mode #phone { width: 100%; height: auto; border: none; border-radius: 0; max-width: 500px; margin: 0 auto; }
+        body.final #sidebar, body.final .drag-handle { display: none !important; }
+        body.final #phone { width: 100%; height: auto; border: none; border-radius: 0; max-width: 550px; margin: 0 auto; overflow: visible; box-shadow: none; }
+        body.final #preview { background: white; padding: 0; display: block; }
     </style>
 </head>
 <body>
 
 <aside id="sidebar">
-    <h1>Mi Grandía ✨</h1>
+    <h1>Mi Grandía Studio ✨</h1>
     <div id="editor-container">
         <div class="editor-card">
-            <label>Color Fondo General</label>
-            <input type="color" id="in-bg" value="#ffffff" oninput="syncPage()">
-            <label>YouTube ID (Música)</label>
-            <input type="text" id="in-music" value="PwJ8HIDghLg" oninput="updateMusic()">
+            <label>🖼️ FONDO GENERAL (LIENZO)</label>
+            <div class="flex">
+                <input type="color" value="#ffffff" oninput="document.getElementById('phone').style.backgroundColor=this.value; document.getElementById('phone').style.backgroundImage='none'">
+                <input type="text" placeholder="URL Imagen (Pared/Flores)" oninput="document.getElementById('phone').style.backgroundImage='url('+this.value+')'">
+            </div>
+            <label>Música de Fondo (ID YouTube)</label>
+            <input type="text" id="m-id" value="PwJ8HIDghLg" oninput="updateMusic()">
+        </div>
+
+        <label>➕ AÑADIR NUEVAS PIEZAS</label>
+        <div class="flex" style="flex-wrap: wrap;">
+            <button class="btn-add" onclick="addNew('text')">📝 Texto</button>
+            <button class="btn-add" onclick="addNew('img')">🖼️ Imagen</button>
+            <button class="btn-add" onclick="addNew('card')">💳 Tarjeta</button>
+            <button class="btn-add" onclick="addNew('btn')">🔗 Botón</button>
+            <button class="btn-add" onclick="addNew('timer')">⏳ Contador</button>
         </div>
     </div>
-    <button class="btn-export" onclick="exportInvitation()">🚀 GENERAR INVITACIÓN FINAL</button>
+    
+    <button class="btn-main" onclick="exportInvitation()">💾 DESCARGAR INVITACIÓN LISTA</button>
 </aside>
 
 <main id="preview">
     <div id="phone">
         <div id="sortable-area">
             
-            <section class="sec" id="s-portada" style="height:480px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=600'); background-size:cover; justify-content:center; text-align:center;" onclick="openEditor('s-portada', 'Portada', 'bg')">
+            <section class="sec" id="s-p" style="height:480px; background:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800') center/cover; justify-content:center; text-align:center;" onclick="openEditor('s-p', 'Portada', 'sec')">
                 <div class="drag-handle">⠿</div>
-                <span class="e-text" id="t-names" style="font-family:'Great Vibes'; font-size:3.5rem; color:white; text-shadow:2px 2px 8px rgba(0,0,0,0.6);" onclick="event.stopPropagation(); openEditor('t-names', 'Nombres')">Sofía & Ale</span>
-                <span class="e-text" id="t-date-p" style="color:white; letter-spacing:3px;" onclick="event.stopPropagation(); openEditor('t-date-p', 'Fecha Portada')">31 . 12 . 2026</span>
+                <span class="e-text" id="t-n" style="font-family:'Great Vibes'; font-size:3.5rem; color:white; text-shadow:2px 2px 8px rgba(0,0,0,0.7);" onclick="event.stopPropagation(); openEditor('t-n', 'Nombres', 'text')">Sofía & Ale</span>
             </section>
 
-            <section class="sec" id="s-contador" style="text-align:center;" onclick="openEditor('s-contador', 'Contador', 'timer')">
+            <section class="sec" id="s-t" style="text-align:center; background:#fff;" onclick="openEditor('s-t', 'Bloque Contador', 'sec')">
                 <div class="drag-handle">⠿</div>
-                <span class="e-text" style="font-size:12px; font-weight:bold;">FALTAN:</span>
-                <div class="countdown" id="c-wrap" style="justify-content:center;">
+                <div class="countdown">
                     <div class="count-unit"><b class="count-num" id="d">00</b><small>Días</small></div>
                     <div class="count-unit"><b class="count-num" id="h">00</b><small>Hrs</small></div>
                     <div class="count-unit"><b class="count-num" id="m">00</b><small>Min</small></div>
                 </div>
-                <input type="hidden" id="count-date-val" value="2026-12-31T20:00">
+                <input type="hidden" id="count-date" value="2026-12-31T20:00">
             </section>
 
-            <section class="sec" id="s-mensaje" style="text-align:center;">
+            <section class="sec" id="s-u" style="text-align:center;" onclick="openEditor('s-u', 'Bloque Ubicación', 'sec')">
                 <div class="drag-handle">⠿</div>
-                <span class="e-text" id="t-msg-t" style="font-family:'Cinzel'; font-size:1.5rem; color:var(--accent);" onclick="openEditor('t-msg-t', 'Título Mensaje')">Nuestro Amor</span>
-                <p class="e-text" id="t-msg-b" style="font-size:14px; color:#666;" onclick="openEditor('t-msg-b', 'Cuerpo Mensaje')">Caminaremos juntos por siempre.</p>
-            </section>
-
-            <section class="sec" id="s-foto2">
-                <div class="drag-handle">⠿</div>
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" class="v-img" id="img-2" onclick="openEditor('img-2', 'Foto Intermedia 1', 'img')">
-            </section>
-
-            <section class="sec" id="s-familia" style="text-align:center;">
-                <div class="drag-handle">⠿</div>
-                <b class="e-text" id="fam-t1" onclick="openEditor('fam-t1', 'Título Padres')">Padres de la Novia y el Novio</b>
-                <p class="e-text" id="fam-n1" style="font-size:13px;" onclick="openEditor('fam-n1', 'Nombres Padres')">Nombres aquí...</p>
-                <div style="height:15px;"></div>
-                <b class="e-text" id="fam-t2" onclick="openEditor('fam-t2', 'Título Padrinos')">Nuestros Padrinos</b>
-                <p class="e-text" id="fam-n2" style="font-size:13px;" onclick="openEditor('fam-n2', 'Nombres Padrinos')">Nombres aquí...</p>
-            </section>
-
-            <section class="sec" id="s-itinerario" style="text-align:center;">
-                <div class="drag-handle">⠿</div>
-                <span class="e-text" style="font-family:'Cinzel'; font-size:1.4rem; color:var(--accent);">Itinerario</span>
-                <div style="text-align:left; margin-top:20px; font-size:13px;">
-                    <p class="e-text" id="it-1" onclick="openEditor('it-1', 'Acto 1')">💍 18:00 hrs - Ceremonia Religiosa</p>
-                    <p class="e-text" id="it-2" onclick="openEditor('it-2', 'Acto 2')">🥂 20:00 hrs - Recepción</p>
-                </div>
-            </section>
-
-            <section class="sec" id="s-iglesia" style="text-align:center;">
-                <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="card-i" onclick="openEditor('card-i', 'Cuadro Iglesia', 'card')">
-                    <span id="i-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('i-t', 'Título Iglesia')">Ceremonia Religiosa</span>
-                    <p id="i-d" class="e-text" style="font-size:12px; margin:10px 0;" onclick="event.stopPropagation(); openEditor('i-d', 'Dirección Iglesia')">Parroquia del Carmen, Centro.</p>
-                    <div id="btn-w-i" style="text-align:center;">
-                        <a href="#" id="b-i" class="v-btn" style="background:#40513B; color:white;" onclick="event.stopPropagation(); openEditor('b-i', 'Botón Iglesia', 'btn')">Ver Iglesia</a>
-                    </div>
-                </div>
-            </section>
-
-            <section class="sec" id="s-foto3">
-                <div class="drag-handle">⠿</div>
-                <img src="https://images.unsplash.com/photo-1465495910483-0d6749ee9f4a?w=500" class="v-img" id="img-3" onclick="openEditor('img-3', 'Foto Intermedia 2', 'img')">
-            </section>
-
-            <section class="sec" id="s-local" style="text-align:center;">
-                <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="card-l" onclick="openEditor('card-l', 'Cuadro Local', 'card')">
-                    <span id="l-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('l-t', 'Título Local')">Recepción y Fiesta</span>
-                    <p id="l-d" class="e-text" style="font-size:12px; margin:10px 0;" onclick="event.stopPropagation(); openEditor('l-d', 'Dirección Local')">Quinta Las Flores, Mérida.</p>
-                    <div id="btn-w-l" style="text-align:center;">
-                        <a href="#" id="b-l" class="v-btn" style="background:var(--accent); color:white;" onclick="event.stopPropagation(); openEditor('b-l', 'Botón Local', 'btn')">Ver Local</a>
-                    </div>
-                </div>
-            </section>
-
-            <section class="sec" id="s-dress" style="text-align:center;">
-                <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="card-d" onclick="openEditor('card-d', 'Cuadro Dresscode', 'card')">
-                    <span style="font-size:30px;">👔</span>
-                    <b id="d-t" class="e-text" onclick="event.stopPropagation(); openEditor('d-t', 'Título Vestimenta')">Código de Vestimenta</b>
-                    <p id="d-p" class="e-text" style="font-size:12px;" onclick="event.stopPropagation(); openEditor('d-p', 'Detalle Vestimenta')">FORMAL GUAYABERA</p>
-                </div>
-            </section>
-
-            <section class="sec" id="s-regalos" style="text-align:center;">
-                <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="card-r" style="border:1px dashed #ccc;" onclick="openEditor('card-r', 'Cuadro Regalos', 'card')">
-                    <b id="r-t" class="e-text" onclick="event.stopPropagation(); openEditor('r-t', 'Título Regalos')">Mesa de Regalos</b>
-                    <p id="r-m" class="e-text" style="font-size:12px;" onclick="event.stopPropagation(); openEditor('r-m', 'Mensaje Regalos')">Su presencia es nuestro mejor regalo.</p>
-                    <b id="r-c" class="e-text" onclick="event.stopPropagation(); openEditor('r-c', 'Cuenta')">CLABE: 000 000 000</b>
-                </div>
-            </section>
-
-            <section class="sec" id="s-reserva" style="text-align:center;">
-                <div class="drag-handle">⠿</div>
-                <div id="btn-w-r" style="text-align:center;">
-                    <a href="#" id="b-r" class="v-btn" style="background:#25D366; color:white;" onclick="event.stopPropagation(); openEditor('b-r', 'Botón WhatsApp', 'btn')">Confirmar Asistencia</a>
+                <div class="v-card" id="c-u" onclick="event.stopPropagation(); openEditor('c-u', 'Tarjeta', 'card')">
+                    <b class="e-text" id="t-u" style="font-size:1.2rem;" onclick="event.stopPropagation(); openEditor('t-u', 'Título Tarjeta', 'text')">CEREMONIA</b>
+                    <p class="e-text" id="t-d" style="font-size:12px; margin:10px 0;" onclick="event.stopPropagation(); openEditor('t-d', 'Dirección', 'text')">Parroquia de Tunkás, Yucatán.</p>
+                    <a href="#" id="b-m" class="v-btn" style="background:var(--accent); color:white;" onclick="event.stopPropagation(); openEditor('b-m', 'Botón Mapa', 'btn')">VER MAPA</a>
                 </div>
             </section>
 
@@ -168,58 +111,96 @@
 <script>
     new Sortable(document.getElementById('sortable-area'), { animation: 150, handle: '.drag-handle' });
 
-    function openEditor(id, label, type = 'text') {
+    function openEditor(id, label, type) {
         const el = document.getElementById(id);
         const container = document.getElementById('editor-container');
-        const sectionId = el.closest('.sec').id;
-        let html = `<div class="editor-card"><h2>✎ ${label}</h2>`;
+        let html = `<div class="editor-card"><h3>⚙️ ${label}</h3>`;
         
-        if(type === 'bg') html += `<label>URL Fondo</label><input type="text" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'">`;
-        else if(type === 'img') html += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value">`;
-        else if(type === 'btn') {
-            html += `<label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value">
-                     <label>Color Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
-                     <label>Alineación</label><div class="flex"><button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='left'">Izq</button><button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='center'">Cen</button></div>`;
-        } else if(type === 'card') {
-            html += `<label>Color Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
-                     <label>Redondeo</label><input type="range" min="0" max="60" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">`;
-        } else if(type === 'timer') {
-            html += `<label>Fecha</label><input type="datetime-local" value="${document.getElementById('count-date-val').value}" oninput="document.getElementById('count-date-val').value=this.value; startCountdown();">`;
-        } else {
-            html += `<label>Texto</label><textarea oninput="document.getElementById('${id}').innerText=this.value">${el.innerText}</textarea>
-                     <label>Alineación</label><div class="flex"><button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='left'">Izq</button><button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='center'">Cen</button><button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='right'">Der</button></div>`;
+        if (type === 'sec') {
+            html += `<label>Color de Fondo</label>
+                     <div class="flex">
+                        <input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
+                        <input type="range" min="0" max="100" value="100" oninput="document.getElementById('${id}').style.opacity=this.value/100">
+                     </div>
+                     <label>Imagen de Fondo</label><input type="text" placeholder="URL Imagen" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'">
+                     <label>Altura (px)</label><input type="number" oninput="document.getElementById('${id}').style.height=this.value+'px'">
+                     <label>Relleno</label><input type="range" min="10" max="150" value="50" oninput="document.getElementById('${id}').style.padding=this.value+'px 30px'">`;
+        } 
+        else if (type === 'text') {
+            html += `<label>Texto</label><textarea rows="3" oninput="document.getElementById('${id}').innerText=this.value">${el.innerText}</textarea>
+                     <label>Fuente</label><select onchange="document.getElementById('${id}').style.fontFamily=this.value">
+                        <option value="'Montserrat'">Moderna</option><option value="'Great Vibes'">Elegante Cursiva</option>
+                        <option value="'Cinzel'">Clásica Yucateca</option><option value="'Dancing Script'">Pixar Style</option><option value="'Oswald'">Deportiva/Fuerte</option>
+                     </select>
+                     <div class="flex">
+                        <div><label>Color</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value"></div>
+                        <div><label>Tamaño</label><input type="number" value="${parseInt(window.getComputedStyle(el).fontSize)}" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'"></div>
+                     </div>`;
         }
-        html += `<button style="background:#fee2e2; color:red; border:none; padding:10px; width:100%; margin-top:10px; cursor:pointer;" onclick="document.getElementById('${sectionId}').remove()">🗑️ Eliminar Sección</button></div>`;
+        else if (type === 'card') {
+            html += `<label>Color Tarjeta</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
+                     <label>Redondeo</label><input type="range" min="0" max="80" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">`;
+        }
+        else if (type === 'btn') {
+            html += `<label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value">
+                     <label>Fondo Botón</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
+                     <label>Color Letra</label><input type="color" value="#ffffff" oninput="document.getElementById('${id}').style.color=this.value">`;
+        }
+        else if (type === 'img') {
+            html += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value">
+                     <label>Redondeo</label><input type="range" min="0" max="100" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">`;
+        }
+
+        html += `<button style="background:#fee2e2; color:red; border:none; padding:10px; width:100%; border-radius:10px; cursor:pointer; margin-top:15px; font-weight:bold;" onclick="if(confirm('¿Borrar bloque?')) document.getElementById('${id.startsWith('s-')?id:el.closest('.sec').id}').remove()">🗑️ ELIMINAR</button></div>`;
         container.innerHTML = html;
     }
 
-    function syncPage() { document.documentElement.style.setProperty('--bg-phone', document.getElementById('in-bg').value); }
-    function startCountdown() {
-        const target = new Date(document.getElementById('count-date-val').value).getTime();
+    function addNew(type) {
+        const id = 's-' + Date.now();
+        const area = document.getElementById('sortable-area');
+        const sec = document.createElement('section');
+        sec.className = 'sec'; sec.id = id;
+        sec.onclick = () => openEditor(id, 'Nueva Sección', 'sec');
+        
+        let content = `<div class="drag-handle">⠿</div>`;
+        if(type === 'text') content += `<p class="e-text" id="t-${id}" onclick="event.stopPropagation(); openEditor('t-${id}', 'Texto', 'text')">Escribe aquí tu mensaje...</p>`;
+        if(type === 'img') content += `<img src="https://via.placeholder.com/400x300" class="v-img" id="i-${id}" onclick="event.stopPropagation(); openEditor('i-${id}', 'Imagen', 'img')">`;
+        if(type === 'card') content += `<div class="v-card" id="c-${id}" onclick="event.stopPropagation(); openEditor('c-${id}', 'Tarjeta', 'card')"><p class="e-text" id="tc-${id}" onclick="event.stopPropagation(); openEditor('tc-${id}', 'Contenido', 'text')">Nueva Tarjeta Editable</p></div>`;
+        if(type === 'btn') content += `<div style="text-align:center;"><a href="#" class="v-btn" id="b-${id}" style="background:var(--accent); color:white;" onclick="event.stopPropagation(); openEditor('b-${id}', 'Botón', 'btn')">Nuevo Botón</a></div>`;
+        if(type === 'timer') content += `<div class="countdown"><div class="count-unit"><b class="count-num">00</b><small>Días</small></div></div>`;
+        
+        sec.innerHTML = content;
+        area.appendChild(sec);
+    }
+
+    function updateMusic() {
+        const id = document.getElementById('m-id').value;
+        const old = document.getElementById('p-m'); if(old) old.remove();
+        const b = document.createElement('div'); b.id = 'p-m';
+        b.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
+        document.body.appendChild(b);
+    }
+
+    function startTimer() {
+        const target = new Date(document.getElementById('count-date').value).getTime();
         setInterval(() => {
             const diff = target - new Date().getTime();
-            if (diff > 0) {
+            if(diff > 0) {
                 document.getElementById('d').innerText = Math.floor(diff / 86400000).toString().padStart(2, '0');
                 document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000).toString().padStart(2, '0');
                 document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000).toString().padStart(2, '0');
             }
         }, 1000);
     }
-    function updateMusic() {
-        const val = document.getElementById('in-music').value;
-        const old = document.getElementById('m-p'); if(old) old.remove();
-        const b = document.createElement('div'); b.id = "m-p";
-        b.innerHTML = `<iframe src="https://www.youtube.com/embed/${val}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
-        document.body.appendChild(b);
-    }
+
     function exportInvitation() {
-        document.body.classList.add('final-mode');
-        const finalHtml = `<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body class="final-mode">${document.body.innerHTML}</body></html>`.replace(/<script[\s\S]*?<\/script>/g, '');
-        const b = new Blob([finalHtml], {type:'text/html'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'invitacion.html'; a.click();
-        document.body.classList.remove('final-mode');
+        document.body.classList.add('final');
+        const finalDoc = `<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body style="margin:0;">${document.getElementById('phone').outerHTML}</body></html>`.replace(/<script[\s\S]*?<\/script>/g, '').replace(/drag-handle/g, 'hidden');
+        const blob = new Blob([finalDoc], {type: 'text/html'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'invitacion_estudio.html'; a.click();
+        document.body.classList.remove('final');
     }
-    startCountdown();
+    startTimer();
 </script>
 </body>
 </html>
