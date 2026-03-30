@@ -1,164 +1,157 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Gran Día</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-body{margin:0;font-family:Montserrat;background:#f5f6fa}
-#container{display:flex;min-height:100vh}
-#panel{width:330px;background:white;padding:20px;overflow:auto;box-shadow:0 0 10px rgba(0,0,0,.08)}
-#preview{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:30px}
-.phone{width:360px;background:white;border-radius:25px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.15)}
-.hero img{width:100%;height:230px;object-fit:cover}
-.content{padding:20px;text-align:center}
-.names{font-family:'Playfair Display';font-size:28px;margin:10px 0}
-.btn{display:block;margin:10px auto;padding:12px;border-radius:30px;background:#111;color:white;text-decoration:none;width:85%;font-size:14px}
-.gallery img{width:100%;margin-bottom:10px;border-radius:12px}
-.count{font-size:14px;margin:10px 0;color:#555}
-label{font-size:12px;font-weight:600}
-input,textarea{width:100%;padding:8px;margin-bottom:10px;border-radius:8px;border:1px solid #ddd}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Gran día - Editor Profesional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <style>
+        :root { --accent: #d4a373; --bg-invitation: #ffffff; }
+        body { font-family: 'Montserrat', sans-serif; display: flex; margin: 0; background: #eef0f3; height: 100vh; overflow: hidden; }
+        
+        /* PANEL DE HERRAMIENTAS */
+        #editor-panel { width: 400px; background: white; padding: 25px; box-shadow: 4px 0 15px rgba(0,0,0,0.1); overflow-y: auto; z-index: 10; }
+        .tool-group { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 20px; }
+        h2 { font-size: 1.1rem; color: #444; margin-top: 0; display: flex; align-items: center; justify-content: space-between; }
+        .help { background: #ccc; color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 12px; cursor: help; text-align: center; display: inline-block; }
+        
+        label { display: block; font-size: 12px; font-weight: bold; color: #777; margin: 10px 0 5px; text-transform: uppercase; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; margin-bottom: 5px; }
+        
+        /* ÁREA DE PREVISUALIZACIÓN */
+        #preview-viewport { flex-grow: 1; display: flex; justify-content: center; align-items: flex-start; padding: 30px; overflow-y: auto; background: #d1d5db; }
+        #mobile-mockup { width: 360px; background: var(--bg-invitation); min-height: 750px; border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.3); border: 8px solid #333; position: relative; padding-bottom: 40px; overflow-x: hidden; }
+        
+        /* ESTILOS DE LA INVITACIÓN */
+        .hero-img { width: 100%; height: 220px; background: #ddd url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80') center/cover; }
+        .content { padding: 20px; text-align: center; }
+        .v-names { font-size: 2.5rem; margin: 10px 0; color: #333; transition: 0.3s; }
+        
+        .itinerary-item { display: flex; align-items: center; text-align: left; margin: 15px 0; padding-left: 20px; border-left: 2px solid var(--accent); }
+        .icon { font-size: 24px; margin-right: 15px; }
+        .time { font-weight: bold; font-size: 14px; color: var(--accent); display: block; }
+        .btn-action { display: block; margin: 10px auto; padding: 12px; width: 85%; border-radius: 25px; text-decoration: none; color: white; background: var(--accent); font-weight: bold; font-size: 13px; }
+
+        #pay-blocker { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); z-index: 100; color: white; text-align: center; justify-content: center; align-items: center; padding: 30px; box-sizing: border-box; flex-direction: column; }
+    </style>
 </head>
-
 <body>
-<div id="container">
 
-<div id="panel">
-<h2>Mi Gran Día</h2>
+<aside id="editor-panel">
+    <h1 style="color:var(--accent); margin-bottom:0;">Mi Grandía Editor ✨</h1>
+    <p style="font-size: 13px; color: #888; margin-bottom:20px;">Personalización profesional en tiempo real.</p>
 
-<label>Nombres</label>
-<input id="names" oninput="update()">
+    <div class="tool-group">
+        <h2>Música de Fondo <span class="help" title="Pega el link de YouTube para que suene al abrir la invitación">?</span></h2>
+        <label>ID de Video YouTube</label>
+        <input type="text" id="in-music" placeholder="Ej: d6P0O-N2fTo" oninput="updateMusic()">
+    </div>
 
-<label>WhatsApp URL</label>
-<input id="url_wsp" oninput="update()">
+    <div class="tool-group">
+        <h2>Estilo Visual <span class="help" title="Cambia colores y tipografía">?</span></h2>
+        <label>Color Principal</label>
+        <input type="color" id="in-color" value="#d4a373" oninput="sync()">
+        <label>Tipo de Letra</label>
+        <select id="in-font" onchange="sync()">
+            <option value="'Dancing Script', cursive">Elegante Cursiva</option>
+            <option value="'Playfair Display', serif">Clásica de Gala</option>
+            <option value="'Montserrat', sans-serif">Moderna Minimalista</option>
+        </select>
+    </div>
 
-<label>Google Maps URL</label>
-<input id="url_map" oninput="update()">
+    <div class="tool-group">
+        <h2>Contenido <span class="help" title="Nombres y horarios del evento">?</span></h2>
+        <label>Nombres</label>
+        <input type="text" id="in-names" value="Fernanda & Roberto" oninput="sync()">
+        <label>Ceremonia 💍</label>
+        <input type="text" id="in-time1" value="17:00 HRS" oninput="sync()">
+        <label>Banquete 🥂</label>
+        <input type="text" id="in-time2" value="19:30 HRS" oninput="sync()">
+        <label>Baile 💃</label>
+        <input type="text" id="in-time3" value="21:00 HRS" oninput="sync()">
+    </div>
 
-<label>Mesa de Regalos URL</label>
-<input id="url_gift" oninput="update()">
+    <div class="tool-group">
+        <h2>Enlaces <span class="help" title="Botones interactivos para tus invitados">?</span></h2>
+        <label>Link Google Maps</label>
+        <input type="text" id="link-church" placeholder="Pegar enlace de mapa..." oninput="sync()">
+    </div>
 
-<label>Instagram URL</label>
-<input id="url_ig" oninput="update()">
+    <button onclick="pay()" style="width:100%; padding: 18px; background: #22c55e; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; font-size: 16px; box-shadow: 0 4px 10px rgba(34, 197, 94, 0.3);">
+        FINALIZAR Y PAGAR 💳
+    </button>
+</aside>
 
-<label>YouTube Música ID</label>
-<input id="music" oninput="updateMusic()">
+<main id="preview-viewport">
+    <div id="mobile-mockup">
+        
+        <div id="pay-blocker">
+            <h3>¡Se ve espectacular! 😍</h3>
+            <p>Tu invitación personalizada está lista para ser enviada.</p>
+            <p style="font-size: 13px; color: #aaa;">Al pagar obtendrás tu enlace permanente y el archivo descargable.</p>
+            <button onclick="location.reload()" style="background:white; color:black; border:none; padding:12px 25px; border-radius:25px; cursor:pointer; font-weight:bold; margin-top:20px;">Seguir Editando</button>
+        </div>
 
-<label>Fecha</label>
-<input type="date" id="date" onchange="countdown()">
+        <div id="music-container"></div> <div class="hero-img"></div>
+        <div class="content">
+            <h1 class="v-names" id="v-names" style="font-family: 'Dancing Script', cursive;">Fernanda & Roberto</h1>
+            <p style="font-style: italic; color: #888; font-size: 14px;">¡Nos casamos!</p>
+            
+            <hr style="width: 40%; border: 0.5px solid #eee; margin: 20px auto;">
 
-<label>Hora</label>
-<input type="time" id="hour" onchange="countdown()">
+            <div style="text-align: left; padding: 0 10px;">
+                <h3 style="font-size: 14px; margin-bottom: 20px; letter-spacing: 1px; color:#444;">📍 ITINERARIO</h3>
+                
+                <div class="itinerary-item">
+                    <span class="icon">💍</span>
+                    <div><span class="time" id="v-time1">17:00 HRS</span><span style="font-size: 13px; color:#666;">Ceremonia Religiosa</span></div>
+                </div>
 
-<label>Portada</label>
-<input type="file" onchange="coverUpload(event)">
+                <div class="itinerary-item">
+                    <span class="icon">🥂</span>
+                    <div><span class="time" id="v-time2">19:30 HRS</span><span style="font-size: 13px; color:#666;">Recepción y Banquete</span></div>
+                </div>
 
-<label>Galería</label>
-<input type="file" multiple onchange="galleryUpload(event)">
+                <div class="itinerary-item">
+                    <span class="icon">💃</span>
+                    <div><span class="time" id="v-time3">21:00 HRS</span><span style="font-size: 13px; color:#666;">¡Gran Festejo!</span></div>
+                </div>
+            </div>
 
-<button onclick="save()">Guardar invitación</button>
-<div id="link"></div>
-
-</div>
-
-<div id="preview">
-<div class="phone">
-<div class="hero"><img id="cover"></div>
-<div class="content">
-
-<h2 class="names" id="v_names"></h2>
-<div class="count" id="count"></div>
-
-<a id="btn_map" class="btn">Ver ubicación</a>
-<a id="btn_wsp" class="btn">Confirmar asistencia</a>
-<a id="btn_gift" class="btn">Mesa de regalos</a>
-<a id="btn_ig" class="btn">Instagram</a>
-
-<div class="gallery" id="gallery"></div>
-
-</div>
-<div id="musicbox"></div>
-</div>
-</div>
-
-</div>
+            <a href="#" class="btn-action" id="v-btn">📍 VER MAPA DEL EVENTO</a>
+            <a href="https://wa.me/9911105456" class="btn-action" style="background:#25d366">💬 CONFIRMAR ASISTENCIA</a>
+        </div>
+    </div>
+</main>
 
 <script>
+    function sync() {
+        // Nombres y Fuentes
+        const nameDisplay = document.getElementById('v-names');
+        nameDisplay.innerText = document.getElementById('in-names').value;
+        nameDisplay.style.fontFamily = document.getElementById('in-font').value;
+        
+        // Color Temático
+        const color = document.getElementById('in-color').value;
+        document.documentElement.style.setProperty('--accent', color);
 
-function update(){
-v_names.innerText = names.value;
+        // Tiempos
+        document.getElementById('v-time1').innerText = document.getElementById('in-time1').value;
+        document.getElementById('v-time2').innerText = document.getElementById('in-time2').value;
+        document.getElementById('v-time3').innerText = document.getElementById('in-time3').value;
+    }
 
-btn_wsp.href = url_wsp.value;
-btn_map.href = url_map.value;
-btn_gift.href = url_gift.value;
-btn_ig.href = url_ig.value;
+    function updateMusic() {
+        const id = document.getElementById('in-music').value;
+        if(id.length > 5) {
+            document.getElementById('music-container').innerHTML = 
+                `<iframe width="0" height="0" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+        }
+    }
 
-}
-
-function coverUpload(e){
-let r=new FileReader();
-r.onload=()=>cover.src=r.result;
-r.readAsDataURL(e.target.files[0]);
-}
-
-function galleryUpload(e){
-gallery.innerHTML="";
-Array.from(e.target.files).forEach(f=>{
-let r=new FileReader();
-r.onload=()=>{
-let img=document.createElement("img");
-img.src=r.result;
-gallery.appendChild(img);
-};
-r.readAsDataURL(f);
-});
-}
-
-function countdown(){
-let event=new Date(date.value+"T"+hour.value);
-setInterval(()=>{
-let diff=event-new Date();
-let d=Math.floor(diff/1000/60/60/24);
-let h=Math.floor(diff/1000/60/60)%24;
-count.innerText=d+" días "+h+" hrs";
-},1000);
-}
-
-function updateMusic(){
-musicbox.innerHTML =
-'<iframe width="0" height="0" src="https://www.youtube.com/embed/'+music.value+'?autoplay=1&mute=1"></iframe>';
-}
-
-function save(){
-let id="inv-"+Date.now();
-let data={
-names:names.value,
-cover:cover.src,
-gallery:gallery.innerHTML,
-map:url_map.value,
-wsp:url_wsp.value,
-gift:url_gift.value,
-ig:url_ig.value
-};
-localStorage.setItem(id,JSON.stringify(data));
-link.innerHTML="Link: "+location.href+"?view="+id;
-}
-
-let p=new URLSearchParams(location.search);
-if(p.get("view")){
-let d=JSON.parse(localStorage.getItem(p.get("view")));
-panel.style.display="none";
-v_names.innerText=d.names;
-cover.src=d.cover;
-gallery.innerHTML=d.gallery;
-btn_map.href=d.map;
-btn_wsp.href=d.wsp;
-btn_gift.href=d.gift;
-btn_ig.href=d.ig;
-}
-
+    function pay() {
+        document.getElementById('pay-blocker').style.display = 'flex';
+    }
 </script>
 
 </body>
