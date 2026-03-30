@@ -3,75 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grandía Studio v2026 - Galería Cecilia Final</title>
+    <title>Grandía Studio v2026 - Contador Fix</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
     <style>
-        :root { --p-width: 460px; --gold: #b8860b; --accent: #d4a373; }
+        :root { --p-width: 460px; --gold: #b8860b; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #111; height: 100vh; overflow: hidden; }
-
-        /* EDITOR IZQUIERDO */
-        #sidebar { width: var(--p-width); background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
+        #sidebar { width: var(--p-width); background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); }
         .editor-card { background: #fdfaf6; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-left: 5px solid var(--gold); }
-        h1 { font-family: 'Dancing Script'; color: var(--gold); font-size: 30px; text-align: center; margin: 0 0 15px; }
         label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 12px 0 4px; text-transform: uppercase; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
-        .flex { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 10px; }
-        .btn-t { flex: 1; padding: 8px; border: 1px solid #ddd; background: #fff; cursor: pointer; border-radius: 6px; font-size: 10px; font-weight: bold; }
-        .btn-t:hover { background: var(--gold); color: #fff; }
-
-        /* VISTA PREVIA */
-        #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; overflow: hidden; position: relative; }
-        #phone-container { position: relative; width: 385px; height: 820px; border: 14px solid #000; border-radius: 60px; background: #fff; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.8); }
-        
-        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; scroll-behavior: smooth; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
+        #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; }
+        #phone-container { width: 385px; height: 820px; border: 14px solid #000; border-radius: 60px; background: #fff; overflow: hidden; position: relative; }
+        #phone { width: 100%; height: 100%; overflow-y: scroll; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
         #phone::-webkit-scrollbar { width: 8px; }
-        #phone::-webkit-scrollbar-track { background: #f1f1f1; }
         #phone::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
-
-        .sec { padding: 70px 25px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; background-size: cover; background-position: center; width: 100%; box-sizing: border-box; }
-        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 50; }
-        
-        .e-text { cursor: pointer; transition: 0.2s; width: 100%; line-height: 1.4; display: block; }
-        .v-card { background: rgba(255,255,255,0.95); padding: 25px; border-radius: 20px; width: 100%; box-sizing: border-box; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 10px; }
+        .sec { padding: 60px 25px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; background-size: cover; }
+        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .e-text { cursor: pointer; display: block; width: 100%; }
+        .v-card { background: rgba(255,255,255,0.9); padding: 20px; border-radius: 20px; width: 100%; margin-top: 10px; border: 1px solid #eee; }
         .v-img { width: 100%; border-radius: 15px; margin: 15px 0; object-fit: cover; height: 220px; }
-        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 50px; margin-top: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-
-        /* GALERIA FOTOS */
+        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 50px; margin-top: 15px; }
         .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px; }
-        .gal-item { width: 100%; height: 150px; border-radius: 10px; object-fit: cover; cursor: pointer; border: 2px solid transparent; transition: 0.3s; }
-        .gal-item:hover { border-color: var(--gold); transform: scale(0.98); }
-
-        /* CONTADOR */
-        .countdown { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
-        .c-unit { text-align: center; min-width: 60px; background: rgba(255,255,255,0.8); padding: 8px; border-radius: 10px; }
-        .c-num { font-size: 28px; font-family: 'Oswald'; color: var(--gold); display: block; }
-
-        body.final #sidebar, body.final .drag-handle, body.final #gal-btn { display: none !important; }
-        body.final #phone-container { border: none; width: 100%; max-width: 500px; height: auto; border-radius: 0; margin: 0 auto; overflow: visible; }
-        body.final #preview { background: #fff; padding: 0; }
+        .gal-item { width: 100%; height: 140px; border-radius: 10px; object-fit: cover; cursor: pointer; }
+        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: left; width: 100%; }
+        body.final #sidebar, body.final .drag-handle { display: none !important; }
     </style>
 </head>
 <body>
 
 <aside id="sidebar">
-    <h1>Grandía Studio ✨</h1>
+    <h2 style="font-family:'Dancing Script'; color:var(--gold); text-align:center;">Cecilia Invitaciones ✨</h2>
     <div class="editor-card">
-        <label>🎵 Música (YouTube ID)</label>
-        <input type="text" id="m-id" value="PwJ8HIDghLg" oninput="saveAndRefreshMusic()">
-        <label>🎨 Fondo de Invitación</label>
-        <div class="flex">
-            <input type="color" id="bg-col" value="#ffffff" oninput="updateGlobalBg()">
-            <input type="text" id="bg-img" placeholder="URL Fondo" value="https://www.transparenttextures.com/patterns/white-marble.png" oninput="updateGlobalBg()">
-        </div>
-        <label>📅 Fecha del Evento</label>
-        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData(); startTimer()">
+        <label>🎵 Música ID</label><input type="text" id="m-id" value="PwJ8HIDghLg" oninput="saveData(); updateMusic()">
+        <label>📅 Fecha del Evento</label><input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData(); startTimer()">
     </div>
-    <div id="editor-dynamic">
-        <p style="text-align:center; color:#999; font-size:12px; padding:20px;">Haz clic en cualquier foto o texto para editar.</p>
-    </div>
-    <button style="background:var(--gold); color:white; padding:18px; width:100%; border:none; border-radius:12px; font-weight:bold; cursor:pointer;" onclick="exportFinal()">🚀 DESCARGAR INVITACIÓN</button>
+    <div id="editor-dynamic"></div>
+    <button style="background:var(--gold); color:white; padding:18px; width:100%; border:none; border-radius:12px; font-weight:bold; cursor:pointer;" onclick="exportFinal()">🚀 DESCARGAR RESULTADO</button>
 </aside>
 
 <main id="preview">
@@ -81,175 +50,39 @@
                 <section class="sec" id="s1" style="height:550px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');">
                     <div class="drag-handle">⠿</div>
                     <span class="e-text" id="t1" style="font-family:'Great Vibes'; font-size:4rem; color:#fff;" onclick="openTextEditor('t1')">Sofía & Ale</span>
-                    <span class="e-text" id="t2" style="color:#fff; letter-spacing:4px; font-weight:bold;" onclick="openTextEditor('t2')">¡NOS CASAMOS!</span>
+                    <span class="e-text" id="t2" style="color:#fff; letter-spacing:4px;" onclick="openTextEditor('t2')">¡NOS CASAMOS!</span>
                 </section>
 
                 <section class="sec" id="s2" onclick="openSecEditor('s2')">
                     <div class="drag-handle">⠿</div>
-                    <span class="e-text" id="t3" style="font-family:'Cinzel';" onclick="openTextEditor('t3')">FALTAN:</span>
-                    <div class="countdown">
-                        <div class="c-unit"><b class="c-num" id="d">00</b><small>Días</small></div>
-                        <div class="c-unit"><b class="c-num" id="h">00</b><small>Hrs</small></div>
-                        <div class="c-unit"><b class="c-num" id="m">00</b><small>Min</small></div>
+                    <b class="e-text" id="tc" onclick="openTextEditor('tc')">NUESTRA BODA COMIENZA EN:</b>
+                    <div style="display:flex; gap:15px; margin-top:15px;">
+                        <div style="text-align:center;"><b id="days" style="font-size:35px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Días</small></div>
+                        <div style="text-align:center;"><b id="hours" style="font-size:35px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Hrs</small></div>
+                        <div style="text-align:center;"><b id="mins" style="font-size:35px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Min</small></div>
                     </div>
                 </section>
 
-                <section class="sec" id="s_gal" onclick="openSecEditor('s_gal')">
+                <section class="sec" id="s3" onclick="openSecEditor('s3')"><div class="drag-handle">⠿</div><p class="e-text" id="t4" onclick="openTextEditor('t4')">"Nuestra historia apenas comienza..."</p></section>
+
+                <section class="sec" id="s4" onclick="openSecEditor('s4')"><div class="drag-handle">⠿</div><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600" class="v-img" id="i1" onclick="openImgEditor('i1')"></section>
+
+                <section class="sec" id="sg" onclick="openSecEditor('sg')">
                     <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="gal_title" style="font-family:'Cinzel'; color:var(--gold); font-size:1.5rem;" onclick="event.stopPropagation(); openTextEditor('gal_title')">Nuestra Galería de Momentos</b>
-                    <p class="e-text" id="gal_sub" style="font-size:11px; font-style:italic;" onclick="event.stopPropagation(); openTextEditor('gal_sub')">Cada foto cuenta una parte de nuestra historia</p>
+                    <b class="e-text" id="gt" onclick="openTextEditor('gt')">Momentos Juntos</b>
                     <div class="gallery-grid" id="gal-container">
-                        <img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=300" class="gal-item" id="gal_init1" onclick="event.stopPropagation(); openImgEditor('gal_init1')">
-                        <img src="https://images.unsplash.com/photo-1522673607200-1648832cee98?w=300" class="gal-item" id="gal_init2" onclick="event.stopPropagation(); openImgEditor('gal_init2')">
+                        <img src="https://via.placeholder.com/300" class="gal-item" id="g1" onclick="openImgEditor('g1')">
+                        <img src="https://via.placeholder.com/300" class="gal-item" id="g2" onclick="openImgEditor('g2')">
                     </div>
-                    <button id="gal-btn" class="v-btn" style="background:#f8f9fa; color:#b8860b; font-size:11px; padding:10px 20px; border:1px solid #b8860b;" onclick="event.stopPropagation(); addNewPhoto()">+ AÑADIR NUEVA FOTO</button>
+                    <button class="v-btn" style="background:#eee; font-size:10px;" onclick="addGal()">+ AÑADIR FOTO</button>
                 </section>
 
                 <section class="sec" id="s5" onclick="openSecEditor('s5')">
                     <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="t5" style="color:var(--gold); font-family:'Cinzel';" onclick="openTextEditor('t5')">Nuestros Padres</b>
-                    <div class="v-card">
-                        <p class="e-text" id="t6" style="line-height:2;" onclick="openTextEditor('t6')">Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López</p>
-                    </div>
+                    <b class="e-text" id="tp" style="color:var(--gold);" onclick="openTextEditor('tp')">Nuestros Padres</b>
+                    <div class="v-card"><p class="e-text" id="t6" onclick="openTextEditor('t6')">Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López</p></div>
                 </section>
 
-                <section class="sec" id="s8" onclick="openSecEditor('s8')">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card">
-                        <span id="dr-ico" style="font-size:40px;">👗👔</span>
-                        <b class="e-text" id="t9" onclick="openTextEditor('t9')">Código de Vestimenta</b>
-                        <p class="e-text" id="t10" onclick="openTextEditor('t10')">FORMAL</p>
-                    </div>
-                </section>
+                <section class="sec" id="s6" onclick="openSecEditor('s6')"><div class="drag-handle">⠿</div><b>Nuestros Padrinos</b><p id="t8" class="e-text" onclick="openTextEditor('t8')">Nombres aquí</p></section>
 
-                <section class="sec" id="s14" onclick="openSecEditor('s14')">
-                    <div class="drag-handle">⠿</div>
-                    <p id="t16" class="e-text" style="font-weight:bold; margin-bottom:10px;" onclick="openTextEditor('t16')">Contamos con tu presencia</p>
-                    <a href="https://wa.me/9911105456" class="v-btn" id="b3" style="background:#25D366; color:#fff; width:100%;" onclick="openBtnEditor('b3')">CONFIRMAR ASISTENCIA</a>
-                </section>
-            </div>
-        </div>
-    </div>
-</main>
-
-<script>
-    const area = document.getElementById('sortable-area');
-    new Sortable(area, { animation: 150, handle: '.drag-handle', onEnd: saveData });
-
-    window.onload = () => {
-        const saved = localStorage.getItem('ceciliaUltraV4');
-        if(saved) area.innerHTML = saved;
-        startTimer();
-        updateMusic();
-    };
-
-    function saveData() {
-        localStorage.setItem('ceciliaUltraV4', area.innerHTML);
-    }
-
-    function openTextEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>📝 Texto</h3>
-            <textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>'); saveData()">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>
-            <label>Color</label><input type="color" value="${rgbToHex(el.style.color)}" oninput="document.getElementById('${id}').style.color=this.value; saveData()">
-            <label>Fuente</label><select onchange="document.getElementById('${id}').style.fontFamily=this.value; saveData()">
-                <option value="'Montserrat'">Moderna</option><option value="'Great Vibes'">Cursiva</option><option value="'Cinzel'">Elegante</option>
-            </select></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function openImgEditor(id) {
-        let el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🖼️ Editar Imagen</h3>
-            <label>1. Subir desde Ordenador</label>
-            <input type="file" accept="image/*" onchange="loadFile(event, '${id}')">
-            <label>2. O pegar URL de internet</label>
-            <input type="text" value="${el.src.startsWith('data') ? '' : el.src}" oninput="document.getElementById('${id}').src=this.value; saveData()">
-            <button style="margin-top:15px; background:#fee2e2; color:red; border:none; padding:8px; width:100%; border-radius:8px; cursor:pointer;" onclick="document.getElementById('${id}').remove(); saveData(); document.getElementById('editor-dynamic').innerHTML=''">🗑️ Eliminar esta foto</button>
-            </div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function loadFile(event, id) {
-        const reader = new FileReader();
-        reader.onload = function(){
-            document.getElementById(id).src = reader.result;
-            saveData();
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-
-    function addNewPhoto() {
-        const id = 'gal' + Date.now();
-        const img = document.createElement('img');
-        img.src = 'https://via.placeholder.com/300?text=Haz+clic+para+subir';
-        img.className = 'gal-item';
-        img.id = id;
-        img.onclick = (e) => { e.stopPropagation(); openImgEditor(id); };
-        document.getElementById('gal-container').appendChild(img);
-        saveData();
-    }
-
-    function openSecEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🖼️ Sección</h3>
-            <label>Altura bloque (px)</label><input type="number" value="${el.offsetHeight}" oninput="document.getElementById('${id}').style.height=this.value+'px'; saveData()">
-            <button style="background:red; color:white; width:100%; border:none; padding:10px; margin-top:15px; border-radius:8px; cursor:pointer;" onclick="document.getElementById('${id}').remove(); saveData()">BORRAR SECCIÓN COMPLETA</button></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function openBtnEditor(id) {
-        const el = document.getElementById(id);
-        let html = `<div class="editor-card"><h3>🔗 Botón</h3>
-            <label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value; saveData()">
-            <label>Color</label><input type="color" value="${rgbToHex(el.style.backgroundColor)}" oninput="document.getElementById('${id}').style.backgroundColor=this.value; saveData()"></div>`;
-        document.getElementById('editor-dynamic').innerHTML = html;
-    }
-
-    function updateGlobalBg() {
-        const p = document.getElementById('phone');
-        p.style.backgroundColor = document.getElementById('bg-col').value;
-        p.style.backgroundImage = `url(${document.getElementById('bg-img').value})`;
-        saveData();
-    }
-
-    function saveAndRefreshMusic() { saveData(); updateMusic(); }
-    function updateMusic() {
-        const id = document.getElementById('m-id').value;
-        const old = document.getElementById('pl'); if(old) old.remove();
-        const d = document.createElement('div'); d.id = 'pl';
-        d.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
-        document.body.appendChild(d);
-    }
-
-    function startTimer() {
-        const target = new Date(document.getElementById('event-date').value).getTime();
-        clearInterval(window.tm);
-        window.tm = setInterval(() => {
-            const diff = target - new Date().getTime();
-            if(diff > 0) {
-                document.getElementById('d').innerText = Math.floor(diff/86400000).toString().padStart(2,'0');
-                document.getElementById('h').innerText = Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');
-                document.getElementById('m').innerText = Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
-            }
-        }, 1000);
-    }
-
-    function rgbToHex(rgb) {
-        if(!rgb) return '#000000';
-        let res = rgb.match(/\d+/g);
-        if(!res) return '#000000';
-        return "#" + ((1 << 24) + (parseInt(res[0]) << 16) + (parseInt(res[1]) << 8) + parseInt(res[2])).toString(16).slice(1);
-    }
-
-    function exportFinal() {
-        document.body.classList.add('final');
-        const content = `<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body>${document.getElementById('phone-container').outerHTML}</body></html>`
-            .replace(/<script[\s\S]*?<\/script>/g, '').replace(/drag-handle/g, 'hidden');
-        const blob = new Blob([content], {type: 'text/html'});
-        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'invitacion_con_galeria.html'; a.click();
-        document.body.classList.remove('final');
-    }
-</script>
-</body>
-</html>
+                <section class="
