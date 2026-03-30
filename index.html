@@ -3,28 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación Cecilia - Versión Final 2026</title>
+    <title>Invitación Cecilia v2026</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     <style>
-        :root { --p-width: 460px; --gold: #b8860b; }
+        :root { --gold: #b8860b; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #111; height: 100vh; overflow: hidden; }
-        #sidebar { width: var(--p-width); background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); }
-        .editor-card { background: #fdfaf6; border-radius: 15px; padding: 15px; margin-bottom: 15px; border: 1px solid #e2e8f0; border-left: 5px solid var(--gold); }
-        label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 12px 0 4px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
+        #sidebar { width: 400px; background: #fff; overflow-y: auto; padding: 20px; border-right: 5px solid var(--gold); }
+        .editor-card { background: #fdfaf6; border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--gold); box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        input, select, textarea { width: 100%; padding: 8px; margin: 5px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
         #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; }
-        #phone-container { width: 385px; height: 820px; border: 14px solid #000; border-radius: 60px; background: #fff; overflow: hidden; position: relative; }
-        #phone { width: 100%; height: 100%; overflow-y: scroll; scroll-behavior: smooth; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
-        #phone::-webkit-scrollbar { width: 10px; }
-        #phone::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
-        .sec { padding: 70px 25px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; background-size: cover; }
-        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 50; }
-        .e-text { cursor: pointer; display: block; width: 100%; }
-        .v-card { background: rgba(255,255,255,0.9); padding: 25px; border-radius: 20px; width: 100%; margin-top: 10px; border: 1px solid #eee; }
-        .v-img { width: 100%; border-radius: 15px; margin: 15px 0; object-fit: cover; height: 220px; }
-        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 50px; margin-top: 15px; }
-        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px; }
-        .gal-item { width: 100%; height: 140px; border-radius: 10px; object-fit: cover; cursor: pointer; }
-        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom:
+        #phone-container { width: 375px; height: 750px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; position: relative; }
+        #phone { width: 100%; height: 100%; overflow-y: scroll; scroll-behavior: smooth; background: #fff url('https://www.transparenttextures.com/patterns/white-marble.png'); }
+        .sec { padding: 50px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; }
+        .drag-handle { position: absolute; left: 5px; top: 5px; cursor: move; background: #fff; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; border: 1px solid #ccc; z-index: 10; }
+        .e-text { cursor: pointer; width: 100%; }
+        .v-card { background: rgba(255,255,255,0.8); padding: 15px; border-radius: 15px; width: 100%; margin-top: 10px; border: 1px solid #eee; }
+        .v-img { width: 100%; border-radius: 10px; margin: 10px 0; object-fit: cover; height: 200px; }
+        .v-btn { display: inline-block; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 30px; margin-top: 10px; }
+        .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; margin-top: 10px; }
+        .gal-item { width: 100%; height: 120px; border-radius: 8px; object-fit: cover; cursor: pointer; }
+        body.final #sidebar, body.final .drag-handle { display: none !important; }
+    </style>
+</head>
+<body>
+
+<aside id="sidebar">
+    <h2 style="font-family:'Dancing Script'; color:var(--gold); text-align:center;">Cecilia Studio ✨</h2>
+    <div class="editor-card">
+        <label style="font-size:11px; font-weight:bold;">🎵 YouTube ID</label>
+        <input type="text" id="m-id" value="PwJ8HIDghLg" oninput="updateMusic()">
+        <label style="font-size:11px; font-weight:bold;">📅 Fecha Boda</label>
+        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="startTimer()">
+    </div>
+    <div id="editor-dynamic"></div>
+    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="exportFinal()">🚀 DESCARGAR INVITACIÓN</button>
+</aside>
+
+<main id="preview">
+    <div id="phone-container">
+        <div id="phone">
+            <div id="sortable-area">
+                <section class="sec" id="s1" style="height:450px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');">
+                    <div class="drag-handle">⠿</div>
+                    <span class="e-text" id="t1" style="font-family:'Great Vibes'; font-size:3.5rem; color:#fff;" onclick="openTextEditor('t1')">Sofía & Ale</span>
+                    <span class="e-text" id="t2" style="color:#fff; letter-spacing:3px;" onclick="openTextEditor('t2')">¡NOS CASAMOS!</span>
+                </section>
+
+                <section class="sec" id="s2">
+                    <div class="drag-handle">⠿</div>
+                    <b style="font-size:12px;">FALTAN:</b>
+                    <div style="display:flex; gap:10px; margin-top:10px;">
+                        <div style="text-align:center;"><b id="d" style="font-size:25px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Días</small></div>
+                        <div style="text-align:center;"><b id="h" style="font-size:25px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Hrs</small></div>
+                        <div style="text-align:center;"><b id="m" style="font-size:25px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Min</small></div>
+                    </div>
+                </section>
+
+                <section class="sec" id="s3"><div class="drag-handle">⠿</div><p class="e-text" id="t4" onclick="openTextEditor('t4')">"Nuestra historia apenas comienza..."</p></section>
+
+                <section class="sec" id="s4"><div class="drag-handle">⠿</div><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600" class="v-img" id="i1" onclick="openImgEditor('i1')"></section>
+
+                <section class="sec" id="sg">
+                    <div class="drag-handle">⠿</div>
+                    <b class="e-text" id="gt" onclick="openTextEditor('gt')">Nuestra Galería</b>
+                    <div class="gallery-grid" id="gal-container">
+                        <img src="https://via.placeholder.com/300" class="gal-item" id="g1" onclick="openImgEditor('g1')">
+                        <img src="https://via.placeholder.com/300" class="gal-item" id="g2" onclick="openImgEditor('g2')">
+                    </div>
+                    <button style="margin-top:10px; font-size:10px;" onclick="addGal()">+ AÑADIR FOTO</button>
+                </section>
+
+                <section class="sec" id="s5">
+                    <div class="drag-handle">⠿</div>
+                    <b style="color:var(--gold); font-family:'Cinzel';">Nuestros Padres</b>
+                    <div class="v-card"><p class="e-text" id="t6" onclick="openTextEditor('t6')">Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López</p></div>
+                </section>
+
+                <section class="sec" id="s6"><div class="drag-handle">⠿</div><b>Padrinos</b><p id="t8" class="e-text" onclick="openTextEditor('t8')">Nombres aquí</p></section>
+
+                <section class="sec" id="s7"><div class="drag-handle">⠿</div><b>Itinerario</b><div style="font-size:13px; margin-top:10px;">⛪ Misa - 6:00 PM<br>🥂 Recepción - 8:30 PM</div></section>
+
+                <section class="sec" id="s8"><div class="drag-handle">⠿</div><div class="v-card">👗👔<br><b>Vestimenta</b><p id="t10" class="e-text" onclick="openTextEditor('t10')">FORMAL</p></div></section>
+
+                <section class="sec" id="s9"><div class="drag-handle">⠿</div><div class="v-card"><b>Ubicación</b><a href="#" class="v-btn" style="background:var(--gold); color:#fff;">VER MAPA</a></div></section>
+                <section class="sec" id="s11"><div class="drag-handle">⠿</div><div class="v-card"><b>Regalos</b><p id="t13" class="e-text" onclick="openTextEditor('t13')">Mesa: 12345</p></div></section>
+                <section class="sec" id="s12"><div class="drag-handle">⠿</div><div class="v-card">✉️ <b>Sobres</b><p id="t14" class="e-text" onclick="openTextEditor('t14')">Gracias.</p></div></section>
+                <section class="sec" id="s13"><div class="drag-handle">⠿</div><div class="v-card">🏨 <b>Hospedaje</b><p id="t15" class="e-text" onclick="openTextEditor('t15')">Hotel Central</p></div></section>
+                <section class="sec" id="s14"><div class="drag-handle">⠿</div><p>¿Asistirás?</p><a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:#fff; width:100%;">WHATSAPP</a></section>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    new Sortable(document.getElementById('sortable-area'), { animation: 150, handle: '.drag-handle' });
+
+    function openTextEditor(id) {
+        const el = document.getElementById(id);
+        document.getElementById('editor-dynamic').innerHTML = `<div class="editor-card"><h3>Texto</h3><textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>')">${el.innerHTML.replace(/<br>/g, '\n')}</textarea></div>`;
+    }
+
+    function openImgEditor(id) {
+        document.getElementById('editor-dynamic').innerHTML = `<div class="editor-card"><h3>Foto</h3><label>PC:</label><input type="file" onchange="loadFile(event, '${id}')"><label>URL:</label><input type="text" oninput="document.getElementById('${id}').src=this.value"></div>`;
+    }
+
+    function loadFile(e, id) {
+        const r = new FileReader();
+        r.onload = () => { document.getElementById(id).src = r.result; };
+        r.readAsAsDataURL(e.target.files[0]);
+    }
+
+    function addGal() {
+        const id = 'g' + Date.now();
+        const img = document.createElement('img');
+        img.src = 'https://via.placeholder.com/300'; img.className = 'gal-item'; img.id = id;
+        img.onclick = () => openImgEditor(id);
+        document.getElementById('gal-container').appendChild(img);
+    }
+
+    function updateMusic() {
+        const id = document.getElementById('m-id').value;
+        const old = document.getElementById('pl'); if(old) old.remove();
+        const d = document.createElement('div'); d.id = 'pl';
+        d.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
+        document.body.appendChild(d);
+    }
+
+    function startTimer() {
+        const target = new Date(document.getElementById('event-date').value).getTime();
+        setInterval(() => {
+            const diff = target - new Date().getTime();
+            if(diff > 0) {
+                document.getElementById('d').innerText = Math.floor(diff/86400000).toString().padStart(2,'0');
+                document.getElementById('h').innerText = Math.floor((diff%86400000)/3600000).toString().padStart(2,'0');
+                document.getElementById('m').innerText = Math.floor((diff%3600000)/60000).toString().padStart(2,'0');
+            }
+        }, 1000);
+    }
+    startTimer(); updateMusic();
+
+    function exportFinal() {
+        document.body.classList.add('final');
+        const content = `<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body>${document.getElementById('phone-container').outerHTML}</body></html>`.replace(/<script[\s\S]*?<\/script>/g, '');
+        const blob = new Blob([content], {type: 'text/html'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'invitacion.html'; a.click();
+        document.body.classList.remove('final');
+    }
+</script>
+</body>
+</html>
