@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grandía Studio v2026 - Contador Fix</title>
+    <title>Invitación Cecilia - Versión Final 2026</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
@@ -16,73 +16,15 @@
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
         #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; }
         #phone-container { width: 385px; height: 820px; border: 14px solid #000; border-radius: 60px; background: #fff; overflow: hidden; position: relative; }
-        #phone { width: 100%; height: 100%; overflow-y: scroll; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
-        #phone::-webkit-scrollbar { width: 8px; }
+        #phone { width: 100%; height: 100%; overflow-y: scroll; scroll-behavior: smooth; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
+        #phone::-webkit-scrollbar { width: 10px; }
         #phone::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
-        .sec { padding: 60px 25px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; background-size: cover; }
-        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .sec { padding: 70px 25px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; background-size: cover; }
+        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 50; }
         .e-text { cursor: pointer; display: block; width: 100%; }
-        .v-card { background: rgba(255,255,255,0.9); padding: 20px; border-radius: 20px; width: 100%; margin-top: 10px; border: 1px solid #eee; }
+        .v-card { background: rgba(255,255,255,0.9); padding: 25px; border-radius: 20px; width: 100%; margin-top: 10px; border: 1px solid #eee; }
         .v-img { width: 100%; border-radius: 15px; margin: 15px 0; object-fit: cover; height: 220px; }
         .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 50px; margin-top: 15px; }
         .gallery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; margin-top: 15px; }
         .gal-item { width: 100%; height: 140px; border-radius: 10px; object-fit: cover; cursor: pointer; }
-        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: left; width: 100%; }
-        body.final #sidebar, body.final .drag-handle { display: none !important; }
-    </style>
-</head>
-<body>
-
-<aside id="sidebar">
-    <h2 style="font-family:'Dancing Script'; color:var(--gold); text-align:center;">Cecilia Invitaciones ✨</h2>
-    <div class="editor-card">
-        <label>🎵 Música ID</label><input type="text" id="m-id" value="PwJ8HIDghLg" oninput="saveData(); updateMusic()">
-        <label>📅 Fecha del Evento</label><input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData(); startTimer()">
-    </div>
-    <div id="editor-dynamic"></div>
-    <button style="background:var(--gold); color:white; padding:18px; width:100%; border:none; border-radius:12px; font-weight:bold; cursor:pointer;" onclick="exportFinal()">🚀 DESCARGAR RESULTADO</button>
-</aside>
-
-<main id="preview">
-    <div id="phone-container">
-        <div id="phone">
-            <div id="sortable-area">
-                <section class="sec" id="s1" style="height:550px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800');">
-                    <div class="drag-handle">⠿</div>
-                    <span class="e-text" id="t1" style="font-family:'Great Vibes'; font-size:4rem; color:#fff;" onclick="openTextEditor('t1')">Sofía & Ale</span>
-                    <span class="e-text" id="t2" style="color:#fff; letter-spacing:4px;" onclick="openTextEditor('t2')">¡NOS CASAMOS!</span>
-                </section>
-
-                <section class="sec" id="s2" onclick="openSecEditor('s2')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="tc" onclick="openTextEditor('tc')">NUESTRA BODA COMIENZA EN:</b>
-                    <div style="display:flex; gap:15px; margin-top:15px;">
-                        <div style="text-align:center;"><b id="days" style="font-size:35px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Días</small></div>
-                        <div style="text-align:center;"><b id="hours" style="font-size:35px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Hrs</small></div>
-                        <div style="text-align:center;"><b id="mins" style="font-size:35px; color:var(--gold); font-family:'Oswald';">00</b><br><small>Min</small></div>
-                    </div>
-                </section>
-
-                <section class="sec" id="s3" onclick="openSecEditor('s3')"><div class="drag-handle">⠿</div><p class="e-text" id="t4" onclick="openTextEditor('t4')">"Nuestra historia apenas comienza..."</p></section>
-
-                <section class="sec" id="s4" onclick="openSecEditor('s4')"><div class="drag-handle">⠿</div><img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=600" class="v-img" id="i1" onclick="openImgEditor('i1')"></section>
-
-                <section class="sec" id="sg" onclick="openSecEditor('sg')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="gt" onclick="openTextEditor('gt')">Momentos Juntos</b>
-                    <div class="gallery-grid" id="gal-container">
-                        <img src="https://via.placeholder.com/300" class="gal-item" id="g1" onclick="openImgEditor('g1')">
-                        <img src="https://via.placeholder.com/300" class="gal-item" id="g2" onclick="openImgEditor('g2')">
-                    </div>
-                    <button class="v-btn" style="background:#eee; font-size:10px;" onclick="addGal()">+ AÑADIR FOTO</button>
-                </section>
-
-                <section class="sec" id="s5" onclick="openSecEditor('s5')">
-                    <div class="drag-handle">⠿</div>
-                    <b class="e-text" id="tp" style="color:var(--gold);" onclick="openTextEditor('tp')">Nuestros Padres</b>
-                    <div class="v-card"><p class="e-text" id="t6" onclick="openTextEditor('t6')">Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López</p></div>
-                </section>
-
-                <section class="sec" id="s6" onclick="openSecEditor('s6')"><div class="drag-handle">⠿</div><b>Nuestros Padrinos</b><p id="t8" class="e-text" onclick="openTextEditor('t8')">Nombres aquí</p></section>
-
-                <section class="
+        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom:
