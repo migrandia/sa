@@ -3,41 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistema Mi Gran Día - Edición Total</title>
+    <title>Creador Profesional - Mi Gran Día</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Playfair+Display:ital,wght@0,400;1,700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #b8860b; --dark: #1a1a1a; --glass: rgba(255, 255, 255, 0.98); }
         
-        /* ENTORNO PROFESIONAL */
-        body, html { margin: 0; padding: 0; height: 100%; background: #000; font-family: 'Montserrat', sans-serif; overflow: hidden; }
+        /* ENTORNO PROFESIONAL (Fondo Oxford) */
+        body, html { margin: 0; padding: 0; height: 100%; background: #000; font-family: 'Montserrat', sans-serif; overflow: hidden; user-select: none; }
         
         #editor-frame { 
             display: flex; justify-content: center; align-items: center; 
             height: 100vh; width: 100vw; background: radial-gradient(#333 1px, #111 1px); background-size: 30px 30px;
         }
 
-        /* EL CELULAR */
+        /* EL CELULAR (Lienzo de Trabajo) */
         #phone-container { 
             width: 100%; max-width: 414px; height: 92vh; background: #fff; 
             position: relative; border-radius: 50px; overflow: hidden;
             border: 10px solid #222; box-shadow: 0 0 100px rgba(0,0,0,0.8);
         }
 
-        /* CAPA FIJA Y SCROLL */
+        /* CAPA FIJA DE FONDO (Mármol, etc.) */
         #fixed-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; background-size: cover; background-position: center; }
+        
+        /* CONTENIDO DESLIZABLE (Donde están las secciones) */
         #scroll-content { position: relative; z-index: 2; height: 100%; overflow-y: auto; scroll-behavior: smooth; }
 
-        /* SECCIONES */
-        .sec { padding: 80px 25px; min-height: 200px; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
-        .editable { cursor: pointer; transition: 0.2s; position: relative; z-index: 10; max-width: 100%; }
-        .editable:hover { outline: 2px dashed var(--gold); background: rgba(184,134,11,0.05); }
+        /* SECCIONES DEL INVENTARIO */
+        .sec { padding: 100px 25px; min-height: 250px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; }
+        
+        /* COMPONENTES EDITABLES Y MOVIBLES */
+        .editable { 
+            cursor: move; transition: outline 0.2s; position: relative; z-index: 10; 
+            max-width: 100%; touch-action: none; user-select: none;
+        }
+        .editable:hover { outline: 2px dashed var(--gold); outline-offset: 8px; background: rgba(184,134,11,0.05); }
+        .editable.dragging { opacity: 0.7; outline: 3px solid var(--gold); z-index: 100; }
 
-        /* COMPONENTES */
-        .v-img { width: 100%; border-radius: 10px; margin: 20px 0; }
-        .v-btn { padding: 20px 40px; text-decoration: none; font-weight: bold; display: block; width: 80%; margin: 10px auto; border: none; font-size: 14px; }
-        .sticker { position: absolute; z-index: 5; cursor: move; font-size: 60px; user-select: none; }
+        /* ESTILOS DE ELEMENTOS */
+        .v-img { width: 100%; border-radius: 10px; margin: 15px 0; pointer-events: none; }
+        .v-btn { padding: 18px 35px; text-decoration: none; font-weight: bold; display: block; width: 85%; margin: 10px auto; border: none; font-size: 14px; pointer-events: none; }
+        .sticker { position: absolute; z-index: 5; cursor: move; font-size: 60px; pointer-events: auto; touch-action: none; }
+        .icon-item { font-size: 1.2rem; margin-right: 10px; }
 
-        /* MENÚ EMERGENTE (BOTTOM SHEET - COMO EN TU VIDEO) */
+        /* REPRODUCTOR CASI INVISIBLE */
+        #music-player { 
+            position: absolute; top: 15px; right: 15px; z-index: 1000; 
+            background: rgba(255,255,255,0.2); width: 35px; height: 35px; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; font-size: 18px; color: #fff; border: 1px solid #fff;
+        }
+
+        /* MENÚ EMERGENTE (BOTTOM SHEET) */
         #bottom-editor { 
             position: fixed; bottom: -100%; left: 0; width: 100%; 
             background: var(--glass); z-index: 5000; border-radius: 30px 30px 0 0;
@@ -45,24 +62,28 @@
             transition: 0.4s cubic-bezier(0.1, 0.7, 0.1, 1); color: #333;
         }
         #bottom-editor.open { bottom: 0; }
-        .drag-handle { width: 40px; height: 5px; background: #ccc; border-radius: 10px; margin: -10px auto 20px; }
+        .drag-handle { width: 40px; height: 5px; background: #ccc; border-radius: 10px; margin: -10px auto 20px; cursor: pointer; }
 
-        /* CONTROLES */
+        /* CONTROLES DEL EDITOR */
         .input-row { margin-bottom: 15px; }
         label { font-size: 11px; font-weight: bold; text-transform: uppercase; color: #666; display: block; margin-bottom: 8px; }
-        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 14px; background: #f9f9f9; }
+        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 14px; background: #f9f9f9; box-sizing: border-box;}
         .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
         /* BOTONES DE ACCIÓN */
-        .btn-action { background: #000; color: #fff; padding: 15px; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; }
-        .floating-add { position: fixed; top: 20px; left: 20px; background: var(--gold); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; z-index: 4000; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .floating-save { position: fixed; top: 20px; right: 20px; background: #000; color: white; padding: 12px 20px; border-radius: 30px; cursor: pointer; z-index: 4000; font-weight: bold; font-size: 12px; border: 2px solid var(--gold); }
+        .btn-action { background: #000; color: #fff; padding: 18px; border: none; border-radius: 15px; font-weight: bold; cursor: pointer; width: 100%; margin-top: 10px; font-size: 14px; }
+        .btn-action:hover { background: var(--gold); }
+        .floating-add { position: fixed; bottom: 30px; left: 30px; background: var(--gold); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; z-index: 4000; box-shadow: 0 5px 20px rgba(0,0,0,0.4); border: none; }
+        .floating-save { position: fixed; top: 20px; right: 20px; background: #000; color: white; padding: 12px 25px; border-radius: 30px; cursor: pointer; z-index: 4000; font-weight: bold; font-size: 12px; border: 2px solid var(--gold); }
     </style>
 </head>
-<body>
+<body onclick="tryPlay()">
 
-<div class="floating-add" onclick="spawnSticker('🌸')">+</div>
-<div class="floating-save" onclick="downloadDesign()">DESCARGAR DISEÑO</div>
+<div id="music-player" onclick="toggleMusic(event)">🔇</div>
+<audio id="main-audio" loop></audio>
+
+<button class="floating-add" onclick="spawnSticker('🌸')">+</button>
+<div class="floating-save" onclick="processExport()">DESCARGAR INVITACIÓN</div>
 
 <div id="editor-frame">
     <div id="phone-container">
@@ -71,49 +92,59 @@
             <div id="full-inventory">
                 
                 <section class="sec" style="min-height: 80vh; justify-content: center;">
-                    <div class="editable" id="s1-t1" onclick="openEditor('s1-t1','text')" style="font-family:'Great Vibes'; font-size:4rem;">Cecilia & Ruben</div>
-                    <div class="editable" id="s1-t2" onclick="openEditor('s1-t2','text')" style="letter-spacing:6px; font-weight:700; font-size:12px; margin-top:10px;">¡NOS CASAMOS!</div>
-                    <img id="s1-img" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" class="v-img editable" onclick="openEditor('s1-img','img')" style="height:350px;">
+                    <div class="editable text-element" id="s1-t1" style="font-family:'Great Vibes'; font-size:4.5rem; top: 50px;">Cecilia & Ruben</div>
+                    <div class="editable text-element" id="s1-t2" style="letter-spacing:7px; font-weight:700; font-size:13px; top: 120px;">¡NUESTRA BODA!</div>
+                    <div class="editable img-element" id="s1-img" style="top: 180px; width: 90%;"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" class="v-img"></div>
                 </section>
 
                 <section class="sec">
-                    <div class="editable" id="s2-t1" onclick="openEditor('s2-t1','text')">FALTA MUY POCO</div>
-                    <div id="timer-display" style="font-size: 2.5rem; font-weight: bold; color: var(--gold); font-family: 'Playfair Display'; margin: 20px 0;">00:00:00:00</div>
+                    <div class="editable text-element" id="s2-t1">FALTAN SOLO:</div>
+                    <div id="timer-display" style="font-size: 2.8rem; font-weight: bold; color: var(--gold); font-family: 'Playfair Display'; margin: 25px 0;">00:00:00:00</div>
                     <input type="datetime-local" id="target-date" value="2026-12-31T20:00" onchange="autoSave()">
                 </section>
 
                 <section class="sec">
-                    <div class="editable" id="s5-t1" onclick="openEditor('s5-t1','text')">
-                        <span style="font-family:'Cinzel'; color:var(--gold);">NUESTROS PADRES</span><br><br>
+                    <div class="editable text-element" id="s-story-title" style="font-family:'Cinzel'; color:var(--gold); font-size:1.2rem;">NUESTRA HISTORIA</div>
+                    <div class="editable text-element" id="s-story-body" style="font-size:0.9rem; line-height:1.6; margin-top:15px;">Un día nos encontramos y supimos que era para siempre. Compartimos risas, sueños y ahora queremos compartir nuestro "Sí, acepto" contigo.</div>
+                </section>
+
+                <section class="sec" style="background: rgba(184,134,11,0.05); border-radius: 20px;">
+                    <div class="editable text-element" id="s-msg-body" style="font-style:italic; font-family:'Playfair Display'; font-size:1.1rem;">"Tu presencia es nuestro mejor regalo. Gracias por ser parte de este día tan especial."</div>
+                </section>
+
+                <section class="sec">
+                    <div class="editable text-element" id="s5-t1">
+                        <b style="color:var(--gold); font-family:'Cinzel';">NUESTROS PADRES</b><br><br>
                         Emperatriz Landa & Rubén Pérez<br>---<br>Familia del Novio
                     </div>
                 </section>
 
                 <section class="sec">
-                    <div class="editable" id="s7-t1" onclick="openEditor('s7-t1','text')">
-                        <b style="font-size:1.2rem;">NUESTRO ITINERARIO</b><br><br>
-                        ⛪ 17:00 - Ceremonia Religiosa<br>
-                        🥂 19:00 - Recepción de Gala<br>
-                        🍽️ 20:30 - Cena y Baile
+                    <div class="editable text-element" id="s7-t1">
+                        <b style="font-size:1.3rem; font-family:'Cinzel';">EL ITINERARIO</b><br><br>
+                        <span class="icon-item">⛪</span> 17:00 - Ceremonia Religiosa<br><br>
+                        <span class="icon-item">🥂</span> 19:00 - Cóctel de Bienvenida<br><br>
+                        <span class="icon-item">🍽️</span> 20:30 - Banquete de Gala<br><br>
+                        <span class="icon-item">🎵</span> 22:00 - Apertura de Baile
                     </div>
                 </section>
 
                 <section class="sec">
-                    <div class="editable" id="s8-t1" onclick="openEditor('s8-t1','text')">🎵 NUESTRA CANCIÓN</div>
-                    <audio id="audio-player" controls style="width:100%; margin-top:20px;"></audio>
-                    <input type="text" placeholder="Pegar URL de MP3 aquí" onchange="document.getElementById('audio-player').src=this.value; autoSave()" style="margin-top:10px;">
+                    <div class="editable text-element" id="s-dress-title" style="font-family:'Cinzel'; color:var(--gold);">DRESS CODE</div>
+                    <div class="editable text-element" id="s-dress-body" style="font-weight:bold; margin-top:10px;">FORMAL / GUAYABERA</div>
+                    <div class="editable text-element" id="s-dress-note" style="font-size:0.8rem; color:#666; margin-top:5px;">Agradecemos evitar el color blanco.</div>
                 </section>
 
                 <section class="sec">
-                    <a href="#" class="v-btn editable" id="s13-b1" onclick="openEditor('s13-b1','btn')" style="background:var(--gold); color:#fff; border-radius:50px;">MAPA DE LA CEREMONIA</a>
+                    <div class="editable btn-element" id="s13-b1" style="width: 100%;"><a href="#" class="v-btn" style="background:var(--gold); color:#fff; border-radius:50px;">UBICACIÓN DE LA CEREMONIA</a></div>
                 </section>
 
                 <section class="sec">
-                    <a href="https://wa.me/9911105456" class="v-btn editable" id="s17-b1" onclick="openEditor('s17-b1','btn')" style="background:#25D366; color:#fff; border-radius:50px;">CONFIRMAR ASISTENCIA</a>
+                    <div class="editable btn-element" id="s17-b1" style="width: 100%;"><a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:#fff; border-radius:50px;">CONFIRMAR ASISTENCIA</a></div>
                 </section>
 
-                <section class="sec"><img id="g1" src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="v-img editable" onclick="openEditor('g1','img')"></section>
-                <section class="sec"><img id="g2" src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500" class="v-img editable" onclick="openEditor('g2','img')"></section>
+                <section class="sec"><div class="editable img-element" id="g1"><img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=500" class="v-img"></div></section>
+                <section class="sec"><div class="editable img-element" id="g2"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=500" class="v-img"></div></section>
 
             </div>
         </div>
@@ -123,101 +154,337 @@
 <div id="bottom-editor">
     <div class="drag-handle" onclick="closeEditor()"></div>
     <div id="editor-ui"></div>
-    <button class="btn-action" onclick="closeEditor()">FINALIZAR EDICIÓN</button>
-    <button onclick="deleteActiveSticker()" id="del-btn" style="display:none; color:red; background:none; border:none; margin-top:10px; width:100%;">Eliminar Adorno</button>
+    <button class="btn-action" onclick="closeEditor()">FINALIZAR Y APLICAR</button>
+    <button onclick="deleteElement()" id="del-btn" style="display:none; color:red; background:none; border:none; margin-top:15px; width:100%; cursor:pointer; font-weight:bold;">🗑️ Eliminar Elemento</button>
 </div>
 
 <script>
     let activeId = null;
+    let isDragging = false;
+    let currentX, currentY, initialX, initialY, xOffset = 0, yOffset = 0;
+    let musicStarted = false;
 
+    // INICIALIZAR DRAG & DROP EN TODOS LOS ELEMENTOS EDITABLES
+    function initFullDrag() {
+        const editables = document.querySelectorAll('.editable');
+        editables.forEach(el => {
+            // Asegurar posicionamiento absoluto para movimiento libre
+            if (!el.style.position || el.style.position !== 'absolute') {
+                el.style.position = 'absolute';
+                // Posición inicial por defecto si no tienen
+                if (!el.style.top) el.style.top = el.offsetTop + 'px';
+                if (!el.style.left) el.style.left = '50%';
+                if (!el.style.transform && el.style.left === '50%') el.style.transform = 'translateX(-50%)';
+            }
+            
+            // Eventos de Mouse
+            el.addEventListener('mousedown', dragStart, false);
+            // Eventos Táctiles
+            el.addEventListener('touchstart', dragStart, {passive: false});
+            
+            // Clic normal para abrir editor (solo si no se arrastró)
+            el.addEventListener('click', (e) => {
+                if (isDragging) return;
+                e.stopPropagation();
+                let type = 'text';
+                if (el.classList.contains('img-element')) type = 'img';
+                if (el.classList.contains('btn-element')) type = 'btn';
+                if (el.classList.contains('sticker')) type = 'sticker';
+                openEditor(el.id, type);
+            });
+        });
+
+        document.addEventListener('mousemove', drag, false);
+        document.addEventListener('mouseup', dragEnd, false);
+        document.addEventListener('touchmove', drag, {passive: false});
+        document.addEventListener('touchend', dragEnd, false);
+    }
+
+    // LÓGICA DE ARRASTRE (DRAG)
+    function dragStart(e) {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+        
+        activeElForDrag = this;
+        isDragging = false; // Resetear bandera de arrastre
+
+        if (e.type === 'touchstart') {
+            initialX = e.touches[0].clientX - xOffset;
+            initialY = e.touches[0].clientY - yOffset;
+        } else {
+            initialX = e.clientX - xOffset;
+            initialY = e.clientY - yOffset;
+        }
+
+        // Obtener offsets actuales si ya se movió
+        const style = window.getComputedStyle(activeElForDrag);
+        const transform = style.transform;
+        if (transform && transform !== 'none') {
+            const matrix = new WebKitCSSMatrix(transform);
+            xOffset = matrix.m41;
+            yOffset = matrix.m42;
+        } else {
+            xOffset = 0; yOffset = 0;
+        }
+    }
+
+    function drag(e) {
+        if (activeElForDrag) {
+            e.preventDefault();
+            isDragging = true; // Se está moviendo, activar bandera
+            activeElForDrag.classList.add('dragging');
+
+            if (e.type === 'touchmove') {
+                currentX = e.touches[0].clientX - initialX;
+                currentY = e.touches[0].clientY - initialY;
+            } else {
+                currentX = e.clientX - initialX;
+                currentY = e.clientY - initialY;
+            }
+
+            xOffset = currentX;
+            yOffset = currentY;
+
+            // Mantener el centrado horizontal si estaba configurado
+            let transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+            if (window.getComputedStyle(activeElForDrag).left === '50%') {
+                transform = `translate3d(-50%, 0, 0) translate3d(${currentX}px, ${currentY}px, 0)`;
+            }
+            
+            activeElForDrag.style.transform = transform;
+        }
+    }
+
+    function dragEnd(e) {
+        if (activeElForDrag) {
+            initialX = currentX;
+            initialY = currentY;
+            activeElForDrag.classList.remove('dragging');
+            autoSave();
+            activeElForDrag = null;
+        }
+    }
+
+    // CONFIGURACIÓN DE MÚSICA AUTOPLAY (Al oprimir la invitación)
+    function tryPlay() {
+        const audio = document.getElementById('main-audio');
+        if (!musicStarted && audio.src) {
+            audio.play().then(() => {
+                musicStarted = true;
+                document.getElementById('music-player').innerText = '🔊';
+            }).catch(e => console.log("Autoplay bloqueado, esperando interacción."));
+        }
+    }
+
+    function toggleMusic(e) {
+        e.stopPropagation();
+        const audio = document.getElementById('main-audio');
+        const icon = document.getElementById('music-player');
+        if (audio.paused) {
+            audio.play();
+            icon.innerText = '🔊';
+            musicStarted = true;
+        } else {
+            audio.pause();
+            icon.innerText = '🔇';
+        }
+    }
+
+    // EDITOR EMERGENTE (BOTTOM SHEET)
     function openEditor(id, type) {
         activeId = id;
         const el = document.getElementById(id);
         const ui = document.getElementById('editor-ui');
-        document.getElementById('del-btn').style.display = 'none';
+        const delBtn = document.getElementById('del-btn');
         
-        let content = `<h2 style="margin-top:0; font-size:18px;">Configurar Elemento</h2>`;
+        // Mostrar botón eliminar solo para adornos nuevos
+        delBtn.style.display = (type === 'sticker') ? 'block' : 'none';
+        
+        let content = `<h2 style="margin-top:0; font-size:18px; color:var(--gold); font-family:'Cinzel';">Editar Elemento</h2>`;
 
-        if(type === 'text' || type === 'btn') {
-            content += `<div class="input-row"><label>Contenido del Texto</label><textarea rows="3" oninput="updateVal(this.value)">${el.innerHTML.replace(/<br>/g, '\n')}</textarea></div>`;
+        if(type === 'text' || type === 'btn' || type === 'sticker') {
+            if (type !== 'sticker') {
+                content += `<div class="input-row"><label>Texto / Contenido (Soporta HTML)</label><textarea rows="4" oninput="updateVal(this.value)">${el.innerHTML.replace(/<br>/g, '\n')}</textarea></div>`;
+            } else {
+                content += `<div class="input-row"><label>Emoji / Icono</label><input type="text" value="${el.innerHTML}" oninput="updateVal(this.value)"></div>`;
+            }
+            
             content += `<div class="tool-grid">
                 <div class="input-row"><label>Fuente</label><select onchange="updateStyle('fontFamily', this.value)">
-                    <option value="'Montserrat'">Moderna</option><option value="'Great Vibes'">Elegante Cursiva</option><option value="'Cinzel'">Imperial</option><option value="'Playfair Display'">Clásica</option>
+                    <option value="'Montserrat'">Moderna</option><option value="'Great Vibes'">Cursiva</option><option value="'Cinzel'">Imperial</option><option value="'Playfair Display'">Clásica</option>
                 </select></div>
                 <div class="input-row"><label>Color</label><input type="color" oninput="updateStyle('color', this.value)"></div>
             </div>`;
+            
+            content += `<div class="tool-grid">
+                <div class="input-row"><label>Tamaño (px/rem)</label><input type="text" value="${window.getComputedStyle(el).fontSize}" oninput="updateStyle('fontSize', this.value)"></div>
+                <div class="input-row"><label>Grosor</label><select onchange="updateStyle('fontWeight', this.value)"><option value="300">Fino</option><option value="400">Normal</option><option value="700">Negrita</option></select></div>
+            </div>`;
+
             if(type === 'btn') {
-                content += `<div class="input-row"><label>Enlace del Botón (URL)</label><input type="text" value="${el.href}" onchange="document.getElementById(activeId).href=this.value; autoSave()"></div>`;
+                htmlLink = el.tagName === 'A' ? el.href : el.querySelector('a').href;
+                content += `<hr><div class="input-row"><label>Enlace Destino (URL)</label><input type="text" value="${htmlLink}" onchange="updateBtnLink(this.value)"></div>`;
+                content += `<div class="input-row"><label>Color del Botón</label><input type="color" oninput="updateBtnStyle('backgroundColor', this.value)"></div>`;
             }
         }
 
         if(type === 'img') {
-            content += `<div class="input-row"><label>URL de Imagen</label><input type="text" value="${el.src}" onchange="document.getElementById(activeId).src=this.value; autoSave()"></div>`;
-            content += `<div class="input-row"><label>Altura (px)</label><input type="range" min="100" max="700" value="${el.offsetHeight}" oninput="document.getElementById(activeId).style.height=this.value+'px'; autoSave()"></div>`;
+            const realImg = el.tagName === 'IMG' ? el : el.querySelector('img');
+            content += `<div class="input-row"><label>URL de la Imagen</label><input type="text" value="${realImg.src}" onchange="updateImgSrc(this.value)"></div>`;
+            content += `<div class="input-row"><label>Ancho (%)</label><input type="range" min="10" max="100" value="${parseInt(window.getComputedStyle(el).width)}" oninput="document.getElementById(activeId).style.width=this.value+'%'; autoSave()"></div>`;
+            content += `<div class="input-row"><label>Borde Dorado Cecilia</label><input type="checkbox" ${realImg.style.border ? 'checked' : ''} onchange="updateImgBorder(this.checked)"></div>`;
         }
 
         ui.innerHTML = content;
         document.getElementById('bottom-editor').classList.add('open');
     }
 
+    // FUNCIONES DE ACTUALIZACIÓN EN TIEMPO REAL
     function updateVal(v) { document.getElementById(activeId).innerHTML = v.replace(/\n/g, '<br>'); autoSave(); }
     function updateStyle(p, v) { document.getElementById(activeId).style[p] = v; autoSave(); }
+    function updateBtnLink(v) { 
+        const el = document.getElementById(activeId);
+        if (el.tagName === 'A') el.href = v; else el.querySelector('a').href = v;
+        autoSave(); 
+    }
+    function updateBtnStyle(p, v) {
+        const el = document.getElementById(activeId);
+        if (el.tagName === 'A') el.style[p] = v; else el.querySelector('a').style[p] = v;
+        autoSave();
+    }
+    function updateImgSrc(v) {
+        const el = document.getElementById(activeId);
+        if (el.tagName === 'IMG') el.src = v; else el.querySelector('img').src = v;
+        autoSave();
+    }
+    function updateImgBorder(checked) {
+        const el = document.getElementById(activeId);
+        const img = el.tagName === 'IMG' ? el : el.querySelector('img');
+        img.style.border = checked ? '6px solid #b8860b' : 'none';
+        autoSave();
+    }
+
     function closeEditor() { document.getElementById('bottom-editor').classList.remove('open'); }
-
-    // ADORNOS (STICKERS) MOVIBLES
-    function spawnSticker(emoji) {
-        const s = document.createElement('div');
-        s.className = 'sticker'; s.innerHTML = emoji;
-        s.style.top = '100px'; s.style.left = '50px';
-        document.getElementById('scroll-content').appendChild(s);
-        makeDraggable(s);
-    }
-
-    function makeDraggable(el) {
-        let x1=0, y1=0, x2=0, y2=0;
-        el.onmousedown = (e) => {
-            e.preventDefault(); x2 = e.clientX; y2 = e.clientY;
-            document.onmousemove = (e) => {
-                x1 = x2 - e.clientX; y1 = y2 - e.clientY; x2 = e.clientX; y2 = e.clientY;
-                el.style.top = (el.offsetTop - y1) + "px";
-                el.style.left = (el.offsetLeft - x1) + "px";
-                el.style.position = 'absolute';
-            };
-            document.onmouseup = () => { document.onmousemove = null; autoSave(); };
-        };
-        // Soporte táctil
-        el.ontouchstart = (e) => {
-            x2 = e.touches[0].clientX; y2 = e.touches[0].clientY;
-            el.ontouchmove = (e) => {
-                x1 = x2 - e.touches[0].clientX; y1 = y2 - e.touches[0].clientY;
-                x2 = e.touches[0].clientX; y2 = e.touches[0].clientY;
-                el.style.top = (el.offsetTop - y1) + "px";
-                el.style.left = (el.offsetLeft - x1) + "px";
-            };
-            el.ontouchend = () => { autoSave(); };
-        };
-    }
-
-    function autoSave() {
-        localStorage.setItem('cecilia_final_v1', document.getElementById('full-inventory').innerHTML);
-    }
-
-    function downloadDesign() {
-        alert("Diseño guardado en memoria. Para exportar, puedes copiar el código o usar la función de impresión a PDF del navegador.");
-    }
-
-    window.onload = () => {
-        const saved = localStorage.getItem('cecilia_final_v1');
-        if(saved) {
-            document.getElementById('full-inventory').innerHTML = saved;
-            document.querySelectorAll('.sticker').forEach(makeDraggable);
+    
+    function deleteElement() {
+        if(confirm("¿Seguro que quieres eliminar este adorno?")) {
+            document.getElementById(activeId).remove();
+            closeEditor();
+            autoSave();
         }
+    }
+
+    // AÑADIR ADORNOS (STICKERS)
+    let stickerCount = 0;
+    function spawnSticker(emoji) {
+        stickerCount++;
+        const id = `sticker-${stickerCount}`;
+        const s = document.createElement('div');
+        s.className = 'sticker editable'; 
+        s.id = id;
+        s.innerHTML = emoji;
+        s.style.top = '150px'; s.style.left = '50px';
+        document.getElementById('scroll-content').appendChild(s);
         
+        // Re-inicializar drag para el nuevo elemento
+        s.style.position = 'absolute';
+        s.addEventListener('mousedown', dragStart, false);
+        s.addEventListener('touchstart', dragStart, {passive: false});
+        s.addEventListener('click', (e) => {
+            if (isDragging) return;
+            e.stopPropagation();
+            openEditor(id, 'sticker');
+        });
+        
+        autoSave();
+    }
+
+    // CONFIG GLOBAL (FONDO)
+    function openGlobalConfig() {
+        // Reutilizamos el editor emergente para la config global
+        const ui = document.getElementById('editor-ui');
+        document.getElementById('del-btn').style.display = 'none';
+        
+        let content = `<h2 style="margin-top:0; font-size:18px; color:var(--gold); font-family:'Cinzel';">Configuración Global</h2>`;
+        content += `<div class="input-row"><label>Color de Fondo Base</label><input type="color" id="g-bg-col" value="#ffffff" oninput="updateGlobalBg()"></div>`;
+        content += `<div class="input-row"><label>Textura de Fondo (Capa Fija)</label><select id="g-bg-tex" onchange="updateGlobalBg()">
+            <option value="none">Ninguna</option>
+            <option value="url('https://www.transparenttextures.com/patterns/white-marble.png')">Mármol Blanco</option>
+            <option value="url('https://www.transparenttextures.com/patterns/handmade-paper.png')">Papel Artesanal</option>
+            <option value="url('https://www.transparenttextures.com/patterns/floral-paper.png')">Vintage Floral</option>
+        </select></div>`;
+        content += `<hr><div class="input-row"><label>URL Música de Fondo (MP3)</label><input type="text" id="g-music-url" placeholder="Pega el link aquí" onchange="updateGlobalMusic(this.value)"></div>`;
+        
+        ui.innerHTML = content;
+        document.getElementById('bottom-editor').classList.add('open');
+    }
+
+    function updateGlobalBg() {
+        const col = document.getElementById('g-bg-col').value;
+        const tex = document.getElementById('g-bg-tex').value;
+        document.getElementById('phone-container').style.backgroundColor = col;
+        document.getElementById('fixed-bg').style.backgroundImage = tex === 'none' ? 'none' : tex;
+        autoSave();
+    }
+
+    function updateGlobalMusic(url) {
+        const audio = document.getElementById('main-audio');
+        audio.src = url;
+        audio.load();
+        musicStarted = false;
+        document.getElementById('music-player').innerText = '🔇';
+        autoSave();
+    }
+
+    // SISTEMA DE GUARDADO Y EXPORTACIÓN
+    function autoSave() {
+        // Guardar estructura
+        localStorage.setItem('cecilia_pro_v1_html', document.getElementById('full-inventory').innerHTML);
+        // Guardar estilos globales
+        localStorage.setItem('cecilia_pro_v1_bgcol', document.getElementById('phone-container').style.backgroundColor);
+        localStorage.setItem('cecilia_pro_v1_bgtex', document.getElementById('fixed-bg').style.backgroundImage);
+        localStorage.setItem('cecilia_pro_v1_music', document.getElementById('main-audio').src);
+        localStorage.setItem('cecilia_pro_v1_date', document.getElementById('target-date').value);
+    }
+
+    function processExport() {
+        // Crear una copia del HTML final
+        let finalHTML = document.getElementById('full-inventory').innerHTML;
+        // Aquí se podría limpiar clases de edición si se desea, pero para guardar progreso sirve así.
+        
+        const blob = new Blob([finalHTML], {type: 'text/html'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'invitacion-trabajo.html';
+        a.click();
+        alert("Diseño exportado. Para verlo funcional fuera del editor, se requiere un archivo index.html limpio que cargue este contenido.");
+    }
+
+    // CARGA INICIAL
+    window.onload = () => {
+        // Cargar estructura guardada
+        const savedHTML = localStorage.getItem('cecilia_pro_v1_html');
+        if(savedHTML) document.getElementById('full-inventory').innerHTML = savedHTML;
+        
+        // Cargar globales
+        document.getElementById('phone-container').style.backgroundColor = localStorage.getItem('cecilia_pro_v1_bgcol') || '#ffffff';
+        document.getElementById('fixed-bg').style.backgroundImage = localStorage.getItem('cecilia_pro_v1_bgtex') || 'none';
+        document.getElementById('main-audio').src = localStorage.getItem('cecilia_pro_v1_music') || '';
+        document.getElementById('target-date').value = localStorage.getItem('cecilia_pro_v1_date') || '2026-12-31T20:00';
+
+        // Re-vincular eventos a los elementos cargados
+        initFullDrag();
+        
+        // Vincular el icono de música a la config global si se hace doble clic
+        document.getElementById('music-player').addEventListener('dblclick', openGlobalConfig);
+        
+        // CONTADOR TIEMPO REAL
         setInterval(() => {
             const diff = new Date(document.getElementById('target-date').value) - new Date();
             if(diff > 0) {
                 const d = Math.floor(diff/864e5), h = Math.floor((diff%864e5)/36e5), m = Math.floor((diff%36e5)/6e4), s = Math.floor((diff%6e4)/1000);
                 document.getElementById('timer-display').innerText = `${d}d ${h}h ${m}m ${s}s`;
+            } else {
+                document.getElementById('timer-display').innerText = "¡LLEGÓ EL DÍA!";
             }
         }, 1000);
     }
