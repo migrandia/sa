@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día Studio - VERSIÓN FINAL OMNI</title>
+    <title>Editor Mi Gran día Studio - 100% COMPLETO</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Alex+Brush&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
@@ -13,31 +13,35 @@
 
         /* PANEL DE CONTROL */
         #sidebar { width: var(--p-width); background: #ffffff; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; overflow-y: auto; padding: 30px; box-sizing: border-box; }
-        .editor-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 20px; animation: fadeIn 0.3s; }
+        .editor-card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 15px; padding: 20px; margin-bottom: 20px; }
         h1 { font-family: 'Dancing Script'; color: var(--accent); font-size: 32px; margin: 0; }
         label { display: block; font-size: 10px; font-weight: 800; color: #64748b; margin: 15px 0 5px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; background: white; margin-bottom: 10px; box-sizing: border-box; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid #cbd5e1; border-radius: 10px; font-size: 14px; margin-bottom: 10px; box-sizing: border-box; }
         .flex { display: flex; gap: 10px; align-items: center; }
         .btn-align { flex: 1; padding: 8px; border: 1px solid #cbd5e1; background: white; cursor: pointer; border-radius: 5px; }
-        .btn-delete { background: #fee2e2; color: #dc2626; border: 1px solid #fecaca; padding: 12px; width: 100%; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 20px; }
+        .btn-export { background: #2563eb; color: white; padding: 15px; width: 100%; border-radius: 10px; border: none; font-weight: bold; cursor: pointer; margin-top: 20px; font-size: 16px; }
 
-        /* VISTA PREVIA CELULAR */
+        /* VISTA PREVIA */
         #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        #phone { width: 375px; height: 812px; border: 14px solid #111; border-radius: 55px; background: var(--bg-phone); overflow-y: auto; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); }
+        #phone { width: 375px; height: 812px; border: 14px solid #111; border-radius: 55px; background: var(--bg-phone); overflow-y: auto; position: relative; box-shadow: 0 50px 100px rgba(0,0,0,0.4); scroll-behavior: smooth; }
 
         /* SECCIONES */
-        .sec { padding: 40px 25px; position: relative; transition: 0.3s; display: flex; flex-direction: column; }
-        .drag-handle { position: absolute; left: 5px; top: 5px; cursor: grab; font-size: 20px; color: #ccc; z-index: 30; background: white; border-radius: 5px; }
+        .sec { padding: 40px 25px; position: relative; display: flex; flex-direction: column; transition: 0.3s; }
+        .drag-handle { position: absolute; left: 5px; top: 5px; cursor: grab; font-size: 20px; color: #ccc; z-index: 30; background: white; border-radius: 4px; padding: 2px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
         
         .e-text { cursor: pointer; display: block; width: 100%; }
-        .v-card-btn { background: #ffffff; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 10px; }
-        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 40px; text-align: center; }
-        .v-img { width: 100%; border-radius: 20px; object-fit: cover; height: 250px; margin: 10px 0; cursor: pointer; }
+        .v-card-btn { background: #ffffff; padding: 25px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #eee; margin-top: 15px; }
+        .v-btn { display: inline-block; padding: 15px 30px; text-decoration: none; font-weight: bold; border-radius: 40px; text-align: center; margin-top: 10px; }
+        .v-img { width: 100%; border-radius: 20px; object-fit: cover; height: 250px; margin: 10px 0; }
 
+        /* CONTADOR */
         .countdown { display: flex; justify-content: inherit; gap: 8px; margin-top: 15px; }
         .count-unit { background: rgba(0,0,0,0.04); padding: 10px 5px; border-radius: 12px; min-width: 60px; text-align: center; }
-        
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .count-num { display: block; font-family: 'Oswald'; font-size: 22px; color: var(--accent); }
+
+        /* MODO FINAL */
+        body.final-mode #sidebar, body.final-mode .drag-handle { display: none !important; }
+        body.final-mode #phone { width: 100%; height: auto; border: none; border-radius: 0; max-width: 500px; margin: 0 auto; }
     </style>
 </head>
 <body>
@@ -46,71 +50,114 @@
     <h1>Mi Grandía ✨</h1>
     <div id="editor-container">
         <div class="editor-card">
-            <h2>⚙️ General</h2>
-            <label>Fondo Invitación</label>
+            <label>Color Fondo General</label>
             <input type="color" id="in-bg" value="#ffffff" oninput="syncPage()">
-            <label>Música ID (YouTube)</label>
+            <label>YouTube ID (Música)</label>
             <input type="text" id="in-music" value="PwJ8HIDghLg" oninput="updateMusic()">
         </div>
     </div>
+    <button class="btn-export" onclick="exportInvitation()">🚀 GENERAR INVITACIÓN FINAL</button>
 </aside>
 
 <main id="preview">
     <div id="phone">
         <div id="sortable-area">
             
-            <section class="sec" id="s-portada" style="height:450px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=600'); background-size:cover; justify-content:center; text-align:center;" onclick="openEditor('s-portada', 'Portada', 'bg')">
+            <section class="sec" id="s-portada" style="height:480px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=600'); background-size:cover; justify-content:center; text-align:center;" onclick="openEditor('s-portada', 'Portada', 'bg')">
                 <div class="drag-handle">⠿</div>
                 <span class="e-text" id="t-names" style="font-family:'Great Vibes'; font-size:3.5rem; color:white; text-shadow:2px 2px 8px rgba(0,0,0,0.6);" onclick="event.stopPropagation(); openEditor('t-names', 'Nombres')">Sofía & Ale</span>
+                <span class="e-text" id="t-date-p" style="color:white; letter-spacing:3px;" onclick="event.stopPropagation(); openEditor('t-date-p', 'Fecha Portada')">31 . 12 . 2026</span>
             </section>
 
             <section class="sec" id="s-contador" style="text-align:center;" onclick="openEditor('s-contador', 'Contador', 'timer')">
                 <div class="drag-handle">⠿</div>
+                <span class="e-text" style="font-size:12px; font-weight:bold;">FALTAN:</span>
                 <div class="countdown" id="c-wrap" style="justify-content:center;">
-                    <div class="count-unit"><b id="d">00</b><br><small>Días</small></div>
-                    <div class="count-unit"><b id="h">00</b><br><small>Hrs</small></div>
-                    <div class="count-unit"><b id="m">00</b><br><small>Min</small></div>
+                    <div class="count-unit"><b class="count-num" id="d">00</b><small>Días</small></div>
+                    <div class="count-unit"><b class="count-num" id="h">00</b><small>Hrs</small></div>
+                    <div class="count-unit"><b class="count-num" id="m">00</b><small>Min</small></div>
                 </div>
                 <input type="hidden" id="count-date-val" value="2026-12-31T20:00">
             </section>
 
             <section class="sec" id="s-mensaje" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <p class="e-text" id="t-msg" style="font-size:14px; color:#555;" onclick="openEditor('t-msg', 'Mensaje Bienvenida')">¡Nuestra aventura comienza aquí!</p>
+                <span class="e-text" id="t-msg-t" style="font-family:'Cinzel'; font-size:1.5rem; color:var(--accent);" onclick="openEditor('t-msg-t', 'Título Mensaje')">Nuestro Amor</span>
+                <p class="e-text" id="t-msg-b" style="font-size:14px; color:#666;" onclick="openEditor('t-msg-b', 'Cuerpo Mensaje')">Caminaremos juntos por siempre.</p>
             </section>
 
             <section class="sec" id="s-foto2">
                 <div class="drag-handle">⠿</div>
-                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" class="v-img" id="img-2" onclick="openEditor('img-2', 'Segunda Foto', 'img')">
+                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=500" class="v-img" id="img-2" onclick="openEditor('img-2', 'Foto Intermedia 1', 'img')">
             </section>
 
-            <section class="sec" id="s-ubicacion" style="text-align:center;">
+            <section class="sec" id="s-familia" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="c-ubi" onclick="openEditor('c-ubi', 'Cuadro Ubicación', 'card')">
-                    <span id="u-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('u-t', 'Título Ubicación')">Ceremonia Religiosa</span>
-                    <div id="btn-w-u" style="text-align:center; margin-top:10px;">
-                        <a href="#" id="b-u" class="v-btn" style="background:var(--accent); color:white;" onclick="event.stopPropagation(); openEditor('b-u', 'Botón Mapa', 'btn')">Ver Mapa</a>
+                <b class="e-text" id="fam-t1" onclick="openEditor('fam-t1', 'Título Padres')">Padres de la Novia y el Novio</b>
+                <p class="e-text" id="fam-n1" style="font-size:13px;" onclick="openEditor('fam-n1', 'Nombres Padres')">Nombres aquí...</p>
+                <div style="height:15px;"></div>
+                <b class="e-text" id="fam-t2" onclick="openEditor('fam-t2', 'Título Padrinos')">Nuestros Padrinos</b>
+                <p class="e-text" id="fam-n2" style="font-size:13px;" onclick="openEditor('fam-n2', 'Nombres Padrinos')">Nombres aquí...</p>
+            </section>
+
+            <section class="sec" id="s-itinerario" style="text-align:center;">
+                <div class="drag-handle">⠿</div>
+                <span class="e-text" style="font-family:'Cinzel'; font-size:1.4rem; color:var(--accent);">Itinerario</span>
+                <div style="text-align:left; margin-top:20px; font-size:13px;">
+                    <p class="e-text" id="it-1" onclick="openEditor('it-1', 'Acto 1')">💍 18:00 hrs - Ceremonia Religiosa</p>
+                    <p class="e-text" id="it-2" onclick="openEditor('it-2', 'Acto 2')">🥂 20:00 hrs - Recepción</p>
+                </div>
+            </section>
+
+            <section class="sec" id="s-iglesia" style="text-align:center;">
+                <div class="drag-handle">⠿</div>
+                <div class="v-card-btn" id="card-i" onclick="openEditor('card-i', 'Cuadro Iglesia', 'card')">
+                    <span id="i-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('i-t', 'Título Iglesia')">Ceremonia Religiosa</span>
+                    <p id="i-d" class="e-text" style="font-size:12px; margin:10px 0;" onclick="event.stopPropagation(); openEditor('i-d', 'Dirección Iglesia')">Parroquia del Carmen, Centro.</p>
+                    <div id="btn-w-i" style="text-align:center;">
+                        <a href="#" id="b-i" class="v-btn" style="background:#40513B; color:white;" onclick="event.stopPropagation(); openEditor('b-i', 'Botón Iglesia', 'btn')">Ver Iglesia</a>
                     </div>
                 </div>
             </section>
 
             <section class="sec" id="s-foto3">
                 <div class="drag-handle">⠿</div>
-                <img src="https://images.unsplash.com/photo-1465495910483-0d6749ee9f4a?w=500" class="v-img" id="img-3" onclick="openEditor('img-3', 'Tercera Foto', 'img')">
+                <img src="https://images.unsplash.com/photo-1465495910483-0d6749ee9f4a?w=500" class="v-img" id="img-3" onclick="openEditor('img-3', 'Foto Intermedia 2', 'img')">
+            </section>
+
+            <section class="sec" id="s-local" style="text-align:center;">
+                <div class="drag-handle">⠿</div>
+                <div class="v-card-btn" id="card-l" onclick="openEditor('card-l', 'Cuadro Local', 'card')">
+                    <span id="l-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('l-t', 'Título Local')">Recepción y Fiesta</span>
+                    <p id="l-d" class="e-text" style="font-size:12px; margin:10px 0;" onclick="event.stopPropagation(); openEditor('l-d', 'Dirección Local')">Quinta Las Flores, Mérida.</p>
+                    <div id="btn-w-l" style="text-align:center;">
+                        <a href="#" id="b-l" class="v-btn" style="background:var(--accent); color:white;" onclick="event.stopPropagation(); openEditor('b-l', 'Botón Local', 'btn')">Ver Local</a>
+                    </div>
+                </div>
+            </section>
+
+            <section class="sec" id="s-dress" style="text-align:center;">
+                <div class="drag-handle">⠿</div>
+                <div class="v-card-btn" id="card-d" onclick="openEditor('card-d', 'Cuadro Dresscode', 'card')">
+                    <span style="font-size:30px;">👔</span>
+                    <b id="d-t" class="e-text" onclick="event.stopPropagation(); openEditor('d-t', 'Título Vestimenta')">Código de Vestimenta</b>
+                    <p id="d-p" class="e-text" style="font-size:12px;" onclick="event.stopPropagation(); openEditor('d-p', 'Detalle Vestimenta')">FORMAL GUAYABERA</p>
+                </div>
             </section>
 
             <section class="sec" id="s-regalos" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <div class="v-card-btn" id="c-reg" style="border:1px dashed #ccc;" onclick="openEditor('c-reg', 'Cuadro Regalos', 'card')">
-                    <span id="r-t" class="e-text" style="font-weight:bold;" onclick="event.stopPropagation(); openEditor('r-t', 'Título Regalos')">Mesa de Regalos</span>
-                    <b id="r-clabe" class="e-text" style="margin-top:10px;" onclick="event.stopPropagation(); openEditor('r-clabe', 'Cuenta')">CLABE: 000 000 000</b>
+                <div class="v-card-btn" id="card-r" style="border:1px dashed #ccc;" onclick="openEditor('card-r', 'Cuadro Regalos', 'card')">
+                    <b id="r-t" class="e-text" onclick="event.stopPropagation(); openEditor('r-t', 'Título Regalos')">Mesa de Regalos</b>
+                    <p id="r-m" class="e-text" style="font-size:12px;" onclick="event.stopPropagation(); openEditor('r-m', 'Mensaje Regalos')">Su presencia es nuestro mejor regalo.</p>
+                    <b id="r-c" class="e-text" onclick="event.stopPropagation(); openEditor('r-c', 'Cuenta')">CLABE: 000 000 000</b>
                 </div>
             </section>
 
             <section class="sec" id="s-reserva" style="text-align:center;">
                 <div class="drag-handle">⠿</div>
-                <div id="btn-w-res" style="text-align:center;">
-                    <a href="#" id="b-res" class="v-btn" style="background:#25D366; color:white;" onclick="event.stopPropagation(); openEditor('b-res', 'Botón WhatsApp', 'btn')">Confirmar Asistencia</a>
+                <div id="btn-w-r" style="text-align:center;">
+                    <a href="#" id="b-r" class="v-btn" style="background:#25D366; color:white;" onclick="event.stopPropagation(); openEditor('b-r', 'Botón WhatsApp', 'btn')">Confirmar Asistencia</a>
                 </div>
             </section>
 
@@ -125,62 +172,25 @@
         const el = document.getElementById(id);
         const container = document.getElementById('editor-container');
         const sectionId = el.closest('.sec').id;
-        
         let html = `<div class="editor-card"><h2>✎ ${label}</h2>`;
         
-        if(type === 'bg') {
-            html += `<label>URL Fondo Portada</label><input type="text" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'">`;
-        } else if(type === 'img') {
-            html += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value">`;
-        } else if(type === 'btn') {
-            html += `
-                <label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value">
-                <label>Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
-                <label>Redondeo</label><input type="range" min="0" max="50" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">
-                <label>Alineación</label>
-                <div class="flex">
-                    <button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='left'">Izq</button>
-                    <button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='center'">Centro</button>
-                </div>
-            `;
+        if(type === 'bg') html += `<label>URL Fondo</label><input type="text" oninput="document.getElementById('${id}').style.backgroundImage='url('+this.value+')'">`;
+        else if(type === 'img') html += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value">`;
+        else if(type === 'btn') {
+            html += `<label>Texto</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value">
+                     <label>Color Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
+                     <label>Alineación</label><div class="flex"><button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='left'">Izq</button><button class="btn-align" onclick="document.getElementById('${id}').parentElement.style.textAlign='center'">Cen</button></div>`;
         } else if(type === 'card') {
-            html += `
-                <label>Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
-                <label>Redondeo</label><input type="range" min="0" max="60" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">
-            `;
+            html += `<label>Color Fondo</label><input type="color" oninput="document.getElementById('${id}').style.backgroundColor=this.value">
+                     <label>Redondeo</label><input type="range" min="0" max="60" oninput="document.getElementById('${id}').style.borderRadius=this.value+'px'">`;
         } else if(type === 'timer') {
-            html += `<label>Fecha Evento</label><input type="datetime-local" value="${document.getElementById('count-date-val').value}" oninput="document.getElementById('count-date-val').value=this.value; startCountdown();">`;
+            html += `<label>Fecha</label><input type="datetime-local" value="${document.getElementById('count-date-val').value}" oninput="document.getElementById('count-date-val').value=this.value; startCountdown();">`;
         } else {
-            html += `
-                <label>Texto</label><textarea oninput="document.getElementById('${id}').innerText=this.value">${el.innerText}</textarea>
-                <label>Letra</label>
-                <select onchange="document.getElementById('${id}').style.fontFamily=this.value">
-                    <option value="'Montserrat'">Montserrat</option><option value="'Great Vibes'">Great Vibes</option>
-                    <option value="'Cinzel'">Cinzel</option>
-                </select>
-                <div class="flex">
-                    <div><label>Color</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value"></div>
-                    <div><label>Tamaño</label><input type="number" value="${parseInt(window.getComputedStyle(el).fontSize)}" oninput="document.getElementById('${id}').style.fontSize=this.value+'px'"></div>
-                </div>
-                <label>Alineación Texto</label>
-                <div class="flex">
-                    <button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='left'">Izq</button>
-                    <button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='center'">Centro</button>
-                    <button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='right'">Der</button>
-                </div>
-            `;
+            html += `<label>Texto</label><textarea oninput="document.getElementById('${id}').innerText=this.value">${el.innerText}</textarea>
+                     <label>Alineación</label><div class="flex"><button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='left'">Izq</button><button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='center'">Cen</button><button class="btn-align" onclick="document.getElementById('${id}').style.textAlign='right'">Der</button></div>`;
         }
-
-        html += `<button class="btn-delete" onclick="removeSection('${sectionId}')">🗑️ Eliminar esta sección</button>`;
-        html += `</div>`;
+        html += `<button style="background:#fee2e2; color:red; border:none; padding:10px; width:100%; margin-top:10px; cursor:pointer;" onclick="document.getElementById('${sectionId}').remove()">🗑️ Eliminar Sección</button></div>`;
         container.innerHTML = html;
-    }
-
-    function removeSection(sid) {
-        if(confirm("¿Eliminar este bloque?")) {
-            document.getElementById(sid).remove();
-            document.getElementById('editor-container').innerHTML = '<p style="text-align:center; padding:20px; color:#94a3b8;">Sección eliminada.</p>';
-        }
     }
 
     function syncPage() { document.documentElement.style.setProperty('--bg-phone', document.getElementById('in-bg').value); }
@@ -197,10 +207,17 @@
     }
     function updateMusic() {
         const val = document.getElementById('in-music').value;
-        const oldBox = document.getElementById('music-player'); if(oldBox) oldBox.remove();
-        const box = document.createElement('div'); box.id = "music-player";
-        box.innerHTML = `<iframe src="https://www.youtube.com/embed/${val}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
-        document.body.appendChild(box);
+        const old = document.getElementById('m-p'); if(old) old.remove();
+        const b = document.createElement('div'); b.id = "m-p";
+        b.innerHTML = `<iframe src="https://www.youtube.com/embed/${val}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
+        document.body.appendChild(b);
+    }
+    function exportInvitation() {
+        document.body.classList.add('final-mode');
+        const finalHtml = `<!DOCTYPE html><html><head>${document.head.innerHTML}</head><body class="final-mode">${document.body.innerHTML}</body></html>`.replace(/<script[\s\S]*?<\/script>/g, '');
+        const b = new Blob([finalHtml], {type:'text/html'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'invitacion.html'; a.click();
+        document.body.classList.remove('final-mode');
     }
     startCountdown();
 </script>
