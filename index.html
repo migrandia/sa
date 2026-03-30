@@ -3,38 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grandía Studio v2026 - Cecilia Landa</title>
+    <title>Grandía Studio v2026 - CECILIA DEFINITIVO</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
     
     <style>
-        :root { --p-width: 400px; --gold: #b8860b; }
+        :root { --gold: #b8860b; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #111; height: 100vh; overflow: hidden; }
 
-        /* PANEL EDITOR IZQUIERDO */
-        #sidebar { width: var(--p-width); background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); }
+        /* PANEL IZQUIERDO REFORZADO */
+        #sidebar { width: 400px; background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); }
         .editor-card { background: #fdfaf6; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--gold); }
-        h1 { font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0 0 15px; }
-        label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 12px 0 4px; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
+        h1 { font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0 0 10px; }
+        label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 10px 0 4px; text-transform: uppercase; }
+        input, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; margin-bottom: 5px; }
 
-        /* VISTA PREVIA (60% aprox) */
+        /* VISTA PREVIA */
         #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; }
-        #phone-container { width: 375px; height: 750px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; position: relative; }
-        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
+        #phone-container { width: 375px; height: 780px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; position: relative; }
+        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); background-color: #ffffff; }
 
-        /* SECCIONES (SIN SOMBRAS) */
-        .sec { padding: 60px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; min-height: 180px; }
+        /* ELEMENTOS (SIN SOMBRAS) */
+        .sec { padding: 60px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; min-height: 150px; }
         .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; z-index: 99; opacity: 0.5; }
         
-        /* ELEMENTOS MOVIBLES */
         .movable { position: relative; cursor: move; z-index: 10; display: inline-block; text-shadow: none !important; }
+        .v-img-main { width: 100%; border-radius: 15px; margin: 10px 0; }
 
-        /* CONTADOR CON SEGUNDOS */
         .countdown { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
         .c-unit { text-align: center; min-width: 50px; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 8px; border: 1px solid #ddd; }
         .c-num { font-size: 20px; font-family: 'Oswald'; color: var(--gold); display: block; }
-        .c-label { font-size: 9px; text-transform: uppercase; font-weight: bold; color: #666; }
 
         .v-card { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; width: 100%; border: 1px solid #eee; margin-top: 10px; }
         .v-btn { display: inline-block; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 30px; color: #fff; margin-top: 10px; }
@@ -45,14 +43,23 @@
 
 <aside id="sidebar">
     <h1>Grandía Studio ✨</h1>
+    
     <div class="editor-card">
+        <label>🎵 Música (ID YouTube)</label>
+        <input type="text" id="m-id" value="PwJ8HIDghLg" oninput="updateMusic()">
+        
+        <label>🎨 Color de Fondo</label>
+        <input type="color" id="bg-col" value="#ffffff" oninput="updateBg()">
+        
         <label>📅 Fecha del Evento</label>
-        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData()">
+        <input type="datetime-local" id="event-date" value="2026-12-31T20:00">
     </div>
+
     <div id="editor-dynamic">
-        <p style="text-align:center; color:#999; font-size:11px; padding:20px;">Toca cualquier texto para editar su contenido y color.</p>
+        <p style="text-align:center; color:#999; font-size:11px; padding:20px;">Toca cualquier texto o foto para editar.</p>
     </div>
-    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="saveData()">💾 GUARDAR PROGRESO</button>
+
+    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="saveData()">💾 GUARDAR TODO</button>
 </aside>
 
 <main id="preview">
@@ -60,42 +67,55 @@
         <div id="phone">
             <div id="sortable-area">
                 
-                <section class="sec" id="s1" style="height:450px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800'); background-size: cover;">
+                <section class="sec" id="s1" style="height:480px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800'); background-size: cover;">
                     <div class="drag-handle">⠿</div>
-                    <div class="movable" id="t1" style="font-family:'Great Vibes'; font-size:3.5rem; color:#fff; top:0; left:0;" onclick="openEditor('t1')">Sofía & Ale</div>
-                    <div class="movable" id="t2" style="font-family:'Montserrat'; color:#fff; font-weight:bold; letter-spacing:3px; top:10px; left:0;" onclick="openEditor('t2')">¡NOS CASAMOS!</div>
+                    <div class="movable" id="t1" style="font-family:'Great Vibes'; font-size:3.5rem; color:#fff;" onclick="openEditor('t1','text')">Sofía & Ale</div>
+                    <div class="movable" id="t2" style="font-family:'Montserrat'; color:#fff; font-weight:bold; letter-spacing:3px; top:10px;" onclick="openEditor('t2','text')">¡NOS CASAMOS!</div>
                 </section>
 
                 <section class="sec" id="s2">
                     <div class="drag-handle">⠿</div>
-                    <span class="movable" id="tf" onclick="openEditor('tf')">FALTAN:</span>
+                    <span class="movable" id="tf" onclick="openEditor('tf','text')">FALTAN:</span>
                     <div class="countdown movable" id="timer_box">
-                        <div class="c-unit"><b class="c-num" id="d">00</b><span class="c-label">Días</span></div>
-                        <div class="c-unit"><b class="c-num" id="h">00</b><span class="c-label">Hrs</span></div>
-                        <div class="c-unit"><b class="c-num" id="m">00</b><span class="c-label">Min</span></div>
-                        <div class="c-unit" style="border: 1px solid var(--gold);"><b class="c-num" id="s">00</b><span class="c-label">Seg</span></div>
+                        <div class="c-unit"><b class="c-num" id="d">00</b><small>Días</small></div>
+                        <div class="c-unit"><b class="c-num" id="h">00</b><small>Hrs</small></div>
+                        <div class="c-unit"><b class="c-num" id="m">00</b><small>Min</small></div>
+                        <div class="c-unit" style="border:1px solid var(--gold)"><b class="c-num" id="s">00</b><small>Seg</small></div>
                     </div>
+                </section>
+
+                <section class="sec" id="s_pic">
+                    <div class="drag-handle">⠿</div>
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="v-img-main movable" id="main_pic" onclick="openEditor('main_pic','img')">
                 </section>
 
                 <section class="sec" id="s_parents">
                     <div class="drag-handle">⠿</div>
-                    <b class="movable" id="tp" style="color:var(--gold); font-family:'Cinzel';" onclick="openEditor('tp')">Con la bendición de nuestros padres</b>
-                    <div class="v-card movable" id="cp" onclick="openEditor('cp')">
+                    <b class="movable" id="tp" style="color:var(--gold); font-family:'Cinzel';" onclick="openEditor('tp','text')">Con la bendición de nuestros padres</b>
+                    <div class="v-card movable" id="cp" onclick="openEditor('cp','text')">
                         Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López
                     </div>
                 </section>
 
                 <section class="sec" id="s_itinerary">
                     <div class="drag-handle">⠿</div>
-                    <div class="movable" style="width:100%;">
+                    <div class="movable" id="it_box" style="width:100%;">
                         <div class="it-row"><span>⛪</span><div><b>Misa</b><br>6:00 PM</div></div>
                         <div class="it-row"><span>💃</span><div><b>Recepción</b><br>8:30 PM</div></div>
                     </div>
                 </section>
 
+                <section class="sec" id="s_map">
+                    <div class="drag-handle">⠿</div>
+                    <div class="v-card movable" id="map_card">
+                        <b>Parroquia de Tunkás</b><br>
+                        <a href="#" class="v-btn" style="background:var(--gold);">VER MAPA</a>
+                    </div>
+                </section>
+
                 <section class="sec" id="s_confirm">
                     <div class="drag-handle">⠿</div>
-                    <a href="https://wa.me/9911105456" class="v-btn movable" id="bw" style="background:#25D366; width:90%;" onclick="openEditor('bw')">CONFIRMAR ASISTENCIA</a>
+                    <a href="https://wa.me/9911105456" class="v-btn movable" id="bw" style="background:#25D366; width:90%;" onclick="openEditor('bw','btn')">CONFIRMAR AQUÍ</a>
                 </section>
 
             </div>
@@ -104,51 +124,54 @@
 </main>
 
 <script>
-    // FUNCIÓN DE MOVIMIENTO CORREGIDA (Ya no desaparecen)
     function makeMovable(el) {
         let p1=0, p2=0, p3=0, p4=0;
-        el.onmousedown = startDrag;
-        el.ontouchstart = startDrag;
-
-        function startDrag(e) {
-            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            p3 = e.clientX || e.touches[0].clientX;
-            p4 = e.clientY || e.touches[0].clientY;
-            document.onmouseup = endDrag;
-            document.ontouchend = endDrag;
-            document.onmousemove = drag;
-            document.ontouchmove = drag;
+        el.onmousedown = start; el.ontouchstart = start;
+        function start(e) {
+            if(e.target.tagName==='INPUT' || e.target.tagName==='TEXTAREA') return;
+            p3 = e.clientX || e.touches[0].clientX; p4 = e.clientY || e.touches[0].clientY;
+            document.onmouseup = stop; document.ontouchend = stop;
+            document.onmousemove = move; document.ontouchmove = move;
         }
-
-        function drag(e) {
-            let cx = e.clientX || e.touches[0].clientX;
-            let cy = e.clientY || e.touches[0].clientY;
-            p1 = p3 - cx; p2 = p4 - cy;
-            p3 = cx; p4 = cy;
-            el.style.top = (el.offsetTop - p2) + "px";
-            el.style.left = (el.offsetLeft - p1) + "px";
+        function move(e) {
+            let cx = e.clientX || e.touches[0].clientX; let cy = e.clientY || e.touches[0].clientY;
+            p1 = p3 - cx; p2 = p4 - cy; p3 = cx; p4 = cy;
+            el.style.top = (el.offsetTop - p2) + "px"; el.style.left = (el.offsetLeft - p1) + "px";
         }
-
-        function endDrag() {
-            document.onmouseup = null; document.onmousemove = null;
-            document.ontouchend = null; document.ontouchmove = null;
-            saveData();
-        }
+        function stop() { document.onmouseup=null; document.onmousemove=null; document.ontouchend=null; document.ontouchmove=null; saveData(); }
     }
 
-    function openEditor(id) {
+    function openEditor(id, type) {
         const el = document.getElementById(id);
-        let h = `<div class="editor-card"><h3>Editar Elemento</h3>`;
-        h += `<label>Texto</label><textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>');saveData()">${el.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
+        let h = `<div class="editor-card"><h3>Editar</h3>`;
+        if(type==='text') h += `<label>Texto</label><textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>');saveData()">${el.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
+        if(type==='img') h += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value;saveData()">`;
+        if(type==='btn') h += `<label>Texto Botón</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value;saveData()">`;
         h += `<label>Color</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value;saveData()"></div>`;
         document.getElementById('editor-dynamic').innerHTML = h;
     }
 
-    function saveData() { localStorage.setItem('cecilia_v4', document.getElementById('sortable-area').innerHTML); }
+    function updateBg() { document.getElementById('phone').style.backgroundColor = document.getElementById('bg-col').value; saveData(); }
+    
+    function updateMusic() {
+        const id = document.getElementById('m-id').value;
+        const old = document.getElementById('music-player'); if(old) old.remove();
+        const d = document.createElement('div'); d.id = 'music-player';
+        d.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
+        document.body.appendChild(d); saveData();
+    }
+
+    function saveData() { 
+        localStorage.setItem('cecilia_v_def', document.getElementById('sortable-area').innerHTML);
+        localStorage.setItem('cecilia_bg', document.getElementById('bg-col').value);
+    }
 
     window.onload = () => {
-        const saved = localStorage.getItem('cecilia_v4');
+        const saved = localStorage.getItem('cecilia_v_def');
         if(saved) document.getElementById('sortable-area').innerHTML = saved;
+        const sBg = localStorage.getItem('cecilia_bg');
+        if(sBg) { document.getElementById('phone').style.backgroundColor = sBg; document.getElementById('bg-col').value = sBg; }
+        
         document.querySelectorAll('.movable').forEach(makeMovable);
         new Sortable(document.getElementById('sortable-area'), { handle: '.drag-handle', animation: 150 });
         
