@@ -3,129 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día Studio - Sistema Omnipotente V8.0</title>
+    <title>Mi Grandía Studio - OMNIPOTENTE FINAL</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --accent: #3b82f6; --inv-bg: #ffffff; --inv-accent: #d4a373; 
-            --inv-text: #555; --inv-btn-radius: 30px; --inv-font-t: 'Great Vibes';
-        }
+        :root { --accent: #3b82f6; --inv-bg: #ffffff; --inv-accent: #d4a373; --inv-text: #444; --inv-btn-radius: 30px; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #f3f4f6; height: 100vh; overflow: hidden; }
 
-        /* --- PANEL DE CONTROL (IZQUIERDA) --- */
-        #panel { width: 500px; background: white; padding: 25px; overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; }
-        #panel h1 { font-family: 'Dancing Script'; color: var(--inv-accent); font-size: 28px; margin: 0; }
-        .group-box { background: #fff; border: 1px solid #e5e7eb; padding: 18px; border-radius: 12px; margin-bottom: 15px; position: relative; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        .group-box h2 { font-size: 11px; text-transform: uppercase; color: #9ca3af; margin: 0 0 15px 0; letter-spacing: 1px; border-bottom: 1px solid #f3f4f6; padding-bottom: 5px; }
-        
+        /* PANEL IZQUIERDO */
+        #panel { width: 480px; background: white; padding: 25px; overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; }
+        .group-box { background: #fff; border: 1px solid #e5e7eb; padding: 15px; border-radius: 12px; margin-bottom: 15px; position: relative; }
+        .group-box h2 { font-size: 11px; text-transform: uppercase; color: #9ca3af; margin-bottom: 10px; border-bottom: 1px solid #f3f4f6; padding-bottom: 5px; }
         label { display: block; font-size: 10px; font-weight: 700; color: #4b5563; margin: 10px 0 4px; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; background: #f9fafb; font-size: 13px; font-family: inherit; }
-        
-        .btn-add-menu { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
-        .btn-add { padding: 8px; background: #f0f7ff; border: 1px dashed #3b82f6; color: #3b82f6; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; }
-        .btn-trash { position: absolute; top: 10px; right: 10px; background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 12px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; background: #f9fafb; font-size: 12px; box-sizing: border-box; }
+        .btn-add-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+        .btn-add { padding: 10px; background: #f0f7ff; border: 1px dashed #3b82f6; color: #3b82f6; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; }
+        .btn-trash { position: absolute; top: 10px; right: 10px; background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 22px; height: 22px; cursor: pointer; font-size: 10px; }
 
-        /* --- VISTA PREVIA (DERECHA) --- */
-        #viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #e2e8f0; padding: 20px; }
-        #phone { 
-            width: 375px; height: 800px; border: 12px solid #111; border-radius: 45px; 
-            background-color: var(--inv-bg); background-position: center; background-size: cover;
-            overflow-y: auto; position: relative; scroll-behavior: smooth; box-shadow: 0 20px 50px rgba(0,0,0,0.2);
-        }
+        /* VISTA PREVIA CELULAR */
+        #viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #cbd5e1; padding: 20px; }
+        #phone { width: 375px; height: 812px; border: 12px solid #111; border-radius: 45px; background-color: var(--inv-bg); background-size: cover; overflow-y: auto; position: relative; box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .v-sec { padding: 45px 25px; text-align: center; color: var(--inv-text); }
+        .v-title { font-family: 'Great Vibes', cursive; color: var(--inv-accent); font-size: 3rem; margin: 10px 0; }
+        .v-btn { display: block; width: 85%; margin: 10px auto; padding: 15px; background: var(--inv-accent); color: white; border-radius: var(--inv-btn-radius); text-decoration: none; font-weight: bold; font-size: 10px; text-transform: uppercase; letter-spacing: 1px; text-align: center; }
 
-        .v-sec { padding: 45px 25px; text-align: center; color: var(--inv-text); font-family: 'Montserrat', sans-serif; }
-        .v-title { font-family: var(--inv-font-t), cursive; color: var(--inv-accent); font-size: 3.2rem; margin: 10px 0; }
-        .v-btn { display: block; width: 85%; margin: 12px auto; padding: 16px; background: var(--inv-accent); color: white; border-radius: var(--inv-btn-radius); text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; }
-        
-        /* Contador */
-        .timer { display: flex; justify-content: center; gap: 12px; margin-top: 15px; }
-        .t-unit { background: rgba(255,255,255,0.5); padding: 10px; border-radius: 8px; min-width: 50px; border: 1px solid rgba(0,0,0,0.05); }
-        .t-unit b { display: block; font-size: 22px; color: var(--inv-accent); }
-        .t-unit span { font-size: 9px; opacity: 0.7; text-transform: uppercase; }
-
-        /* Estilos de bloques */
-        .v-img { width: 100%; border-radius: 15px; margin: 15px 0; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .v-card { background: white; border: 1px solid #eee; padding: 20px; border-radius: 15px; margin-top: 10px; }
+        /* Elementos Específicos */
+        .timer { display: flex; justify-content: center; gap: 10px; }
+        .t-unit { background: rgba(255,255,255,0.6); padding: 10px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.05); min-width: 50px; }
+        .t-unit b { display: block; font-size: 20px; color: var(--inv-accent); }
+        .step-row { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 15px; padding: 12px; background: rgba(255,255,255,0.4); border-radius: 10px; border-left: 4px solid var(--inv-accent); }
+        .v-card { border: 1px dashed var(--inv-accent); padding: 15px; border-radius: 12px; background: rgba(255,255,255,0.5); }
     </style>
 </head>
 <body>
 
 <aside id="panel">
-    <h1>Mi Grandía Studio ✨</h1>
+    <h1 style="font-family:'Dancing Script'; color:#d4a373;">Mi Grandía Studio ✨</h1>
     
     <div class="group-box">
-        <h2>1. Identidad del Evento</h2>
+        <h2>1. Evento y Diseño Global</h2>
         <label>Tipo de Evento</label>
-        <select id="in-event-type" onchange="updateTexts()">
-            <option value="Boda">Boda</option>
-            <option value="XV Años">XV Años</option>
-            <option value="Bautizo">Bautizo</option>
-            <option value="Fiesta">Fiesta Especial</option>
+        <select id="in-type" onchange="sync()">
+            <option value="Boda">Nuestra Boda</option>
+            <option value="XV Años">Mis XV Años</option>
+            <option value="Bautizo">Mi Bautizo</option>
+            <option value="Fiesta">Mi Fiesta</option>
         </select>
-        <label>Nombres / Festejado</label>
-        <input type="text" id="in-names" value="Sofía & Ale" oninput="updateTexts()">
-    </div>
-
-    <div class="group-box">
-        <h2>2. Diseño y Colores</h2>
-        <label>Color de Acento (Títulos/Botones)</label>
-        <input type="color" id="in-accent" value="#d4a373" oninput="syncStyle()">
-        <label>Fondo (Color)</label>
-        <input type="color" id="in-bg-color" value="#ffffff" oninput="syncStyle()">
-        <label>Fondo (URL Textura)</label>
-        <input type="text" id="in-bg-img" placeholder="URL mármol o papel" oninput="syncStyle()">
+        <label>Nombres</label>
+        <input type="text" id="in-names" value="Sofía & Ale" oninput="sync()">
+        <label>Color de Acento</label>
+        <input type="color" id="in-accent" value="#d4a373" oninput="sync()">
+        <label>Fondo de Invitación</label>
+        <input type="color" id="in-bg" value="#ffffff" oninput="sync()">
+        <label>URL Textura de Fondo</label>
+        <input type="text" id="in-texture" placeholder="Link de mármol o papel" oninput="sync()">
         <label>Forma de Botón</label>
-        <select id="in-radius" onchange="syncStyle()">
+        <select id="in-radius" onchange="sync()">
             <option value="30px">Redondeado</option>
             <option value="5px">Cuadrado</option>
-            <option value="0px">Recto</option>
         </select>
     </div>
 
     <div class="group-box">
-        <h2>3. Tiempo y Música</h2>
+        <h2>2. Tiempo y Música</h2>
         <label>Fecha del Evento</label>
         <input type="datetime-local" id="in-date" value="2026-12-31T20:00" oninput="initTimer()">
-        <label>Música (ID YouTube)</label>
+        <label>Música ID (YouTube)</label>
         <input type="text" id="in-music" value="PwJ8HIDghLg" oninput="updateMusic()">
     </div>
 
     <div class="group-box">
-        <h2>4. Secciones Principales</h2>
-        <label>Nombres de los Padres</label>
-        <textarea id="in-parents" oninput="updateTexts()">Padre y Madre de la Novia...</textarea>
-        <label>URL Google Maps (Iglesia/Salón)</label>
-        <input type="text" id="in-map" placeholder="Link de Google Maps" oninput="updateTexts()">
+        <h2>3. Secciones Fijas</h2>
+        <label>Nombres de Padres</label>
+        <textarea id="in-parents" oninput="sync()">Padres de la Novia y el Novio...</textarea>
+        <label>Link Google Maps</label>
+        <input type="text" id="in-maps" value="https://maps.google.com" oninput="sync()">
     </div>
 
     <div class="group-box">
-        <h2>5. Añadir Secciones (+)</h2>
-        <div class="btn-add-menu">
-            <button class="btn-add" onclick="addBlock('foto')">+ FOTO</button>
-            <button class="btn-add" onclick="addBlock('padrinos')">+ PADRINOS</button>
-            <button class="btn-add" onclick="addBlock('regalos')">+ REGALOS</button>
-            <button class="btn-add" onclick="addBlock('itinerario')">+ ITINERARIO</button>
-            <button class="btn-add" onclick="addBlock('hotel')">+ HOTEL</button>
+        <h2>4. Bloques Dinámicos (+)</h2>
+        <div class="btn-add-grid">
+            <button class="btn-add" onclick="add('itinerario')">+ Itinerario</button>
+            <button class="btn-add" onclick="add('foto')">+ Foto</button>
+            <button class="btn-add" onclick="add('sobres')">+ Lluvia/Mesa</button>
+            <button class="btn-add" onclick="add('hotel')">+ Hotel</button>
         </div>
-        <div id="editor-dynamic-list" style="margin-top:15px;"></div>
+        <div id="dynamic-controls" style="margin-top:15px;"></div>
     </div>
-
-    <button style="width:100%; padding:18px; background:#111; color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="window.print()">FINALIZAR DISEÑO 📥</button>
 </aside>
 
 <main id="viewport">
     <div id="phone">
-        <section id="v-hero" class="v-sec" style="height:450px; background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display:flex; flex-direction:column; justify-content:center; color:white; text-shadow:2px 2px 10px rgba(0,0,0,0.5);">
-            <div data-aos="fade-down">
-                <p id="v-event-label" style="letter-spacing:3px; font-size:12px;">NUESTRA BODA</p>
-                <h1 id="v-names" class="v-title" style="color:white !important;">Sofía & Ale</h1>
-            </div>
+        <section id="v-hero" class="v-sec" style="height:400px; background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display:flex; flex-direction:column; justify-content:center; color:white; text-shadow:2px 2px 10px rgba(0,0,0,0.5);">
+            <p id="v-tag" style="letter-spacing:3px; font-size:12px;">NUESTRA BODA</p>
+            <h1 id="v-names" class="v-title" style="color:white !important;">Sofía & Ale</h1>
         </section>
 
         <section class="v-sec" data-aos="fade-up">
-            <p style="font-size:10px; letter-spacing:2px; margin-bottom:15px;">FALTAN SÓLO:</p>
+            <p style="font-size:10px; letter-spacing:2px; margin-bottom:15px;">FALTAN SÓLO</p>
             <div class="timer">
                 <div class="t-unit"><b id="d">00</b><span>Días</span></div>
                 <div class="t-unit"><b id="h">00</b><span>Hs</span></div>
@@ -135,49 +110,45 @@
 
         <section class="v-sec" data-aos="fade-up">
             <h3 style="font-size:14px;">Con la bendición de nuestros padres</h3>
-            <p id="v-parents" style="font-style:italic; font-size:13px; opacity:0.8;">Padres aquí...</p>
+            <p id="v-parents" style="font-style:italic; font-size:13px; opacity:0.8;"></p>
         </section>
 
-        <div id="v-dynamic-content"></div>
+        <div id="v-dynamic-area"></div>
 
         <section class="v-sec" data-aos="fade-up">
             <h3 class="v-title" style="font-size:2rem;">📍 Ubicación</h3>
-            <a href="#" id="v-map-btn" class="v-btn">Ver en Google Maps</a>
-            <a href="https://wa.me/521" class="v-btn" style="background:#25d366;">Confirmar por WhatsApp</a>
+            <a href="#" id="v-map-btn" target="_blank" class="v-btn">Ver en Google Maps</a>
+            <a href="https://wa.me/" class="v-btn" style="background:#25d366;">Confirmar Asistencia</a>
         </section>
 
-        <div id="music-container"></div>
+        <div id="music-box"></div>
     </div>
 </main>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();
-    let bCount = 0;
+    let count = 0;
 
-    function syncStyle() {
-        const r = document.documentElement.style;
-        const p = document.getElementById('phone').style;
-        r.setProperty('--inv-accent', document.getElementById('in-accent').value);
-        r.setProperty('--inv-bg', document.getElementById('in-bg-color').value);
-        r.setProperty('--inv-btn-radius', document.getElementById('in-radius').value);
+    function sync() {
+        const root = document.documentElement.style;
+        root.setProperty('--inv-accent', document.getElementById('in-accent').value);
+        root.setProperty('--inv-bg', document.getElementById('in-bg').value);
+        root.setProperty('--inv-btn-radius', document.getElementById('in-radius').value);
         
-        const texture = document.getElementById('in-bg-img').value;
-        p.backgroundImage = texture ? `url('${texture}')` : 'none';
-    }
-
-    function updateTexts() {
-        document.getElementById('v-event-label').innerText = "NUESTRA " + document.getElementById('in-event-type').value.toUpperCase();
+        document.getElementById('v-tag').innerText = "NUESTRA " + document.getElementById('in-type').value.toUpperCase();
         document.getElementById('v-names').innerText = document.getElementById('in-names').value;
         document.getElementById('v-parents').innerText = document.getElementById('in-parents').value;
-        document.getElementById('v-map-btn').href = document.getElementById('in-map').value;
+        document.getElementById('v-map-btn').href = document.getElementById('in-maps').value;
+
+        const tex = document.getElementById('in-texture').value;
+        document.getElementById('phone').style.backgroundImage = tex ? `url('${tex}')` : 'none';
     }
 
     function initTimer() {
         const target = new Date(document.getElementById('in-date').value).getTime();
         setInterval(() => {
-            const now = new Date().getTime();
-            const diff = target - now;
+            const diff = target - new Date().getTime();
             if(diff > 0) {
                 document.getElementById('d').innerText = Math.floor(diff / 86400000);
                 document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000);
@@ -186,55 +157,46 @@
         }, 1000);
     }
 
-    function addBlock(type) {
-        bCount++;
-        const id = `b${bCount}`;
-        
-        // Editor
+    function add(type) {
+        count++;
+        const id = `b${count}`;
         const ed = document.createElement('div');
-        ed.className = 'group-box';
-        ed.id = `ed-${id}`;
+        ed.className = 'group-box'; ed.id = `ed-${id}`;
         ed.innerHTML = `<button class="btn-trash" onclick="kill('${id}')">×</button><h2>${type.toUpperCase()}</h2>`;
         
-        // Vista
-        const vw = document.createElement('section');
-        vw.className = 'v-sec';
-        vw.id = `vw-${id}`;
-        vw.setAttribute('data-aos', 'fade-up');
+        const vw = document.createElement('div');
+        vw.className = 'v-sec'; vw.id = `vw-${id}`; vw.setAttribute('data-aos', 'fade-up');
 
-        if(type === 'foto') {
-            ed.innerHTML += `<label>URL de Imagen</label><input type="text" oninput="updImg('${id}', this.value)">`;
-            vw.innerHTML = `<img id="val-${id}" src="" class="v-img">`;
-        } else if(type === 'padrinos') {
-            ed.innerHTML += `<label>Nombres</label><textarea oninput="updTxt('${id}', this.value)"></textarea>`;
-            vw.innerHTML = `<h3 class="v-title" style="font-size:1.8rem;">Padrinos</h3><p id="val-${id}"></p>`;
-        } else if(type === 'regalos') {
-            ed.innerHTML += `<label>Datos Bancarios / Mesa</label><textarea oninput="updTxt('${id}', this.value)"></textarea>`;
-            vw.innerHTML = `<h3 class="v-title" style="font-size:1.8rem;">🎁 Regalos</h3><div class="v-card" id="val-${id}"></div>`;
-        } else if(type === 'itinerario') {
-            ed.innerHTML += `<label>Detalles del Itinerario</label><textarea oninput="updTxt('${id}', this.value)"></textarea>`;
-            vw.innerHTML = `<h3 class="v-title" style="font-size:1.8rem;">⏳ Itinerario</h3><div class="v-card" id="val-${id}" style="text-align:left;"></div>`;
+        if(type === 'itinerario') {
+            ed.innerHTML += `<label>Icono</label><select id="i-${id}"><option value="💍">💍</option><option value="🥂">🥂</option><option value="🍽️">🍽️</option><option value="💃">💃</option></select>
+                             <label>Evento</label><input type="text" oninput="updTxt('${id}', this.value)">`;
+            vw.innerHTML = `<div class="step-row"><div style="font-size:24px;" id="ico-${id}">💍</div><div><b id="val-${id}">Evento</b><br><small>Hora por definir</small></div></div>`;
+            ed.querySelector('select').onchange = (e) => document.getElementById(`ico-${id}`).innerText = e.target.value;
+        } else if(type === 'foto') {
+            ed.innerHTML += `<label>URL Foto</label><input type="text" oninput="document.getElementById('img-${id}').src=this.value">`;
+            vw.innerHTML = `<img id="img-${id}" src="" style="width:100%; border-radius:15px;">`;
+        } else if(type === 'sobres') {
+            ed.innerHTML += `<label>Datos Bancarios</label><textarea oninput="updTxt('${id}', this.value)"></textarea>`;
+            vw.innerHTML = `<h3>Regalos / Sobres</h3><div class="v-card" id="val-${id}"></div>`;
         } else if(type === 'hotel') {
-            ed.innerHTML += `<label>Nombre y Dirección</label><textarea oninput="updTxt('${id}', this.value)"></textarea>`;
-            vw.innerHTML = `<h3 class="v-title" style="font-size:1.8rem;">🏨 Hospedaje</h3><p id="val-${id}"></p><a href="#" class="v-btn">Ver Hotel</a>`;
+            ed.innerHTML += `<label>Hotel</label><input type="text" oninput="updTxt('${id}', this.value)">`;
+            vw.innerHTML = `<h3>Hospedaje</h3><p id="val-${id}"></p><a href="#" class="v-btn">Reservar</a>`;
         }
 
-        document.getElementById('editor-dynamic-list').appendChild(ed);
-        document.getElementById('v-dynamic-content').appendChild(vw);
+        document.getElementById('dynamic-controls').appendChild(ed);
+        document.getElementById('v-dynamic-area').appendChild(vw);
         AOS.refresh();
     }
 
     function updTxt(id, val) { document.getElementById(`val-${id}`).innerText = val; }
-    function updImg(id, val) { document.getElementById(`val-${id}`).src = val; }
     function kill(id) { document.getElementById(`ed-${id}`).remove(); document.getElementById(`vw-${id}`).remove(); }
 
     function updateMusic() {
-        const id = document.getElementById('in-music').value;
-        document.getElementById('music-container').innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+        const mid = document.getElementById('in-music').value;
+        document.getElementById('music-box').innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/${mid}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
     }
 
-    updateTexts();
-    initTimer();
+    sync(); initTimer(); updateMusic();
 </script>
 </body>
 </html>
