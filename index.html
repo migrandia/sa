@@ -3,173 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Grandía Studio - Editor Total V5.0</title>
+    <title>Mi Gran día Studio - Sistema Profesional V6.0</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&family=Noto+Serif:ital,wght@1,400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&display=swap" rel="stylesheet">
     
     <style>
-        /* --- ESTILOS DEL EDITOR (NO TOCAR, ES TU PANEL) --- */
-        :root { --accent: #2563eb; --panel-bg: #ffffff; --body-bg: #f3f4f6; }
-        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: var(--body-bg); height: 100vh; overflow: hidden; color: #333; }
-
-        #panel { width: 500px; background: var(--panel-bg); padding: 25px; overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.05); z-index: 100; scroll-behavior: smooth; }
-        #panel h1 { font-size: 22px; color: #1f2937; margin: 0 0 5px; font-family: 'Dancing Script', cursive; color: #d4a373; }
-        #panel p.subtitle { font-size: 12px; color: #6b7280; margin-bottom: 20px; border-bottom: 1px solid #e5e7eb; padding-bottom: 15px; }
-
-        .accordion-item { border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 10px; overflow: hidden; }
-        .accordion-header { background: #f9fafb; padding: 15px; cursor: pointer; font-size: 13px; font-weight: 700; color: #4b5563; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; }
-        .accordion-content { padding: 20px; display: none; background: white; border-top: 1px solid #e5e7eb; }
-        .accordion-item.active .accordion-content { display: block; }
-
-        label { display: block; font-size: 11px; font-weight: 700; color: #6b7280; margin: 12px 0 5px; text-transform: uppercase; }
-        input[type="text"], input[type="color"], select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 6px; background: #f9fafb; font-size: 13px; box-sizing: border-box; }
-        
-        .flex-group { display: flex; gap: 10px; }
-        .btn-trash { background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-size: 12px; }
-
-        /* --- ESTILOS DE LA INVITACIÓN (VARIABLES DINÁMICAS) --- */
-        #phone { 
-            width: 375px; height: 812px; border: 14px solid #1f2937; border-radius: 50px; 
-            overflow-y: auto; position: relative; scroll-behavior: smooth; box-shadow: 0 40px 100px rgba(0,0,0,0.3);
-            /* Variables iniciales */
-            background-color: #ffffff; --inv-text-color: #555555;
-            --inv-font-title: 'Great Vibes'; --inv-font-body: 'Montserrat';
-            --inv-accent: #d4a373; --inv-btn-radius: 30px;
+        /* --- ESTILOS DEL PANEL DE CONTROL (IZQUIERDA) --- */
+        :root { 
+            --accent: #2563eb; --panel-bg: #ffffff; 
+            --inv-bg: #ffffff; --inv-accent: #d4a373; --inv-text: #555;
+            --inv-font-t: 'Great Vibes'; --inv-font-b: 'Montserrat';
         }
-        #phone::-webkit-scrollbar { width: 5px; }
-        #phone::-webkit-scrollbar-thumb { background-color: rgba(0,0,0,0.1); border-radius: 3px; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #f3f4f6; height: 100vh; overflow: hidden; }
 
-        .v-section { padding: 50px 25px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.03); color: var(--inv-text-color); font-family: var(--inv-font-body), sans-serif; }
-        .v-title { font-family: var(--inv-font-title), cursive; color: var(--inv-accent); font-size: 3rem; margin: 0; }
-        .v-btn { display: block; width: 85%; margin: 15px auto; padding: 15px; background: var(--inv-accent); color: white; border-radius: var(--inv-btn-radius); text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
-        .v-img { width: 100%; border-radius: 10px; margin: 15px 0; object-fit: cover; }
+        #panel { width: 500px; background: var(--panel-bg); padding: 25px; overflow-y: auto; box-shadow: 10px 0 30px rgba(0,0,0,0.1); z-index: 100; }
+        .section-box { background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-bottom: 20px; position: relative; }
+        .section-box h2 { font-size: 13px; text-transform: uppercase; color: #4b5563; margin-top: 0; border-bottom: 1px solid #ddd; padding-bottom: 10px; }
+        
+        label { display: block; font-size: 11px; font-weight: 700; color: #6b7280; margin: 12px 0 5px; }
+        input, select, textarea { width: 100%; padding: 10px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; box-sizing: border-box; }
+        
+        .add-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin: 20px 0; }
+        .btn-add { padding: 10px; background: white; border: 1px dashed var(--inv-accent); color: var(--inv-accent); border-radius: 8px; cursor: pointer; font-size: 10px; font-weight: bold; }
+        .btn-trash { position: absolute; top: 15px; right: 15px; background: #fee2e2; color: #ef4444; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; }
+
+        /* --- ESTILOS DE LA INVITACIÓN (VISTA PREVIA CELULAR) --- */
+        #viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        #phone { 
+            width: 375px; height: 812px; border: 12px solid #1f2937; border-radius: 50px; 
+            background: var(--inv-bg); overflow-y: auto; position: relative; scroll-behavior: smooth;
+        }
+
+        .inv-sec { padding: 50px 25px; text-align: center; color: var(--inv-text); font-family: var(--inv-font-b); }
+        .inv-t { font-family: var(--inv-font-t), cursive; color: var(--inv-accent); font-size: 3.2rem; margin: 0; }
+        .inv-btn { display: block; width: 85%; margin: 15px auto; padding: 16px; background: var(--inv-accent); color: white; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        
+        /* Contador */
+        .timer { display: flex; justify-content: center; gap: 15px; margin-top: 20px; }
+        .t-unit { background: #fcf8f3; padding: 10px; border-radius: 8px; min-width: 55px; border: 1px solid #eee; }
+        .t-unit b { display: block; font-size: 20px; color: var(--inv-accent); }
+        .t-unit span { font-size: 9px; text-transform: uppercase; color: #999; }
+
+        /* Itinerario */
+        .step { display: flex; align-items: center; gap: 15px; text-align: left; margin-bottom: 20px; }
+        .step-icon { font-size: 24px; background: #fcf8f3; padding: 10px; border-radius: 50%; }
+
+        /* Lluvia de sobres */
+        .bank-card { background: #fff; border: 1px dashed var(--inv-accent); padding: 15px; border-radius: 10px; margin-top: 10px; font-size: 13px; }
+        .copy-btn { font-size: 10px; color: var(--accent); cursor: pointer; text-decoration: underline; }
     </style>
 </head>
 <body>
 
 <aside id="panel">
-    <h1>Mi Grandía Studio 💎</h1>
-    <p class="subtitle">Editor Total V5.0 - Control Absoluto</p>
-    
-    <div class="accordion-item active">
-        <div class="accordion-header" onclick="toggleAccordion(this)">🎨 DISEÑO GLOBAL Y COLORES</div>
-        <div class="accordion-content">
-            <label>Fondo de Invitación (Color)</label>
-            <input type="color" id="g-bg-color" value="#ffffff" oninput="sync()">
-            <label>Fondo de Invitación (Textura URL)</label>
-            <input type="text" id="g-bg-img" placeholder="URL de mármol, papel..." oninput="sync()">
-            <label>Color de Texto Principal</label>
-            <input type="color" id="g-text-color" value="#555555" oninput="sync()">
-            <label>Color de Acento (Títulos e Iconos)</label>
-            <input type="color" id="g-accent-color" value="#d4a373" oninput="sync()">
-        </div>
+    <h1>Mi Grandía Studio ✨</h1>
+    <p style="font-size:12px; color:#666;">Editor Profesional de Invitaciones</p>
+
+    <div class="section-box">
+        <h2>🎨 Diseño y Colores</h2>
+        <label>Fondo de Invitación</label>
+        <input type="color" id="in-bg" value="#ffffff" oninput="updateGlobal()">
+        <label>Imagen de Textura (URL)</label>
+        <input type="text" id="in-bg-img" oninput="updateGlobal()">
+        <label>Color de Acento (Títulos/Botones)</label>
+        <input type="color" id="in-accent" value="#d4a373" oninput="updateGlobal()">
     </div>
 
-    <div class="accordion-item">
-        <div class="accordion-header" onclick="toggleAccordion(this)">🔤 FUENTES Y TIPOGRAFÍA</div>
-        <div class="accordion-content">
-            <label>Fuente de Títulos (Elegante)</label>
-            <select id="g-font-title" onchange="sync()">
-                <option value="'Great Vibes'">Great Vibes</option>
-                <option value="'Parisienne'">Parisienne</option>
-                <option value="'Playfair Display'">Playfair Display</option>
-            </select>
-            <label>Fuente de Cuerpo (Legible)</label>
-            <select id="g-font-body" onchange="sync()">
-                <option value="'Montserrat'">Montserrat (Moderna)</option>
-                <option value="'Noto Serif'">Noto Serif (Clásica)</option>
-            </select>
-        </div>
+    <div class="section-box">
+        <h2>⏰ Cuenta Regresiva</h2>
+        <label>Fecha del Evento</label>
+        <input type="datetime-local" id="in-date" value="2026-12-31T20:00" oninput="startTimer()">
     </div>
 
-    <div class="accordion-item">
-        <div class="accordion-header" onclick="toggleAccordion(this)">📸 FOTOS E IMÁGENES</div>
-        <div class="accordion-content">
-            <label>Foto de Portada (Hero) URL</label>
-            <input type="text" id="f-hero-img" value="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80" oninput="sync()">
-            <label>Altura de Portada (px)</label>
-            <input type="text" id="f-hero-height" value="450" oninput="sync()">
-        </div>
+    <div class="section-box">
+        <h2>🎵 Música de Fondo</h2>
+        <label>ID de YouTube (Ej: PwJ8HIDghLg)</label>
+        <input type="text" id="in-music" value="PwJ8HIDghLg" oninput="updateMusic()">
     </div>
 
-    <div class="accordion-item">
-        <div class="accordion-header" onclick="toggleAccordion(this)">🔘 ESTILO DE BOTONES</div>
-        <div class="accordion-content">
-            <label>Forma de Botón</label>
-            <select id="b-radius" onchange="sync()">
-                <option value="30px">Redondeado (Cápsula)</option>
-                <option value="8px">Esquinas Suaves</option>
-                <option value="0px">Cuadrado</option>
-            </select>
-        </div>
+    <div class="add-btns">
+        <button class="btn-add" onclick="add('foto')">+ FOTO</button>
+        <button class="btn-add" onclick="add('itinerario')">+ PASO</button>
+        <button class="btn-add" onclick="add('sobres')">+ BANCO</button>
     </div>
 
-    <button onclick="window.print()" style="width:100%; padding:20px; background:#2563eb; color:white; border:none; border-radius:12px; font-weight:bold; cursor:pointer; margin-top:20px; font-size:16px;">
-        GENERAR INVITACIÓN FINAL 📥
-    </button>
+    <div id="dynamic-editors"></div>
 </aside>
 
 <main id="viewport">
     <div id="phone">
-        <section class="v-section v-hero" id="v-hero-sec" style="height:450px; color:white; text-shadow:2px 2px 10px rgba(0,0,0,0.5); display:flex; flex-direction:column; justify-content:center; border-bottom:none; padding:0;">
-            <div data-aos="fade-down">
-                <h1 class="v-title" style="color:white !important;">Sofía & Ale</h1>
-                <p style="font-size:14px; letter-spacing:2px;">¡NOS CASAMOS!</p>
+        <section id="hero" class="inv-sec" style="height:400px; background:url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80') center/cover; display:flex; flex-direction:column; justify-content:center; color:white; text-shadow:2px 2px 8px rgba(0,0,0,0.6);">
+            <h1 class="inv-t" style="color:white !important;">Sofía & Ale</h1>
+            <p>NUESTRA BODA</p>
+        </section>
+
+        <section class="inv-sec" data-aos="fade-up">
+            <p style="font-size:11px; letter-spacing:2px;">FALTAN SÓLO</p>
+            <div class="timer">
+                <div class="t-unit"><b id="d">00</b><span>Días</span></div>
+                <div class="t-unit"><b id="h">00</b><span>Horas</span></div>
+                <div class="t-unit"><b id="m">00</b><span>Min</span></div>
             </div>
         </section>
 
-        <section class="v-section" data-aos="fade-up">
-            <h3 style="font-family:'Playfair Display';">Nuestra historia</h3>
-            <p style="font-size:14px; font-style:italic; opacity:0.8;">"El amor no se mira, se siente."</p>
-        </section>
-        
-        <section class="v-section" style="padding:0;" data-aos="zoom-in">
-            <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=500&q=80" class="v-img" style="border-radius:0; margin:0; height:250px;">
-        </section>
+        <div id="inv-content"></div>
 
-        <section class="v-section" data-aos="fade-up">
-            <h3>📍 Ubicación</h3>
-            <a href="#" class="v-btn">Ver Mapa Completo</a>
-            <a href="#" class="v-btn" style="background:#25d366; color:white;">Confirmar WhatsApp</a>
-        </section>
+        <div id="music-player"></div>
     </div>
 </main>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
-    AOS.init({ duration: 1000, once: true });
+    AOS.init();
+    let count = 0;
 
-    function toggleAccordion(header) {
-        header.parentElement.classList.toggle('active');
+    function updateGlobal() {
+        const root = document.documentElement.style;
+        root.setProperty('--inv-bg', document.getElementById('in-bg').value);
+        root.setProperty('--inv-accent', document.getElementById('in-accent').value);
+        const bgImg = document.getElementById('in-bg-img').value;
+        document.getElementById('phone').style.backgroundImage = bgImg ? `url('${bgImg}')` : 'none';
     }
 
-    function sync() {
-        const p = document.getElementById('phone').style;
+    function startTimer() {
+        const target = new Date(document.getElementById('in-date').value).getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            if(diff > 0) {
+                document.getElementById('d').innerText = Math.floor(diff / (86400000));
+                document.getElementById('h').innerText = Math.floor((diff % 86400000) / 3600000);
+                document.getElementById('m').innerText = Math.floor((diff % 3600000) / 60000);
+            }
+        }, 1000);
+    }
 
-        // 🎨 Colores y Fondos
-        p.backgroundColor = document.getElementById('g-bg-color').value;
-        p.setProperty('--inv-text-color', document.getElementById('g-text-color').value);
-        p.setProperty('--inv-accent', document.getElementById('g-accent-color').value);
+    function add(type) {
+        count++;
+        const id = `b${count}`;
+        const edit = document.createElement('div');
+        edit.className = 'section-box';
+        edit.id = `ed-${id}`;
+        edit.innerHTML = `<button class="btn-trash" onclick="remove('${id}')">×</button><h2>Nuevo ${type}</h2>`;
         
-        const bgImg = document.getElementById('g-bg-img').value;
-        if(bgImg) p.backgroundImage = `url('${bgImg}')`;
-        else p.backgroundImage = 'none';
+        const view = document.createElement('section');
+        view.className = 'inv-sec';
+        view.id = `vw-${id}`;
+        view.setAttribute('data-aos', 'fade-up');
 
-        // 🔤 Fuentes
-        p.setProperty('--inv-font-title', document.getElementById('g-font-title').value);
-        p.setProperty('--inv-font-body', document.getElementById('g-font-body').value);
+        if(type === 'foto') {
+            edit.innerHTML += `<input type="text" placeholder="URL Foto" oninput="updImg('${id}', this.value)">`;
+            view.innerHTML = `<img id="val-${id}" src="" style="width:100%; border-radius:15px;">`;
+        }
+        if(type === 'itinerario') {
+            edit.innerHTML += `<input type="text" placeholder="Evento (Ej: Cena)" oninput="updTxt('${id}', this.value)">`;
+            view.innerHTML = `<div class="step"><div class="step-icon">🍽️</div><div><b id="val-${id}">Evento</b><br><small>20:00 PM</small></div></div>`;
+        }
+        if(type === 'sobres') {
+            edit.innerHTML += `<input type="text" placeholder="CLABE" oninput="updTxt('${id}', this.value)">`;
+            view.innerHTML = `<h3>💸 Lluvia de Sobres</h3><div class="bank-card"><p id="val-${id}">0000000000000</p><span class="copy-btn">Copiar cuenta</span></div>`;
+        }
 
-        // 📸 Fotos y Hero
-        const heroSec = document.getElementById('v-hero-sec').style;
-        heroSec.backgroundImage = `url('${document.getElementById('f-hero-img').value}')`;
-        heroSec.height = document.getElementById('f-hero-height').value + 'px';
-
-        // 🔘 Botones
-        p.setProperty('--inv-btn-radius', document.getElementById('b-radius').value);
+        document.getElementById('dynamic-editors').appendChild(edit);
+        document.getElementById('inv-content').appendChild(view);
+        AOS.refresh();
     }
 
-    // Ejecutar al inicio para aplicar valores por defecto
-    sync();
+    function updImg(id, val) { document.getElementById(`val-${id}`).src = val; }
+    function updTxt(id, val) { document.getElementById(`val-${id}`).innerText = val; }
+    function remove(id) { document.getElementById(`ed-${id}`).remove(); document.getElementById(`vw-${id}`).remove(); }
+
+    function updateMusic() {
+        const id = document.getElementById('in-music').value;
+        document.getElementById('music-player').innerHTML = `<iframe width="0" height="0" src="https://www.youtube.com/embed/${id}?autoplay=1" frameborder="0" allow="autoplay"></iframe>`;
+    }
+
+    startTimer();
 </script>
 </body>
 </html>
