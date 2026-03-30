@@ -2,206 +2,210 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Grandía Studio v2026 - Control Total</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Grandía Studio v2026 - 15 Secciones Cecilia Landa (3 Fotos)</title>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.14.0/Sortable.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Cinzel:wght@400;700&family=Oswald:wght@500&display=swap" rel="stylesheet">
-    
     <style>
         :root { --gold: #b8860b; }
         body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #111; height: 100vh; overflow: hidden; }
-
-        /* PANEL DE CONTROL */
-        #sidebar { width: 400px; background: #fff; z-index: 100; overflow-y: auto; padding: 25px; border-right: 5px solid var(--gold); }
-        .editor-card { background: #fdfaf6; border-radius: 15px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--gold); }
-        h1 { font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0; }
+        #sidebar { width: 380px; background: #fff; z-index: 100; overflow-y: auto; padding: 20px; border-right: 5px solid var(--gold); }
+        .editor-card { background: #fdfaf6; border-radius: 12px; padding: 15px; margin-bottom: 15px; border-left: 5px solid var(--gold); }
+        h1 { font-family: 'Dancing Script'; color: var(--gold); text-align: center; margin: 0 0 10px; }
         label { display: block; font-size: 10px; font-weight: 900; color: #64748b; margin: 10px 0 4px; text-transform: uppercase; }
-        input, textarea { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; margin-bottom: 5px; }
-
-        /* VISTA PREVIA */
+        input, textarea { width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; box-sizing: border-box; }
         #preview { flex-grow: 1; display: flex; justify-content: center; align-items: center; background: #222; }
-        #phone-container { width: 375px; height: 780px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; position: relative; }
-        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-color: #ffffff; background-size: cover; }
-
-        /* SECCIONES Y MOVIMIENTO */
-        .sec { padding: 60px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; }
-        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: rgba(255,255,255,0.8); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; z-index: 99; font-size: 12px; }
-        
-        .movable { position: relative; cursor: move; z-index: 10; display: inline-block; text-shadow: none !important; transition: transform 0.1s; }
-        .v-img-main { width: 100%; border-radius: 15px; margin: 10px 0; cursor: pointer; }
-
-        /* CONTADOR */
-        .countdown { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
-        .c-unit { text-align: center; min-width: 50px; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 8px; border: 1px solid #ddd; }
-        .c-num { font-size: 20px; font-family: 'Oswald'; color: var(--gold); display: block; }
-
-        .v-card { background: rgba(255,255,255,0.95); padding: 20px; border-radius: 15px; width: 100%; border: 1px solid #eee; margin-top: 10px; }
-        .v-btn { display: inline-block; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 30px; color: #fff; margin-top: 10px; border: none; cursor: pointer; }
-        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; text-align: left; width: 100%; }
+        #phone-container { width: 375px; height: 750px; border: 12px solid #000; border-radius: 50px; background: #fff; overflow: hidden; position: relative; }
+        #phone { width: 100%; height: 100%; overflow-y: scroll; overflow-x: hidden; position: relative; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); }
+        .sec { padding: 50px 20px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%; box-sizing: border-box; min-height: 120px; }
+        .drag-handle { position: absolute; left: 10px; top: 10px; cursor: move; background: #fff; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; z-index: 99; opacity: 0.5; }
+        .movable { position: relative; cursor: move; z-index: 10; display: inline-block; text-shadow: none !important; }
+        .v-img { width: 100%; border-radius: 12px; margin: 10px 0; display: block; pointer-events: auto; max-height: 300px; object-fit: cover; }
+        .countdown { display: flex; justify-content: center; gap: 5px; margin-top: 10px; }
+        .c-unit { text-align: center; min-width: 45px; background: rgba(255,255,255,0.9); padding: 5px; border-radius: 8px; border: 1px solid #ddd; }
+        .c-num { font-size: 18px; font-family: 'Oswald'; color: var(--gold); display: block; }
+        .v-card { background: rgba(255,255,255,0.95); padding: 15px; border-radius: 15px; width: 100%; border: 1px solid #eee; margin-top: 5px; }
+        .v-btn { display: inline-block; padding: 10px 20px; text-decoration: none; font-weight: bold; border-radius: 30px; color: #fff; margin-top: 10px; }
+        .it-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; text-align: left; width: 100%; }
     </style>
 </head>
 <body>
 
 <aside id="sidebar">
     <h1>Grandía Studio ✨</h1>
-    <p style="font-size: 10px; text-align: center; color: #999;">Diseñador: Cecilia Landa</p>
-
     <div class="editor-card">
-        <label>🎵 Música (ID YouTube)</label>
-        <input type="text" id="m-id" placeholder="Ej: PwJ8HIDghLg" oninput="updateMusic()">
-        
         <label>🎨 Color de Fondo</label>
-        <input type="color" id="bg-col" value="#ffffff" oninput="updateStyle()">
-        
-        <label>🖼️ Textura de Fondo (URL)</label>
-        <input type="text" id="bg-img" value="https://www.transparenttextures.com/patterns/white-marble.png" oninput="updateStyle()">
-
-        <label>📅 Fecha Cuenta Regresiva</label>
-        <input type="datetime-local" id="event-date" value="2026-12-31T20:00">
+        <input type="color" id="bg-col" value="#ffffff" oninput="document.getElementById('phone').style.backgroundColor=this.value;saveData()">
+        <label>📅 Fecha Evento (RSVP)</label>
+        <input type="datetime-local" id="event-date" value="2026-12-31T20:00" oninput="saveData()">
     </div>
-
     <div id="editor-dynamic">
-        <p style="text-align:center; color:#999; font-size:11px; padding:10px;">Toca cualquier elemento de la derecha para editar sus detalles.</p>
+        <p style="text-align:center; color:#999; font-size:11px; padding:20px;">Toca cualquier elemento para editarlo.</p>
     </div>
-
-    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="saveData()">💾 GUARDAR CAMBIOS</button>
+    <button style="background:var(--gold); color:white; padding:15px; width:100%; border:none; border-radius:10px; font-weight:bold; cursor:pointer;" onclick="saveData()">💾 GUARDAR PROGRESO</button>
 </aside>
 
 <main id="preview">
     <div id="phone-container">
         <div id="phone">
             <div id="sortable-area">
-                
-                <section class="sec" id="s1" style="height:480px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800'); background-size: cover; background-position: center;">
+                <section class="sec" id="s1" style="height:450px; background-image:url('https://images.unsplash.com/photo-1519741497674-611481863552?w=800'); background-size: cover; background-position: center;">
                     <div class="drag-handle">⠿</div>
-                    <div class="movable" id="t1" style="font-family:'Great Vibes'; font-size:3.5rem; color:#fff;" onclick="openEditor('t1','text')">Sofía & Ale</div>
-                    <div class="movable" id="t2" style="font-family:'Montserrat'; color:#fff; font-weight:bold; letter-spacing:3px; top:10px;" onclick="openEditor('t2','text')">¡NOS CASAMOS!</div>
+                    <div class="movable" id="t1" style="font-family:'Great Vibes'; font-size:3rem; color:#fff;" onclick="edit('t1','text')">Sofía & Ale</div>
+                    <div class="movable" id="t2" style="font-family:'Montserrat'; color:#fff; font-weight:bold; letter-spacing:2px; margin-top: 10px;" onclick="edit('t2','text')">¡NOS CASAMOS!</div>
                 </section>
-
                 <section class="sec" id="s2">
                     <div class="drag-handle">⠿</div>
-                    <span class="movable" id="tf" onclick="openEditor('tf','text')">FALTAN:</span>
+                    <span class="movable" id="tf" onclick="edit('tf','text')">FALTAN:</span>
                     <div class="countdown movable" id="timer_box">
                         <div class="c-unit"><b class="c-num" id="d">00</b><small>Días</small></div>
                         <div class="c-unit"><b class="c-num" id="h">00</b><small>Hrs</small></div>
                         <div class="c-unit"><b class="c-num" id="m">00</b><small>Min</small></div>
-                        <div class="c-unit" style="border:1px solid var(--gold)"><b class="c-num" id="s">00</b><small>Seg</small></div>
+                        <div class="c-unit" style="border-color:var(--gold)"><b class="c-num" id="s">00</b><small>Seg</small></div>
                     </div>
                 </section>
-
-                <section class="sec" id="s_pic">
+                <section class="sec" id="s3"><div class="drag-handle">⠿</div><p class="movable" id="t3" style="font-style: italic; color: #555;" onclick="edit('t3','text')">"Amamos porque él nos amó primero."</p></section>
+                <section class="sec" id="s4"><div class="drag-handle">⠿</div><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="v-img movable" id="i4" onclick="edit('i4','img')"></section>
+                <section class="sec" id="s5">
                     <div class="drag-handle">⠿</div>
-                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800" class="v-img-main movable" id="main_pic" onclick="openEditor('main_pic','img')">
+                    <b class="movable" id="t5" style="color:var(--gold); font-family: 'Cinzel', serif;" onclick="edit('t5','text')">Nuestros Padres</b>
+                    <div class="v-card movable" id="c5" onclick="edit('c5','text')">Emperatriz Landa & Rubén Pérez<br>---<br>Padres del Novio</div>
                 </section>
-
-                <section class="sec" id="s_parents">
+                <section class="sec" id="s6"><div class="drag-handle">⠿</div><b class="movable" id="t6" style="font-family: 'Cinzel', serif;" onclick="edit('t6','text')">Nuestros Padrinos</b><p class="movable" id="p6" onclick="edit('p6','text')">Nombres de Padrinos</p></section>
+                <section class="sec" id="s7">
                     <div class="drag-handle">⠿</div>
-                    <b class="movable" id="tp" style="color:var(--gold); font-family:'Cinzel';" onclick="openEditor('tp','text')">Con la bendición de nuestros padres</b>
-                    <div class="v-card movable" id="cp" onclick="openEditor('cp','text')">
-                        Emperatriz Landa & Rubén Pérez<br>---<br>María García & Juan López
+                    <b class="movable" id="t7" style="font-family: 'Cinzel', serif;" onclick="edit('t7','text')">Itinerario</b>
+                    <div class="movable" style="width:100%; margin-top:10px;">
+                        <div class="it-row"><span>⛪</span><div><b>Misa</b> - 6:00 PM<br>Parroquia Tunkás</div></div>
+                        <div class="it-row"><span>💃</span><div><b>Recepción</b> - 8:00 PM<br>Salón Quinta</div></div>
                     </div>
                 </section>
-
-                <section class="sec" id="s_itinerary">
-                    <div class="drag-handle">⠿</div>
-                    <div class="movable" id="it_box" style="width:100%;">
-                        <div class="it-row"><span>⛪</span><div><b>Misa</b><br>6:00 PM</div></div>
-                        <div class="it-row"><span>💃</span><div><b>Recepción</b><br>8:30 PM</div></div>
-                    </div>
-                </section>
-
-                <section class="sec" id="s_map">
-                    <div class="drag-handle">⠿</div>
-                    <div class="v-card movable" id="map_card">
-                        <b id="loc_name" onclick="openEditor('loc_name','text')">Parroquia de Tunkás</b><br>
-                        <a href="#" class="v-btn" id="btn_map" style="background:var(--gold);" onclick="openEditor('btn_map','btn')">VER MAPA</a>
-                    </div>
-                </section>
-
-                <section class="sec" id="s_confirm">
-                    <div class="drag-handle">⠿</div>
-                    <a href="https://wa.me/9911105456" class="v-btn movable" id="bw" style="background:#25D366; width:90%;" onclick="openEditor('bw','btn')">CONFIRMAR AQUÍ</a>
-                </section>
-
+                <section class="sec" id="s_photo_extra"><div class="drag-handle">⠿</div><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=800" class="v-img movable" id="i_extra" onclick="edit('i_extra','img')"></section>
+                <section class="sec" id="s8"><div class="drag-handle">⠿</div><div class="v-card movable" id="c8" onclick="edit('c8','text')"><b>Código de Vestimenta</b><br>Formal / Guayabera</div></section>
+                <section class="sec" id="s9"><div class="drag-handle">⠿</div><div class="v-card movable" id="c9"><b>Misa: Parroquia Tunkás</b><br><a href="#" class="v-btn" style="background:var(--gold); color: white; font-weight: bold; text-decoration: none;">MAPA MISA</a></div></section>
+                <section class="sec" id="s10"><div class="drag-handle">⠿</div><div class="v-card movable" id="c10"><b>Fiesta: Salón Quinta Real</b><br><a href="#" class="v-btn" style="background:#333; color: white; font-weight: bold; text-decoration: none;">MAPA FIESTA</a></div></section>
+                <section class="sec" id="s11"><div class="drag-handle">⠿</div><div class="v-card movable" id="c11" style="border: 2px dashed var(--gold);" onclick="edit('c11','text')"><b>Mesa de Regalos</b><br>Liverpool: 5044321<br>Amazon: Novios Tunkás</div></section>
+                <section class="sec" id="s12"><div class="drag-handle">⠿</div><div class="v-card movable" id="c12" onclick="edit('c12','text')">✉️ <b>Lluvia de Sobres</b><br>Su presencia es nuestro mejor regalo,<br>pero si desean tener un detalle...</div></section>
+                <section class="sec" id="s13"><div class="drag-handle">⠿</div><div class="v-card movable" id="c13" onclick="edit('c13','text')">🏨 <b>Hospedaje Recomendado</b><br>Hotel Central Tunkás<br>Código: BODA_S&A</div></section>
+                <section class="sec" id="s14"><div class="drag-handle">⠿</div><div class="v-card movable" id="c14">🎵 <b>Acompáñanos con música</b><div id="player" style="margin-top: 10px;">[Reproductor Aquí]</div></div></section>
+                <section class="sec" id="s15"><div class="drag-handle">⠿</div><a href="https://wa.me/9911105456" class="v-btn movable" id="b15" style="background:#25D366; width:90%; color: white; font-weight: bold; text-decoration: none;" onclick="edit('b15','btn')">CONFIRMAR ASISTENCIA</a></section>
             </div>
         </div>
     </div>
 </main>
 
 <script>
-    // SISTEMA DE MOVIMIENTO REFORZADO
+    // FUNCIÓN DE MOVIMIENTO ULTRA-ESTABLE (Mouse & Touch)
     function makeMovable(el) {
         let p1=0, p2=0, p3=0, p4=0;
-        el.onmousedown = start; el.ontouchstart = start;
-        function start(e) {
-            if(e.target.tagName==='INPUT' || e.target.tagName==='TEXTAREA') return;
-            p3 = e.clientX || e.touches[0].clientX; p4 = e.clientY || e.touches[0].clientY;
-            document.onmouseup = stop; document.ontouchend = stop;
-            document.onmousemove = move; document.ontouchmove = move;
+        
+        el.addEventListener('mousedown', startDrag);
+        el.addEventListener('touchstart', startDrag, { passive: false });
+
+        function startDrag(e) {
+            // No mover si se está editando un campo de texto en el sidebar
+            if(e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.closest('#sidebar')) return;
+            
+            p3 = e.clientX || (e.touches ? e.touches[0].clientX : 0);
+            p4 = e.clientY || (e.touches ? e.touches[0].clientY : 0);
+            
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag, { passive: false });
         }
-        function move(e) {
-            let cx = e.clientX || e.touches[0].clientX; let cy = e.clientY || e.touches[0].clientY;
-            p1 = p3 - cx; p2 = p4 - cy; p3 = cx; p4 = cy;
-            el.style.top = (el.offsetTop - p2) + "px"; el.style.left = (el.offsetLeft - p1) + "px";
+
+        function drag(e) {
+            if (e.type === 'touchmove') e.preventDefault(); // Prevenir scroll al arrastrar
+
+            let cx = e.clientX || (e.touches ? e.touches[0].clientX : null);
+            let cy = e.clientY || (e.touches ? e.touches[0].clientY : null);
+            
+            if (cx === null || cy === null) return;
+
+            p1 = p3 - cx;
+            p2 = p4 - cy;
+            p3 = cx;
+            p4 = cy;
+            
+            el.style.top = (el.offsetTop - p2) + "px";
+            el.style.left = (el.offsetLeft - p1) + "px";
+            el.style.position = 'absolute'; // Asegurar absoluto para libre movimiento
         }
-        function stop() { document.onmouseup=null; document.onmousemove=null; document.ontouchend=null; document.ontouchmove=null; saveData(); }
+
+        function endDrag() {
+            document.removeEventListener('mouseup', endDrag);
+            document.removeEventListener('touchend', endDrag);
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            saveData();
+        }
     }
 
-    // EDITOR DINÁMICO
-    function openEditor(id, type) {
+    // EDITOR DE CONTENIDO DINÁMICO
+    function edit(id, type) {
         const el = document.getElementById(id);
         let h = `<div class="editor-card"><h3>Configurar Elemento</h3>`;
-        if(type==='text') h += `<label>Contenido</label><textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>');saveData()">${el.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
-        if(type==='img') h += `<label>Link de la Foto</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value;saveData()">`;
-        if(type==='btn') h += `<label>Texto del Botón</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value;saveData()">`;
-        h += `<label>Color</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value;saveData()"></div>`;
+        if(type==='text') h += `<label>Texto</label><textarea oninput="document.getElementById('${id}').innerHTML=this.value.replace(/\\n/g,'<br>');saveData()">${el.innerHTML.replace(/<br>/g,'\n')}</textarea>`;
+        if(type==='img') h += `<label>URL Imagen</label><input type="text" value="${el.src}" oninput="document.getElementById('${id}').src=this.value;saveData()">`;
+        if(type==='btn') h += `<label>Texto Botón</label><input type="text" value="${el.innerText}" oninput="document.getElementById('${id}').innerText=this.value;saveData()">`;
+        h += `<label>Color Texto</label><input type="color" oninput="document.getElementById('${id}').style.color=this.value;saveData()"></div>`;
         document.getElementById('editor-dynamic').innerHTML = h;
     }
 
-    function updateStyle() {
-        const p = document.getElementById('phone');
-        p.style.backgroundColor = document.getElementById('bg-col').value;
-        p.style.backgroundImage = `url('${document.getElementById('bg-img').value}')`;
-        saveData();
-    }
-    
-    function updateMusic() {
-        const id = document.getElementById('m-id').value;
-        const old = document.getElementById('music-player'); if(old) old.remove();
-        const d = document.createElement('div'); d.id = 'music-player';
-        d.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay" style="display:none"></iframe>`;
-        document.body.appendChild(d);
-    }
-
+    // PERSISTENCIA DE DATOS
     function saveData() { 
-        localStorage.setItem('inv_v_total', document.getElementById('sortable-area').innerHTML);
-        localStorage.setItem('inv_bg', document.getElementById('bg-col').value);
-        localStorage.setItem('inv_texture', document.getElementById('bg-img').value);
+        // Guardar el estado del área sortable (posiciones de textos/fotos)
+        localStorage.setItem('cecilia_v15_3photos', document.getElementById('sortable-area').innerHTML); 
+        // Guardar metadatos (color de fondo, fecha)
+        localStorage.setItem('cecilia_meta', JSON.stringify({
+            bgCol: document.getElementById('bg-col').value,
+            eventDate: document.getElementById('event-date').value
+        }));
     }
 
+    // INICIALIZACIÓN
     window.onload = () => {
-        const saved = localStorage.getItem('inv_v_total');
-        if(saved) document.getElementById('sortable-area').innerHTML = saved;
-        
-        const sBg = localStorage.getItem('inv_bg');
-        if(sBg) { document.getElementById('phone').style.backgroundColor = sBg; document.getElementById('bg-col').value = sBg; }
-        
-        const sTex = localStorage.getItem('inv_texture');
-        if(sTex) { document.getElementById('phone').style.backgroundImage = `url('${sTex}')`; document.getElementById('bg-img').value = sTex; }
+        // Cargar datos guardados si existen
+        const savedData = localStorage.getItem('cecilia_v15_3photos');
+        if(savedData) document.getElementById('sortable-area').innerHTML = savedData;
 
+        const meta = JSON.parse(localStorage.getItem('cecilia_meta') || '{}');
+        if(meta.bgCol) {
+            document.getElementById('phone').style.backgroundColor = meta.bgCol;
+            document.getElementById('bg-col').value = meta.bgCol;
+        }
+        if(meta.eventDate) document.getElementById('event-date').value = meta.eventDate;
+
+        // Activar movimiento en todos los elementos '.movable'
         document.querySelectorAll('.movable').forEach(makeMovable);
-        new Sortable(document.getElementById('sortable-area'), { handle: '.drag-handle', animation: 150 });
         
+        // Activar reordenamiento de secciones con SortableJS
+        new Sortable(document.getElementById('sortable-area'), { handle: '.drag-handle', animation: 150, onEnd: saveData });
+
+        // Iniciar Cuenta Regresiva
+        startTimer();
+    };
+
+    function startTimer() {
         setInterval(() => {
-            const diff = new Date(document.getElementById('event-date').value) - new Date();
+            const target = new Date(document.getElementById('event-date').value).getTime();
+            const now = new Date().getTime();
+            const diff = target - now;
             if(diff > 0) {
                 document.getElementById('d').innerText = Math.floor(diff/864e5).toString().padStart(2,'0');
                 document.getElementById('h').innerText = Math.floor((diff%864e5)/36e5).toString().padStart(2,'0');
                 document.getElementById('m').innerText = Math.floor((diff%36e5)/6e4).toString().padStart(2,'0');
                 document.getElementById('s').innerText = Math.floor((diff%6e4)/1000).toString().padStart(2,'0');
+            } else {
+                // Si la fecha pasó, poner todo en 00
+                document.getElementById('d').innerText = "00";
+                document.getElementById('h').innerText = "00";
+                document.getElementById('m').innerText = "00";
+                document.getElementById('s').innerText = "00";
             }
         }, 1000);
-    };
+    }
 </script>
 </body>
 </html>
