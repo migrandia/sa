@@ -3,54 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Editor Maestro - Mi Gran Día</title>
+    <title>MAESTRO - Mi Gran Día</title>
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@400;700&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root { --gold: #b8860b; --oxford: #1a1a1a; }
         body, html { margin: 0; padding: 0; height: 100%; background: #000; font-family: 'Montserrat', sans-serif; overflow: hidden; }
         
-        /* ESCENARIO */
+        /* ESCENARIO DE DISEÑO */
         #canvas { display: flex; justify-content: center; align-items: center; height: 100vh; background: radial-gradient(#333 1px, #111 1px); background-size: 30px 30px; }
         #phone { width: 100%; max-width: 414px; height: 92vh; background: #fff; position: relative; border-radius: 40px; overflow: hidden; border: 8px solid #222; box-shadow: 0 0 80px #000; }
         #fixed-bg { position: absolute; top:0; left:0; width:100%; height:100%; z-index: 1; pointer-events: none; background-image: url('https://www.transparenttextures.com/patterns/white-marble.png'); opacity: 0.4; }
         
-        #scroll { position: relative; z-index: 2; height: 100%; overflow-y: auto; }
-        .sec { padding: 60px 20px; min-height: 220px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; border-bottom: 1px solid #eee; }
+        #scroll { position: relative; z-index: 2; height: 100%; overflow-y: auto; scroll-behavior: smooth; }
+        .sec { padding: 60px 20px; min-height: 220px; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; border-bottom: 1px solid #f0f0f0; }
 
-        /* PORTADA VERTICAL */
-        .hero { height: 75vh; padding: 0; position: relative; overflow: hidden; display: block; }
+        /* 1. PORTADA VERTICAL */
+        .hero { height: 75vh; padding: 0; position: relative; overflow: hidden; display: block; border: none; }
         #img-portada { width: 100%; height: 100%; object-fit: cover; }
 
+        /* ELEMENTOS */
         .editable { cursor: move; position: absolute; z-index: 10; touch-action: none; }
         .editable:hover { outline: 2px dashed var(--gold); outline-offset: 4px; }
-        .v-img { width: 100%; pointer-events: none; }
-        .v-btn { padding: 16px 25px; text-decoration: none; font-weight: bold; border-radius: 10px; display: block; text-align: center; pointer-events: none; }
+        .v-img { width: 100%; pointer-events: none; border-radius: 5px; }
+        .v-btn { padding: 16px 25px; text-decoration: none; font-weight: bold; border-radius: 10px; display: block; text-align: center; pointer-events: none; transition: 0.3s; }
 
-        /* CONTADOR CUADROS */
+        /* 2. CONTADOR */
         #timer { display: flex; gap: 8px; justify-content: center; margin-top: 15px; }
-        .t-box { background: #fff; padding: 12px; border-radius: 10px; border: 1px solid #ddd; min-width: 50px; }
+        .t-box { background: #fff; padding: 12px; border-radius: 10px; border: 1px solid #ddd; min-width: 50px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .t-num { font-size: 1.4rem; font-weight: 700; color: var(--gold); display: block; }
+        .t-lab { font-size: 8px; text-transform: uppercase; color: #999; }
 
-        /* PANELES */
+        /* PANELES DE EDICIÓN */
         #panel { position: fixed; bottom: -100%; left: 0; width: 100%; background: #fff; z-index: 5000; border-radius: 30px 30px 0 0; padding: 25px; box-shadow: 0 -10px 50px #000; transition: 0.4s; overflow-y: auto; max-height: 80vh; }
         #panel.open { bottom: 0; }
         .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
-        input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: #fafafa; box-sizing: border-box; }
+        input, select, textarea { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; background: #fafafa; box-sizing: border-box; font-size: 14px; }
 
-        /* BOTONES FLOTANTES */
+        /* BOTONES DE CONTROL */
         .btn-f { position: fixed; bottom: 30px; background: var(--gold); color: white; width: 55px; height: 55px; border-radius: 50%; border: none; font-size: 24px; cursor: pointer; z-index: 4000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
         .btn-add { left: 30px; }
-        .btn-undo { left: 100px; background: #333; }
+        .btn-undo { left: 100px; background: #333; font-size: 18px; }
         .btn-save { position: fixed; top: 20px; right: 20px; background: #000; color: white; padding: 12px 25px; border-radius: 30px; border: 2px solid var(--gold); font-weight: bold; cursor: pointer; z-index: 4000; }
-        #music-btn { position: fixed; top: 20px; left: 20px; background: #fff; padding: 10px; border-radius: 50%; cursor: pointer; z-index: 4000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        #music-btn { position: fixed; top: 20px; left: 20px; background: #fff; padding: 10px; border-radius: 50%; cursor: pointer; z-index: 4000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); font-size: 20px; }
     </style>
 </head>
 <body>
 
     <div id="music-btn" onclick="openGlobal()">🎵</div>
     <button class="btn-f btn-add" onclick="addItem('🌸')">+</button>
-    <button class="btn-f btn-undo" onclick="undo()" title="Deshacer">↩</button>
-    <div class="btn-save" onclick="download()">GUARDAR</div>
+    <button class="btn-f btn-undo" onclick="undo()" title="Regresar (Deshacer)">↩</button>
+    <div class="btn-save" onclick="download()">GUARDAR TODO</div>
 
     <div id="canvas">
         <div id="phone">
@@ -60,50 +62,56 @@
                     <section class="sec hero">
                         <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=800" id="img-portada">
                         <div class="editable" id="e1" style="font-family:'Great Vibes'; font-size:3.5rem; top: 120px; width:100%; color:#fff; text-shadow: 2px 2px 10px rgba(0,0,0,0.5);">Cecilia & Ruben</div>
+                        <div class="editable" id="e1-sub" style="top: 220px; width:100%; color:#fff; letter-spacing:4px; font-weight:700;">31.12.2026</div>
                     </section>
 
                     <section class="sec">
-                        <div class="editable" id="e2" style="position:relative;">TIEMPO RESTANTE:</div>
+                        <div class="editable" id="e2" style="position:relative; font-weight:700;">FALTAN:</div>
                         <div id="timer">
-                            <div class="t-box"><span class="t-num" id="d">00</span></div>
-                            <div class="t-box"><span class="t-num" id="h">00</span></div>
-                            <div class="t-box"><span class="t-num" id="m">00</span></div>
-                            <div class="t-box"><span class="t-num" id="s">00</span></div>
+                            <div class="t-box"><span class="t-num" id="d">00</span><span class="t-lab">Días</span></div>
+                            <div class="t-box"><span class="t-num" id="h">00</span><span class="t-lab">Hrs</span></div>
+                            <div class="t-box"><span class="t-num" id="m">00</span><span class="t-lab">Min</span></div>
+                            <div class="t-box"><span class="t-num" id="s">00</span><span class="t-lab">Seg</span></div>
                         </div>
                         <input type="datetime-local" id="target-date" value="2026-12-31T20:00" style="display:none;">
                     </section>
 
                     <section class="sec">
-                        <div class="editable" id="e3" style="position:relative; font-style:italic; padding:10px;">"Nuestro amor es el mejor regalo. Gracias por ser parte de este inicio."</div>
+                        <div class="editable" id="e3" style="position:relative; font-style:italic; font-size:1.1rem; color:#555;">"Nuestra mayor alegría es compartir este día contigo."</div>
                     </section>
 
                     <section class="sec"><div class="editable" id="e4" style="position:relative; width:85%;"><img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600" class="v-img"></div></section>
 
-                    <section class="sec"><div class="editable" id="e5" style="position:relative;"><b>Nuestros Padres:</b><br>Emperatriz Landa & Rubén Pérez<br>Familia del Novio</div></section>
+                    <section class="sec"><div class="editable" id="e5" style="position:relative;"><b>Nuestros Padres:</b><br>Emperatriz Landa & Rubén Pérez<br>Familia Landa Bustos</div></section>
 
-                    <section class="sec"><div class="editable" id="e6" style="position:relative;"><b>Padrinos de Honor:</b><br>Nombres aquí</div></section>
+                    <section class="sec"><div class="editable" id="e6" style="position:relative;"><b>Padrinos:</b><br>Nombres de los Padrinos</div></section>
 
-                    <section class="sec" style="height:350px;">
-                        <div class="editable" id="e7-t" style="top:10px; font-weight:bold; color:var(--gold);">NUESTRO DÍA</div>
+                    <section class="sec" style="height:380px;">
+                        <div class="editable" id="e7-t" style="top:10px; font-weight:bold; color:var(--gold); font-family:'Cinzel';">ITINERARIO</div>
                         <div class="editable" id="e7-1" style="top:60px; width:100%;">⛪ 17:00 - Ceremonia</div>
-                        <div class="editable" id="e7-2" style="top:100px; width:100%;">🖋️ 18:30 - Civil</div>
-                        <div class="editable" id="e7-3" style="top:140px; width:100%;">🥂 19:30 - Cóctel</div>
-                        <div class="editable" id="e7-4" style="top:180px; width:100%;">🍽️ 21:00 - Cena</div>
-                        <div class="editable" id="e7-5" style="top:220px; width:100%;">💃 22:30 - Fiesta</div>
+                        <div class="editable" id="e7-2" style="top:110px; width:100%;">🖋️ 18:30 - Civil</div>
+                        <div class="editable" id="e7-3" style="top:160px; width:100%;">🥂 19:30 - Cóctel</div>
+                        <div class="editable" id="e7-4" style="top:210px; width:100%;">🍽️ 21:00 - Cena</div>
+                        <div class="editable" id="e7-5" style="top:260px; width:100%;">💃 22:30 - Fiesta</div>
                     </section>
 
-                    <section class="sec" style="background:#f9f9f9;">🎵 Música Activada</section>
+                    <section class="sec" style="background:#fafafa; min-height: 100px;">🎶 Reproductor de Música listo</section>
 
                     <section class="sec"><div class="editable" id="e9" style="position:relative; width:85%;"><img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600" class="v-img"></div></section>
                     <section class="sec"><div class="editable" id="e10" style="position:relative; width:85%;"><img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600" class="v-img"></div></section>
                     <section class="sec"><div class="editable" id="e11" style="position:relative; width:85%;"><img src="https://images.unsplash.com/photo-1515934751635-c81c6bc9a2d8?w=600" class="v-img"></div></section>
 
-                    <section class="sec"><div class="editable" id="e12" style="position:relative;">🤵 <b>Código:</b> Gala / Formal</div></section>
-                    <section class="sec"><div class="editable" id="e13" style="position:relative;"><a href="#" class="v-btn" style="background:#000; color:#fff;">MAPA CEREMONIA</a></div></section>
-                    <section class="sec"><div class="editable" id="e14" style="position:relative;"><a href="#" class="v-btn" style="background:var(--gold); color:#fff;">MAPA FIESTA</a></div></section>
+                    <section class="sec"><div class="editable" id="e12" style="position:relative;">🤵 <b>Código de Vestimenta:</b><br>Gala / Formal</div></section>
+
+                    <section class="sec"><div class="editable" id="e13" style="position:relative; width:80%;"><a href="#" class="v-btn" style="background:#000; color:#fff;">UBICACIÓN MISA</a></div></section>
+                    <section class="sec"><div class="editable" id="e14" style="position:relative; width:80%;"><a href="#" class="v-btn" style="background:var(--gold); color:#fff;">UBICACIÓN FIESTA</a></div></section>
+
                     <section class="sec"><div class="editable" id="e15" style="position:relative;">🎁 Mesa de Regalos: Liverpool</div></section>
                     <section class="sec"><div class="editable" id="e16" style="position:relative;">✉️ Lluvia de Sobres</div></section>
-                    <section class="sec"><div class="editable" id="e17" style="position:relative;"><a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:white;">CONFIRMAR</a></div></section>
+
+                    <section class="sec">
+                        <div class="editable" id="e17" style="position:relative; width:85%;"><a href="https://wa.me/9911105456" class="v-btn" style="background:#25D366; color:white;">CONFIRMAR ASISTENCIA</a></div>
+                    </section>
                 </div>
             </div>
         </div>
@@ -112,16 +120,16 @@
     <div id="panel">
         <div id="ui"></div>
         <div class="grid">
-            <button onclick="save()" style="background:#000; color:#fff; padding:15px; border:none; border-radius:12px; font-weight:bold;">APLICAR</button>
-            <button onclick="deleteEl()" style="color:red; background:none; border:1px solid red; border-radius:12px;">BORRAR</button>
+            <button onclick="save()" style="background:#000; color:#fff; padding:15px; border:none; border-radius:12px; font-weight:bold; cursor:pointer;">APLICAR</button>
+            <button onclick="deleteEl()" style="color:red; background:none; border:1px solid red; border-radius:12px; cursor:pointer;">BORRAR</button>
         </div>
     </div>
 
     <script>
         let actId = null; let move = false; let history = [];
 
-        function saveHistory() { history.push(document.getElementById('full-inv').innerHTML); if(history.length > 10) history.shift(); }
-        function undo() { if(history.length > 0) document.getElementById('full-inv').innerHTML = history.pop(); init(); }
+        function saveHistory() { history.push(document.getElementById('full-inv').innerHTML); if(history.length > 15) history.shift(); }
+        function undo() { if(history.length > 0) { document.getElementById('full-inv').innerHTML = history.pop(); init(); } }
 
         function init() {
             document.querySelectorAll('.editable').forEach(el => {
@@ -144,14 +152,15 @@
 
         function openE(id) {
             actId = id; const el = document.getElementById(id); const st = window.getComputedStyle(el);
-            let h = `<h3>Editor Independiente</h3>`;
-            if(id === 'e1') h += `<label>Foto Portada</label><input type="text" onchange="document.getElementById('img-portada').src=this.value" placeholder="URL Fondo">`;
+            let h = `<h3>Editor de Segmento</h3>`;
+            if(id === 'e1' || id === 'e1-sub') h += `<label>Foto Portada</label><input type="text" onchange="document.getElementById('img-portada').src=this.value" placeholder="URL de Imagen de Fondo">`;
+            
             if(el.querySelector('img')) {
                 h += `<label>URL Foto</label><input type="text" id="v-val" value="${el.querySelector('img').src}">
-                      <label>Borde</label><select id="v-bord"><option value="none">Sin Borde</option><option value="6px double #b8860b">Dorado</option></select>`;
+                      <label>Borde Dorado</label><select id="v-bord"><option value="none">Sin Borde</option><option value="6px double #b8860b">Dorado Premium</option></select>`;
             } else if(el.querySelector('a')) {
-                h += `<label>Texto</label><input type="text" id="v-val" value="${el.querySelector('a').innerText}">
-                      <label>Link</label><input type="text" id="v-link" value="${el.querySelector('a').href}">`;
+                h += `<label>Texto del Botón</label><input type="text" id="v-val" value="${el.querySelector('a').innerText}">
+                      <label>Link (WhatsApp/Mapas)</label><input type="text" id="v-link" value="${el.querySelector('a').href}">`;
             } else { h += `<label>Texto</label><textarea id="v-val" rows="3">${el.innerHTML.replace(/<br>/g, '\n')}</textarea>`; }
             
             h += `<div class="grid">
@@ -163,9 +172,9 @@
         }
 
         function openGlobal() {
-            document.getElementById('ui').innerHTML = `<h3>Configuración</h3>
-            <label>Música (MP3 URL)</label><input type="text" id="m-url">
-            <label>Fecha</label><input type="datetime-local" id="m-date" value="${document.getElementById('target-date').value}">`;
+            document.getElementById('ui').innerHTML = `<h3>Música y Tiempo</h3>
+            <label>Música (URL de MP3)</label><input type="text" id="m-url" placeholder="Pega el link directo aquí">
+            <label>Fecha del Evento</label><input type="datetime-local" id="m-date" value="${document.getElementById('target-date').value}">`;
             actId = null; document.getElementById('panel').classList.add('open');
         }
 
@@ -194,9 +203,4 @@
             }
         }, 1000);
 
-        function addItem(e) { saveHistory(); const s = document.createElement('div'); s.className = 'editable'; s.style.fontSize = '40px'; s.style.top='100px'; s.style.left='100px'; s.innerHTML = e; s.id = 's'+Date.now(); document.getElementById('full-inv').appendChild(s); init(); }
-        function download() { const b = new Blob([document.documentElement.outerHTML], {type:'text/html'}); const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = 'invitacion-maestra.html'; a.click(); }
-        window.onload = init;
-    </script>
-</body>
-</html>
+        function addItem(e) { saveHistory(); const s = document.createElement('div'); s.className = 'editable'; s.style.fontSize = '40px'; s.style.top='100px';
