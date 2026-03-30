@@ -3,45 +3,60 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mi Gran Día - Constructor</title>
+<title>Mi Gran Día</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
-body{margin:0;font-family:Arial;background:#f2f2f2}
-#app{display:flex;min-height:100vh}
-#panel{width:320px;background:white;padding:15px;overflow:auto}
-#preview{flex:1;padding:20px}
-.phone{max-width:360px;margin:auto;background:white;border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.2)}
-.hero img{width:100%;height:220px;object-fit:cover}
+body{margin:0;font-family:Montserrat;background:#f5f6fa}
+#container{display:flex;min-height:100vh}
+#panel{width:330px;background:white;padding:20px;overflow:auto;box-shadow:0 0 10px rgba(0,0,0,.08)}
+#preview{flex:1;display:flex;justify-content:center;align-items:flex-start;padding:30px}
+.phone{width:360px;background:white;border-radius:25px;overflow:hidden;box-shadow:0 20px 40px rgba(0,0,0,.15)}
+.hero img{width:100%;height:230px;object-fit:cover}
 .content{padding:20px;text-align:center}
-.btn{display:block;margin:10px auto;padding:10px;background:#000;color:white;text-decoration:none;border-radius:20px;width:85%}
-.gallery img{width:100%;margin-bottom:10px;border-radius:10px}
+.names{font-family:'Playfair Display';font-size:28px;margin:10px 0}
+.btn{display:block;margin:10px auto;padding:12px;border-radius:30px;background:#111;color:white;text-decoration:none;width:85%;font-size:14px}
+.gallery img{width:100%;margin-bottom:10px;border-radius:12px}
+.count{font-size:14px;margin:10px 0;color:#555}
+label{font-size:12px;font-weight:600}
+input,textarea{width:100%;padding:8px;margin-bottom:10px;border-radius:8px;border:1px solid #ddd}
 </style>
 </head>
-<body>
 
-<div id="app">
+<body>
+<div id="container">
+
 <div id="panel">
-<h3>Mi Gran Día</h3>
+<h2>Mi Gran Día</h2>
 
 <label>Nombres</label>
-<input id="names" oninput="update()" style="width:100%">
+<input id="names" oninput="update()">
 
-<label>WhatsApp</label>
-<input id="phone" oninput="update()" style="width:100%">
+<label>WhatsApp URL</label>
+<input id="url_wsp" oninput="update()">
 
-<label>Google Maps</label>
-<input id="map" oninput="update()" style="width:100%">
+<label>Google Maps URL</label>
+<input id="url_map" oninput="update()">
+
+<label>Mesa de Regalos URL</label>
+<input id="url_gift" oninput="update()">
+
+<label>Instagram URL</label>
+<input id="url_ig" oninput="update()">
+
+<label>YouTube Música ID</label>
+<input id="music" oninput="updateMusic()">
 
 <label>Fecha</label>
-<input type="date" id="date" onchange="updateCountdown()" style="width:100%">
+<input type="date" id="date" onchange="countdown()">
 
 <label>Hora</label>
-<input type="time" id="hour" onchange="updateCountdown()" style="width:100%">
+<input type="time" id="hour" onchange="countdown()">
 
 <label>Portada</label>
-<input type="file" onchange="uploadCover(event)">
+<input type="file" onchange="coverUpload(event)">
 
 <label>Galería</label>
-<input type="file" multiple onchange="uploadGallery(event)">
+<input type="file" multiple onchange="galleryUpload(event)">
 
 <button onclick="save()">Guardar invitación</button>
 <div id="link"></div>
@@ -52,74 +67,96 @@ body{margin:0;font-family:Arial;background:#f2f2f2}
 <div class="phone">
 <div class="hero"><img id="cover"></div>
 <div class="content">
-<h2 id="v-names"></h2>
-<div id="countdown"></div>
-<a id="mapBtn" class="btn">Ver ubicación</a>
-<a id="wsp" class="btn">Confirmar asistencia</a>
+
+<h2 class="names" id="v_names"></h2>
+<div class="count" id="count"></div>
+
+<a id="btn_map" class="btn">Ver ubicación</a>
+<a id="btn_wsp" class="btn">Confirmar asistencia</a>
+<a id="btn_gift" class="btn">Mesa de regalos</a>
+<a id="btn_ig" class="btn">Instagram</a>
+
 <div class="gallery" id="gallery"></div>
+
+</div>
+<div id="musicbox"></div>
 </div>
 </div>
+
 </div>
 
 <script>
 
 function update(){
-document.getElementById('v-names').innerText = names.value;
-document.getElementById('wsp').href = "https://wa.me/"+phone.value;
-document.getElementById('mapBtn').href = map.value;
+v_names.innerText = names.value;
+
+btn_wsp.href = url_wsp.value;
+btn_map.href = url_map.value;
+btn_gift.href = url_gift.value;
+btn_ig.href = url_ig.value;
+
 }
 
-function uploadCover(e){
-let reader = new FileReader();
-reader.onload = ()=> cover.src = reader.result;
-reader.readAsDataURL(e.target.files[0]);
+function coverUpload(e){
+let r=new FileReader();
+r.onload=()=>cover.src=r.result;
+r.readAsDataURL(e.target.files[0]);
 }
 
-function uploadGallery(e){
+function galleryUpload(e){
 gallery.innerHTML="";
-Array.from(e.target.files).forEach(file=>{
-let reader=new FileReader();
-reader.onload=()=>{
+Array.from(e.target.files).forEach(f=>{
+let r=new FileReader();
+r.onload=()=>{
 let img=document.createElement("img");
-img.src=reader.result;
+img.src=r.result;
 gallery.appendChild(img);
 };
-reader.readAsDataURL(file);
+r.readAsDataURL(f);
 });
 }
 
-function updateCountdown(){
+function countdown(){
 let event=new Date(date.value+"T"+hour.value);
 setInterval(()=>{
 let diff=event-new Date();
 let d=Math.floor(diff/1000/60/60/24);
 let h=Math.floor(diff/1000/60/60)%24;
-countdown.innerText=d+" días "+h+" hrs";
+count.innerText=d+" días "+h+" hrs";
 },1000);
+}
+
+function updateMusic(){
+musicbox.innerHTML =
+'<iframe width="0" height="0" src="https://www.youtube.com/embed/'+music.value+'?autoplay=1&mute=1"></iframe>';
 }
 
 function save(){
 let id="inv-"+Date.now();
 let data={
 names:names.value,
-phone:phone.value,
-map:map.value,
 cover:cover.src,
-gallery:gallery.innerHTML
+gallery:gallery.innerHTML,
+map:url_map.value,
+wsp:url_wsp.value,
+gift:url_gift.value,
+ig:url_ig.value
 };
 localStorage.setItem(id,JSON.stringify(data));
-link.innerHTML="Link generado: "+location.href+"?view="+id;
+link.innerHTML="Link: "+location.href+"?view="+id;
 }
 
-let params=new URLSearchParams(location.search);
-if(params.get("view")){
-let d=JSON.parse(localStorage.getItem(params.get("view")));
-document.getElementById("panel").style.display="none";
-document.getElementById("v-names").innerText=d.names;
-document.getElementById("wsp").href="https://wa.me/"+d.phone;
-document.getElementById("mapBtn").href=d.map;
-document.getElementById("cover").src=d.cover;
-document.getElementById("gallery").innerHTML=d.gallery;
+let p=new URLSearchParams(location.search);
+if(p.get("view")){
+let d=JSON.parse(localStorage.getItem(p.get("view")));
+panel.style.display="none";
+v_names.innerText=d.names;
+cover.src=d.cover;
+gallery.innerHTML=d.gallery;
+btn_map.href=d.map;
+btn_wsp.href=d.wsp;
+btn_gift.href=d.gift;
+btn_ig.href=d.ig;
 }
 
 </script>
