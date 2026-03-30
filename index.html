@@ -3,31 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Gran día Studio - Editor Infinito</title>
+    <title>Mi Gran día Studio - Editor Maestro V4.0</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Great+Vibes&family=Montserrat:wght@300;400;700&family=Playfair+Display:ital,wght@0,700;1,700&family=Parisienne&display=swap" rel="stylesheet">
     
     <style>
         :root { 
             --accent: #d4a373; --btn-bg: #d4a373; --btn-text: #ffffff; 
-            --btn-radius: 30px; --font-title: 'Great Vibes';
-            --bg-color: #ffffff; --bg-img: none;
+            --btn-radius: 30px; --btn-border: none; --font-title: 'Great Vibes';
+            --bg-color: #ffffff; --bg-img: url('https://www.transparenttextures.com/patterns/white-marble.png');
         }
-        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #e2e8f0; height: 100vh; overflow: hidden; }
+        body { font-family: 'Montserrat', sans-serif; margin: 0; display: flex; background: #cbd5e1; height: 100vh; overflow: hidden; }
 
-        /* PANEL EDITOR */
-        #panel { width: 450px; background: white; padding: 25px; overflow-y: auto; box-shadow: 5px 0 20px rgba(0,0,0,0.1); z-index: 10; }
-        .block-edit { background: #fdfdfd; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 15px; position: relative; border-left: 5px solid var(--accent); }
-        .btn-trash { position: absolute; top: 10px; right: 10px; background: #ff4757; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; }
+        /* --- PANEL DE CONTROL --- */
+        #panel { width: 450px; background: white; padding: 25px; overflow-y: auto; box-shadow: 5px 0 20px rgba(0,0,0,0.2); z-index: 10; }
+        #panel h1 { font-family: 'Dancing Script'; color: var(--accent); margin-bottom: 5px; }
         
-        .add-menu { display: flex; gap: 10px; margin-bottom: 30px; background: #f0f4f8; padding: 15px; border-radius: 12px; flex-wrap: wrap; }
-        .btn-add { flex: 1; padding: 10px; background: white; border: 1px dashed var(--accent); color: var(--accent); border-radius: 8px; cursor: pointer; font-size: 10px; font-weight: bold; }
-        .btn-add:hover { background: var(--accent); color: white; }
+        .block-edit { background: #f9f9f9; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 15px; position: relative; border-left: 4px solid var(--accent); }
+        .btn-trash { position: absolute; top: 10px; right: 10px; background: #ff4757; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer; font-size: 10px; }
+        
+        .add-menu { display: flex; gap: 8px; margin: 20px 0; background: #f0f4f8; padding: 10px; border-radius: 10px; }
+        .btn-add { flex: 1; padding: 8px; background: white; border: 1px dashed var(--accent); color: var(--accent); border-radius: 5px; cursor: pointer; font-size: 9px; font-weight: bold; }
 
-        h2 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #333; }
+        label { display: block; font-size: 10px; font-weight: bold; margin-top: 10px; color: #888; text-transform: uppercase; }
         input, select, textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; margin-top: 5px; font-size: 12px; }
 
-        /* VISTA PREVIA */
+        /* --- VISTA PREVIA --- */
         #viewport { flex-grow: 1; display: flex; justify-content: center; align-items: center; padding: 20px; }
         #phone { 
             width: 370px; height: 780px; border: 12px solid #111; border-radius: 45px; 
@@ -35,106 +36,126 @@
             overflow-y: auto; overflow-x: hidden; position: relative; scroll-behavior: smooth;
         }
 
-        /* BLOQUES DE INVITACIÓN */
-        .v-section { padding: 40px 20px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.02); }
-        .v-text { font-size: 14px; color: #555; line-height: 1.6; }
-        .v-img { width: 100%; border-radius: 10px; margin: 15px 0; }
+        /* --- ELEMENTOS DE LA INVITACIÓN --- */
+        section { padding: 40px 20px; text-align: center; }
+        .v-hero { height: 450px; background: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80') center/cover; color: white; text-shadow: 2px 2px 5px rgba(0,0,0,0.5); display: flex; flex-direction: column; justify-content: center; }
+        .v-names { font-family: var(--font-title), cursive; font-size: 3rem; margin: 10px 0; }
+        
         .btn-custom { 
             display: block; width: 85%; margin: 15px auto; padding: 15px; 
             background: var(--btn-bg); color: var(--btn-text); border-radius: var(--btn-radius);
-            text-decoration: none; font-weight: bold; font-size: 11px; text-transform: uppercase;
+            border: var(--btn-border); text-decoration: none; font-weight: bold; font-size: 11px;
+            text-transform: uppercase; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
+        .v-img { width: 100%; border-radius: 10px; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <aside id="panel">
     <h1>Mi Grandía Studio ✨</h1>
-    <p style="font-size: 12px; color: #777;">Añade secciones personalizadas a tu invitación.</p>
-
-    <div class="add-menu">
-        <button class="btn-add" onclick="addBlock('texto')">+ TEXTO</button>
-        <button class="btn-add" onclick="addBlock('foto')">+ FOTO</button>
-        <button class="btn-add" onclick="addBlock('boton')">+ BOTÓN</button>
+    
+    <div class="block-edit">
+        <h2>🎨 Diseño Global</h2>
+        <label>Fondo (Color)</label>
+        <input type="color" id="g-bg" value="#ffffff" oninput="sync()">
+        <label>Fondo (Textura URL)</label>
+        <input type="text" id="g-img" placeholder="Ej: mármol, papel..." oninput="sync()">
+        <label>Fuente de Títulos</label>
+        <select id="g-font" onchange="sync()">
+            <option value="'Great Vibes'">Great Vibes</option>
+            <option value="'Parisienne'">Parisienne</option>
+            <option value="'Playfair Display'">Playfair Display</option>
+        </select>
     </div>
 
-    <div id="editor-container">
-        </div>
+    <div class="block-edit">
+        <h2>🔘 Estilo de Botones</h2>
+        <label>Forma</label>
+        <select id="b-radius" onchange="sync()">
+            <option value="30px">Redondeado</option>
+            <option value="5px">Cuadrado</option>
+        </select>
+        <label>Color Fondo</label>
+        <input type="color" id="b-bg" value="#d4a373" oninput="sync()">
+        <label>Color Letra</label>
+        <input type="color" id="b-text" value="#ffffff" oninput="sync()">
+    </div>
 
-    <button onclick="window.print()" style="width:100%; padding: 20px; background: #007bff; color: white; border: none; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 20px;">
-        GENERAR INVITACIÓN 📥
-    </button>
+    <div class="add-menu">
+        <button class="btn-add" onclick="createBlock('texto')">+ MENSAJE</button>
+        <button class="btn-add" onclick="createBlock('foto')">+ FOTO</button>
+        <button class="btn-add" onclick="createBlock('boton')">+ BOTÓN</button>
+    </div>
+
+    <div id="editor-list"></div>
+
+    <button onclick="window.print()" style="width:100%; padding:15px; background:var(--accent); color:white; border:none; border-radius:10px; font-weight:bold; cursor:pointer; margin-top:10px;">GENERAR PARA COMPARTIR 📥</button>
 </aside>
 
 <main id="viewport">
     <div id="phone">
-        <section class="v-section" style="height:450px; display:flex; flex-direction:column; justify-content:center; background:url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=500&q=80') center/cover; color:white;">
+        <section class="v-hero">
             <div data-aos="fade-down">
-                <h1 style="font-family: 'Great Vibes'; font-size: 3.5rem; margin:0;">Nuestra Boda</h1>
-                <p>TE ESPERAMOS</p>
+                <h1 class="v-names">Sofía & Ale</h1>
+                <p>¡NOS CASAMOS!</p>
             </div>
         </section>
-
-        <div id="invitation-content">
-            </div>
+        <div id="live-content"></div>
     </div>
 </main>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
     AOS.init();
-    let blockCount = 0;
+    let count = 0;
 
-    function addBlock(type) {
-        blockCount++;
-        const id = `block-${blockCount}`;
-        
-        // 1. Crear control en el panel
-        const control = document.createElement('div');
-        control.className = 'block-edit';
-        control.id = `edit-${id}`;
-        
-        let controlHTML = `<button class="btn-trash" onclick="removeBlock('${id}')">🗑️</button><h2>Bloque de ${type.toUpperCase()}</h2>`;
-        
-        if(type === 'texto') {
-            controlHTML += `<textarea oninput="updateText('${id}', this.value)" placeholder="Escribe tu mensaje aquí...">Nuevo Mensaje</textarea>`;
-        } else if(type === 'foto') {
-            controlHTML += `<input type="text" oninput="updateImg('${id}', this.value)" placeholder="URL de la imagen (Google Fotos/Imgur)">`;
-        } else if(type === 'boton') {
-            controlHTML += `<input type="text" oninput="updateBtn('${id}', this.value)" placeholder="Texto del botón">`;
-        }
-
-        control.innerHTML = controlHTML;
-        document.getElementById('editor-container').appendChild(control);
-
-        // 2. Crear sección en la invitación
-        const section = document.createElement('section');
-        section.className = 'v-section';
-        section.id = `view-${id}`;
-        section.setAttribute('data-aos', 'fade-up');
-        
-        if(type === 'texto') {
-            section.innerHTML = `<p class="v-text" id="content-${id}">Nuevo Mensaje</p>`;
-        } else if(type === 'foto') {
-            section.innerHTML = `<img src="https://via.placeholder.com/400x250" class="v-img" id="content-${id}">`;
-        } else if(type === 'boton') {
-            section.innerHTML = `<a href="#" class="btn-custom" id="content-${id}">NUEVO BOTÓN</a>`;
-        }
-
-        document.getElementById('invitation-content').appendChild(section);
-        AOS.refresh(); // Reiniciar animaciones para el nuevo bloque
+    function sync() {
+        const r = document.documentElement.style;
+        r.setProperty('--bg-color', document.getElementById('g-bg').value);
+        r.setProperty('--bg-img', `url('${document.getElementById('g-img').value}')`);
+        r.setProperty('--font-title', document.getElementById('g-font').value);
+        r.setProperty('--btn-bg', document.getElementById('b-bg').value);
+        r.setProperty('--btn-text', document.getElementById('b-text').value);
+        r.setProperty('--btn-radius', document.getElementById('b-radius').value);
     }
 
-    // Funciones de actualización
-    function updateText(id, val) { document.getElementById(`content-${id}`).innerText = val; }
-    function updateImg(id, val) { document.getElementById(`content-${id}`).src = val; }
-    function updateBtn(id, val) { document.getElementById(`content-${id}`).innerText = val; }
+    function createBlock(type) {
+        count++;
+        const id = `b${count}`;
+        
+        // Panel de edición
+        const div = document.createElement('div');
+        div.className = 'block-edit';
+        div.id = `edit-${id}`;
+        div.innerHTML = `<button class="btn-trash" onclick="kill('${id}')">×</button>
+            <label>${type}</label>
+            <textarea oninput="update('${id}', this.value)" placeholder="Escribe aquí..."></textarea>`;
+        document.getElementById('editor-list').appendChild(div);
 
-    function removeBlock(id) {
+        // Vista en invitación
+        const sec = document.createElement('section');
+        sec.id = `view-${id}`;
+        sec.setAttribute('data-aos', 'fade-up');
+        
+        if(type === 'texto') sec.innerHTML = `<p id="val-${id}" style="font-size:14px;">Nuevo Mensaje</p>`;
+        if(type === 'foto') sec.innerHTML = `<img src="" id="val-${id}" class="v-img" alt="Foto">`;
+        if(type === 'boton') sec.innerHTML = `<a href="#" class="btn-custom" id="val-${id}">NUEVO BOTÓN</a>`;
+
+        document.getElementById('live-content').appendChild(sec);
+        AOS.refresh();
+    }
+
+    function update(id, val) {
+        const el = document.getElementById(`val-${id}`);
+        if(el.tagName === 'IMG') el.src = val;
+        else el.innerText = val;
+    }
+
+    function kill(id) {
         document.getElementById(`edit-${id}`).remove();
         document.getElementById(`view-${id}`).remove();
     }
 </script>
-
 </body>
 </html>
